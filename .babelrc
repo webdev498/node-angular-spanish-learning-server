@@ -1,0 +1,12 @@
+{
+  "stage": 1,
+  "sourceMaps": "inline",
+  "loose": ["es6.modules", "es6.classes"],
+  "ignore": [
+    "node_modules/*",
+    "**/specs/*",
+    "coverage/*"
+  ],
+  "comments": false,
+  "compact": "auto"
+}
