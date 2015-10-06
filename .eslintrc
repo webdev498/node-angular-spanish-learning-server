@@ -1,0 +1,24 @@
+{
+  "extends": ["eslint:recommended"],
+
+  "env" : {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+
+  "plugins" : [
+    "babel"
+  ],
+
+  "rules": {
+    "arrow-parens" : 1,
+    "arrow-spacing" : 1,
+    "no-this-before-super": 2,
+    "semi" : 1
+  },
+
+  "ecmaFeatures": {
+    "modules" : true
+  }
+}

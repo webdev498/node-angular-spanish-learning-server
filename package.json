@@ -9,10 +9,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-plugin-source-map-support": "0.0.1",
     "chai": "^3.3.0",
-    "mocha": "^2.3.3"
+    "eslint": "^1.5.1",
+    "isparta": "^3.1.0",
+    "istanbul": "^0.3.21",
+    "mocha": "^2.3.3",
+    "should": "^7.1.0",
+    "sinon": "^1.17.1",
+    "source-map-support": "^0.3.2"
   },
   "dependencies": {
+    "babel": "^5.8.23",
     "express": "^4.13.3",
     "winston": "^1.0.2"
   }
