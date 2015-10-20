@@ -16,6 +16,10 @@ clean-node:
 	@echo "Removing Node Modules"...
 	@rm -rf ./node_modules/
 
+clean-coverage:
+	@echo "Removing old coverage data..."
+	@rm -rf ./coverage
+
 install: clean-node build
 
 vendor:
@@ -26,9 +30,9 @@ test: install-dev-deps
 	@echo "Running specifications..."
 	$(BIN)/_mocha --compilers js:babel/register --colors --recursive "lib/**/*.spec.js"
 
-coverage:
+coverage: clean-coverage
 	@echo "Generating code coverage reports..."
-	$(BIN)/babel-node $(BIN)/isparta cover $(BIN)/_mocha -- --compilers js:babel/register --recursive "lib/**/*.spec.js"
+	$(BIN)/istanbul cover --report html $(BIN)/_mocha -- --compilers js:babel/register --recursive "lib/**/*.spec.js"
 
 build: clean install-deps
 	@echo "Building project..."
@@ -40,4 +44,4 @@ build-dev: clean install-dev-deps
 	@mkdir dist
 	$(BIN)/babel --babelrc ./.babelrc --plugins source-map-support -d dist/debug . --source-maps
 
-.PHONY: clean install-dev-deps install-deps vendor coverage test build build-dev install
+.PHONY: clean install-dev-deps install-deps vendor coverage test build build-dev install clean-coverage

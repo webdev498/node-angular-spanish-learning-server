@@ -1,5 +1,5 @@
 verbose: false
 instrumentation:
     root: lib
-    excludes: ['**/specs/*']
+    excludes: ['./**/specs/*.spec.js']
     compact: true
