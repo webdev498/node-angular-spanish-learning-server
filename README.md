@@ -22,7 +22,7 @@ These dependencies are in addition to the run-time dependencies listed above.
     export SERVER_PORT=8080
     make build
     node ./dist/index.js
-    
+
 ### Debugging the application
 
     make build-dev
@@ -36,7 +36,7 @@ All tests whould be included in a `**/specs/` directory and assume this file ext
 To run the unit tests, simply execute:
 
     make test
-    
+
 If you want code coverage analytics, then run:
 
     make coverage
@@ -69,8 +69,26 @@ This will expose DynamoDB to your localhost where you can interact with it from 
 
     $ docker pull ryanratcliff/dynamodb
     $ docker run -d -P ryanratcliff/dynamodb
-    
+
 To access the JS shell: `http://localhost:8000/shell`
 
 
 Be sure to [read the Dockerfile](https://hub.docker.com/r/ryanratcliff/dynamodb/~/dockerfile/) to know exactly what's happening behind the scenes for you.
+
+### Connecting to the DynamoDB backing store
+
+CGI SHE server application will connect to the DynamoDB instance using the [Dynasty library](http://dynastyjs.com/#). Dynasty is a promise-based API that allows for simple querying and CRUD operations of DynamoDB records. Dynasty requires to credentials to connect to DynamoDB:
+
+1. AWS Access Key
+2. AWS Sceret Access Key
+
+Access keys can be obtained through the [AWS management console](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html) or from the administrator of this project. **AT NO POINT SHOULD CREDENTIALS FOR AWS BE CHECKED INTO A SOURCE CODE REPOSITORY**. Credentials should be stored and treated as any other shared secret. Do not send credentials through e-mail and do not put credentials in shared documents.
+
+To expose the credentials to the application, simply set the following environment variables before starting the `./server` script:
+
+    $ AWS_ACCESS_KEY=MyFakeAccessKey
+    $ AWS_SECRET_ACCESS_KEY=MyFakeSecretAccessKey
+
+The server application will be looking for these variables to be set. If these variables are not present at boot-time, the server process will terminate and display a message in the console (STDERR).
+
+For information on how to use the Dynasty library, please see the documentation at the link above.
