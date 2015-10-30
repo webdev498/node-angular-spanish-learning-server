@@ -1,12 +1,12 @@
 import health from './lib/health';
 import datastore from './initializers/datastore';
-import application from './server';
+import Application from './application';
 
-// Register initializers
-application.initializers.register(datastore);
-
-// Register services
-application.services.register(health);
-
-// Boot application
-application.boot();
+export default {
+  run: (port) => {
+    let application = new Application();
+    application.initialize(datastore);
+    application.register(health);
+    application.bind(port);
+  }
+}
