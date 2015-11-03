@@ -28,7 +28,7 @@ vendor:
 
 test: install-dev-deps
 	@echo "Running specifications..."
-	$(BIN)/_mocha --compilers js:babel/register --colors --recursive "lib/**/*.spec.js"
+	$(BIN)/_mocha --compilers js:babel/register --colors --recursive "./**/specs/*.spec.js"
 
 coverage: clean-coverage
 	@echo "Generating code coverage reports..."
