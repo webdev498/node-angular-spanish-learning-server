@@ -1,10 +1,16 @@
 {
   "stage": 1,
   "sourceMaps": "inline",
-  "loose": ["es6.modules", "es6.classes"],
+  "loose": ["es6.modules", "es6.classes", "es7.decorators"],
+  "env" :{
+    "production": {
+      "ignore": [
+        "**/specs/*"
+      ]
+    }
+  },
   "ignore": [
     "node_modules/*",
-    "**/specs/*",
     "coverage/*"
   ],
   "comments": false,

@@ -1,5 +1,4 @@
 import express from 'express';
-import OS from 'os';
 
 class Application {
 
@@ -16,8 +15,9 @@ class Application {
   }
 
   bind(port){
-    this.server.listen(port);
-    console.log(`Listening at ${OS.hostname()}:${port} `);
+  let http = this.server.listen(port, () => {
+      this.server.emit('listening', http.address());
+    });
   }
 
 }

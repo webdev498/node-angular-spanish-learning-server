@@ -1,13 +1,10 @@
-'use strict';
-var chai = require("chai");
-var sinon = require("sinon");
-var sinonChai = require("sinon-chai");
-chai.should();
-chai.use(sinonChai);
-const expect = chai.expect;
+import chai, { expect } from 'chai';
+import { spy, mock } from 'sinon';
+import sinonChai from 'sinon-chai';
+import Application from '../application';
+import express from 'express';
 
-const Application = require('../application');
-const express = require('express');
+chai.use(sinonChai);
 
 describe('An Application', () => {
 
@@ -33,7 +30,7 @@ describe('An Application', () => {
       });
 
       it('uses a default implementation', () => {
-        expect(subject.server).to.not.be.null
+        expect(subject.server).to.not.be.null;
       });
 
     });
@@ -48,7 +45,7 @@ describe('An Application', () => {
 
     describe('when passing a function', () => {
       it('invokes that function passing its server implementation as the argument', () => {
-        let routeHandler = sinon.spy();
+        let routeHandler = spy();
         subject.register(routeHandler);
         expect(routeHandler).to.have.been.calledWith(subject.server);
       });
@@ -56,7 +53,7 @@ describe('An Application', () => {
 
     describe('when pass a non-callable object', () => {
       it('raises an exception', () => {
-        expect(() => {subject.register("Can't invoke this")}).to.throw();
+        expect(() => { subject.register("Can't invoke this"); }).to.throw();
       });
     });
   });
@@ -70,7 +67,7 @@ describe('An Application', () => {
 
     describe('when passing a function', () => {
       it('invokes that function passing its server implementation as the argument', () => {
-        let middleware = sinon.spy();
+        let middleware = spy();
         subject.initialize(middleware);
         expect(middleware).to.have.been.calledWith(subject.server);
       });
@@ -78,7 +75,7 @@ describe('An Application', () => {
 
     describe('when pass a non-callable object', () => {
       it('raises an exception', () => {
-        expect(() => {subject.initialize("Can't invoke this")}).to.throw();
+        expect(() => { subject.initialize("Can't invoke this"); }).to.throw();
       });
     });
 
@@ -86,23 +83,21 @@ describe('An Application', () => {
 
   describe('when binding to a TCP port', () => {
     let subject,
-        mock,
-        stub,
+        serverMock,
         server = express();
 
     beforeEach(() => {
-      mock = sinon.mock(server);
+      serverMock = mock(server).expects('listen').once();
       subject = new Application(server);
     });
 
     afterEach(() => {
-      mock.restore();
+      server.listen.restore();
     });
 
     it('delgates to the listen method on its server collaborator', () => {
-      mock.expects('listen').once()
-      subject.bind(2000)
-      mock.verify();
+      subject.bind(2000);
+      serverMock.verify();
     });
 
   });
