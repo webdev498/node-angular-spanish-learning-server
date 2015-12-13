@@ -67,13 +67,13 @@ For Mac OS X, we recommend installing and using [Docker Toolbox](https://docs.do
 
 This will expose DynamoDB to your localhost where you can interact with it from the browser or from the CGI SHE server application.
 
-    $ docker pull ryanratcliff/dynamodb
-    $ docker run -d -P ryanratcliff/dynamodb
+    $ docker pull deangiberson/aws-dynamodb-local
+    $ docker run -d -p 8000:8000 deangiberson/aws-dynamodb-local
 
-To access the JS shell: `http://localhost:8000/shell`
+To access the JS shell: `http://{docker-host-ip-or-name}:8000/shell`
 
 
-Be sure to [read the Dockerfile](https://hub.docker.com/r/ryanratcliff/dynamodb/~/dockerfile/) to know exactly what's happening behind the scenes for you.
+Be sure to [read the Dockerfile](https://hub.docker.com/r/deangiberson/aws-dynamodb-local/~/dockerfile/) to know exactly what's happening behind the scenes for you.
 
 ### Connecting to the DynamoDB backing store
 

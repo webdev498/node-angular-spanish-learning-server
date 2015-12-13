@@ -5,4 +5,4 @@
 const path = require('path');
 const server = require(path.join(__dirname, './dist'));
 
-server.run(process.env.SERVER_PORT || 8000);
+server.run(process.env.SERVER_PORT || 8181);

@@ -1,0 +1,13 @@
+{
+  "id": "c6bfb456-c3f8-4c23-a33b-b65b0ce51844",
+  "type": "multiple choice",
+  "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non justo non nunc tincidunt eleifend. Duis pretium suscipit tempus. Proin",
+  "version": "94af09c09bb9",
+  "refs": {
+    "exam": "http://localhost:4000/api/v1/questions/c6bfb456-c3f8-4c23-a33b-b65b0ce51844/exam",
+    "choices": "http://localhost:4000/api/v1/questions/c6bfb456-c3f8-4c23-a33b-b65b0ce51844/choices",
+    "correctChoice": "http://localhost:4000/api/v1/questions/c6bfb456-c3f8-4c23-a33b-b65b0ce51844/choices/30d4baee-bd7a-4590-a24b-a8a8d9126ff5"
+  },
+  "createdAt": "Sat Nov 14 2015 09:37:08 GMT-0700 (MST)",
+  "updatedAt": "Sat Nov 14 2015 09:37:08 GMT-0700 (MST)"
+}
