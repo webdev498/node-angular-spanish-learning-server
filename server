@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-
-'use strict'
-
-const path = require('path');
-const server = require(path.join(__dirname, './dist'));
-
-server.run(process.env.SERVER_PORT || 8181);

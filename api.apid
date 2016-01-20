@@ -1,0 +1,341 @@
+FORMAT: 1A
+HOST: https://api.cgi.com
+
+# Common Ground International Spanish Healthcare Examinations
+Common Grounds International intro
+
+## Addressability, Caching, and References
+
+This web service utilizes resource references in its representations. Rather that providing a resource with all of its associations nested in the response, we provide a `refs` attribute. This attribute contains URIs to the associations and the client can fetch those additional resources as needed.
+
+This approach provides the following benefits:
+
+  1. Lighter weight payloads
+  2. Easier Caching - By providing the URIs to the resources, we can leverage caching techniques which will reduce service response types.
+  3. Client Discovery - By providing the references in the response payloads, the client is free from having to store template URIs in order to acquire resources. Instead, the client can make HTTP option call against the resource reference URIs to learn about possible operations.
+
+For example, given the following scenario:
+
+    GET http://localhost:8000/v1/examinations/7c417eee-e8e8-46be-bfc7-0cd14754105a
+
+```javascript
+{
+"id": "7c417eee-e8e8-46be-bfc7-0cd14754105a",
+"phase": "2",
+"passingThreshold": 0.7,
+"started": "Tue, 03 Nov 2015 14:49:04 GMT",
+"completed": "Tue, 03 Nov 2015 14:49:04 GMT",
+"refs": {
+  "self": "/examinations/7c417eee-e8e8-46be-bfc7-0cd14754105a",
+  "questions": "examinations/7c417eee-e8e8-46be-bfc7-0cd14754105a/questions"
+  "user": "users/7d982ef8-4ba3-4acb-918b-8dd67d75f2cc"
+},
+"createdAt": "Tue, 03 Nov 2015 14:49:04 GMT",
+"updatedAt": "Tue, 03 Nov 2015 14:49:04 GMT"
+}
+```
+
+We can make HTTP `OPTION` requests to either of the `self` or `questions` URIs to learn what requests we can make to them.
+
+    OPTION http://localhost:8000/v1/examiantions/7c417eee-e8e8-46be-bfc7-0cd14754105a/questions
+
+```
+204 NO CONTENT
+Allow: HEAD,GET,POST,OPTIONS
+```
+
+From the `Allow` header, we know we can make HTTP GET requests to fetch the collection of questions associated with the exam, HTTP POST requests to create new questions associated with the exam, all without having to reference documentation or to interpolate a template URI string.
+
+See [RFC 7231 HTTP Method Definitions](https://tools.ietf.org/html/rfc7231#section-4.3)  to learn how to use HTTP methods semantically with REST web services.
+
+## Request Semantics
+
+### Resource Versioning
+
+The current version of this API is **v1**, however we are not currently enforcing versioning via the URI - **This will change in the near future**. ~~You can access versions of this service by including the version parameter in the service URI.~~
+
+    http://:hostname/:version/examinations/* // NOT IMPLEMENTED YET
+
+### Headers
+
+The following is a list or proposed, mandatory headers. If any of the required headers are not present, the server will respond with an `HTTP 400 BAD REQUEST` status.
+
+1. `HOST` - The domain name and port (if non-standard) for the server from which the client was served.
+2. `ORIGIN` - Initiates a request for cross-origin resource sharing (asks server for an Access-Control-Allow-Origin response header)
+
+The following list contains, proposed, optional set of headers.
+
+1. `ACCEPTS` - Specifies the content type of the response payload. Will default to JSON if not specified.
+2. `CONTENT-TYPE` - Specifies the content type of the request payload. Will be parsed as JSON if not specified.
+
+The following list contains headers that are being evaluated for future support by the service:
+
+1. `CACHE-CONTROL` - Informs the server how to handle caching of the resource.
+2. `X-AUTHENTICATION` - Will contain the JWT bearer token for authenticated requests
+
+### Resource Representations
+
+For `HTTP PUT` and `HTTP POST` requests, only a subset of the resource data must be sent. As a general rule, for these types of requests, the following resource properties can be safely omitted:
+
+1. `id` - This will be generated on `HTTP POST` requests and will be specified in the URI for HTTP PUT requests.
+2. `createdAt` - This will be generated on `HTTP POST` requests and will never be modified.
+3. `updatedAt` - This will resource will be updated server-side. If included in the payload, it will be ignored.
+4. 'refs' - The references for the resource are specified by the server.
+
+## Response Semantics
+
+### Headers
+
+The following contains a list of response headers that are currently supported by this service:
+
+1. `CONTENT-TYPE`
+2. `CONTENT-LENGTH`
+3. `ACCESS-CONTROL-ALLLOW-ORIGIN` - Required to support Cross-Origin Resource Sharing.
+4. `LAST-MODIFIED` - Date/time of when the resource was last updated.
+5. `LOCATION` - The URI of the resource. Used with redirection.
+
+The following contains a list of response headers that are currently under evaluation for future support
+
+1. `WWW-AUTHENTICATE` - Necessary for token-based authentication.
+2. `X-AUTHENTICATION` - Necessary for token-based authentication.
+2. `TRANSFER-ENCODING` - Specifies the character set of the request payload. Necessary for i18n.
+3. `ETAG` - Caching mechanism.
+4. `CONTENT-LANGUAGE` - Locale of the response. Necessary for browser parsing.
+
+### Status Codes
+
+#### Currently supported response status codes:
+
+* `HTTP 201 CREATED` - Successfully created the resource
+* `HTTP 204 NO CONTENT` - Resource exists at that URI, returns only the headers
+* `HTTP 400 BAD REQUEST` - The request was malformed (e.g. missing headers or improperly encoded) and should not be reattempted.
+* `HTTP 422 UNPROCESSABLE ENTITY` - There was a problem with the Payload of your request
+* `HTTP 404 NOT FOUND` - The URI does not address a valid server resource
+
+#### Proposed status codes for future implementation:
+
+* `HTTP 202 ACCEPTED` - The request was received by the server, but has not yet been processed or is processed in the background. The `LOCATION` header will contain the URI for the resource after the pending operation completes. The client can make HTTP HEAD requests to this URI to determine its status.
+* `HTTP 206 PARTIAL CONTENT` - This status code will be used when the service supports HTTP PATCH requests with partial payloads. The response body should contain only the data the client does not already have.
+* `HTTP 401 UNAUTHORIZED` - The request was made on behalf of a user principle that cannot be authenticated.
+* `HTTP 403 FORBIDDEN` - The user principle for which the request was made was authenticated, but lacks sufficient permissions to access the resource.
+* `HTTP 410 GONE` - The status would be returned when the client attempts a request to a previously valid URI however the resource is no longer at that address. Typically a 302 status code with a `Location` header would be returned, but his status would stand for situations where the forwarding location could not be determined.
+
+
+# Examination Service
+
+## Choices [/choices/{id}]
+
++ Parameters
+    + id (required, uuid) - The Universally unique identifier for the choice
+
+### Fetch all choices [GET]
++ Response 200 (application/json)
+
+        [
+          {
+            "text": "fibula",
+            "active": true,
+            "phase": "1"
+            "version": "D0D1709B7BB5A65FB06393F574850413EF0009F4"
+            categories: [
+              {
+                "name": "Anatomy"
+                "refs": {
+                  self: "/categories/4dc68813-7ee4-4f3c-ac96-47e816f70081"
+                }
+              },
+              {
+                "name": "Skeletal System",
+                "refs": {
+                  self: "/categories/4dc68813-7ee4-4f3c-ac96-47e816f70081"
+                }
+              }
+            ],
+            "refs" : {
+              "self": /choices/c841f789-f885-4cb4-b7ab-2b14a0aba30a"
+              "categories": /choices/c841f789-f885-4cb4-b7ab-2b14a0aba30a/categories"
+            },
+            "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+            "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"  
+          },
+          {
+            "text": "tibia",
+            "active": false,
+            "phase": "2",
+            categories: [
+              {
+                "name": "Anatomy"
+                "refs": {
+                  self: "/categories/4dc68813-7ee4-4f3c-ac96-47e816f70081"
+                }
+              },
+              {
+                "name": "Skeletal System",
+                "refs": {
+                  self: "/categories/4dc68813-7ee4-4f3c-ac96-47e816f70081"
+                }
+              }
+            ],
+            "version": "8BCFBAFDA746227BA4334E597AEC37D32935DA7A"
+            "refs" : {
+              "self": "/choices/58cc84ca-b025-4a8a-8f55-66396f7901f8",
+              "categories": "/choices/58cc84ca-b025-4a8a-8f55-66396f7901f8/categories"
+            },
+            "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+            "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"
+          }
+        ]
+
+### Creating a new Choice [POST]
++ Request (application/json)
+
+        {
+            "text": "Hair",
+            "phase": "1",
+            "active":true
+        }
+
++ Response 201 (application/json)
+
+        {
+          "text": "Hair",
+          "phase": "1",
+          "active":true
+          "version": "8D952ACE1880B5785EBAE9C7D70605D53B857EEA",
+          categories: [
+            {
+              "name": "Anatomy"
+              "refs": {
+                self: "/categories/4dc68813-7ee4-4f3c-ac96-47e816f70081"
+              }
+            },
+            {
+              "name": "Integumentary System",
+              "refs": {
+                self: "/categories/c8d1fd58-cb4c-405c-bb8f-28804068874c"
+              }
+            }
+          ],
+          "refs" : {
+            "self": /choices/e586cc87-d08b-4877-8a42-cb54ee48b361"
+            "categories": /choices/e586cc87-d08b-4877-8a42-cb54ee48b361/categories"
+          },
+          "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+          "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"
+          }
+
+### Updating an existing Choice [PUT]
++ Request (application/json)
+
+        {
+            "text": "Nail",
+            "phase": "1",
+            "active":true
+        }
+
++ Response 201 (application/json)
+
+        {
+          "text": "Nail",
+          "phase": "1",
+          "active":true
+          "version": "EE211963DE8D38102C557A81CB99C6D09590EF0E"
+          "refs" : {
+            "self": /choices/e586cc87-d08b-4877-8a42-cb54ee48b361"
+            "categories": /choices/e586cc87-d08b-4877-8a42-cb54ee48b361/categories"
+          },
+          "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+          "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"
+        }
+
+### Associating a Choice with a Category [PUT /choice/{choice_id}/categories/{category_id}]
++ Parameters
+    + choice_id (required, uuid) - The UUID of a given choice
+    + category_id (require, uuid) - The UUID of a given category
+
++ Response 204
+
+## Questions [/questions]
+
+### Fetch all Questions [GET]
++ Response 200 (application/json)
+
+        [
+          {
+            "text": "What is the correct Spanish term for scalpel",
+            "active": true,
+            "version": "D0D1709B7BB5A65FB06393F574850413EF0009F4"
+            "refs" : {
+              "self": /questions/11580224-f8c1-4346-9337-1da9c12ca647"
+              "correctChoices": "/questions/11580224-f8c1-4346-9337-1da9c12ca647/correct-choices"
+            },
+            "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+            "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"  
+          }
+        ]
+
+### Fetch a specific Question [GET /questions/id]
++ Parameters
+    + id (required, uuid) - The UUID of a specific question
++ Response 200 (application/json)
+
+        {
+          "text": "What is the correct Spanish term for scalpel",
+          "active": true,
+          "version": "D0D1709B7BB5A65FB06393F574850413EF0009F4"
+          "refs" : {
+            "self": /questions/11580224-f8c1-4346-9337-1da9c12ca647"
+            "correctChoices": "/questions/11580224-f8c1-4346-9337-1da9c12ca647/correct-choices"
+          },
+          "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+          "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"  
+        }
+
+### Creating a new Question [POST]
++ Request (application/json)
+
+        {
+          "text": "What is the correct Spanish term for scalpel",
+          "active": true,
+        }
+
++ Response 201 (application/json)
+
+        {
+            "text": "What is the correct Spanish term for scalpel",
+            "active": true,
+            "version": "D0D1709B7BB5A65FB06393F574850413EF0009F4"
+            "refs" : {
+              "self": /questions/11580224-f8c1-4346-9337-1da9c12ca647"
+              "correctChoice": "/choices/e586cc87-d08b-4877-8a42-cb54ee48b361",
+              "categories": "/choices/e586cc87-d08b-4877-8a42-cb54ee48b361/categories"
+            },
+            "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+            "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"  
+        }
+
+### Updating an existing Question [PUT /questions/{id}]
++ Parameters
+    + id (required, uuid) - The UUID of a given question
+
++ Request (application/json)
+
+        {
+            "text": "What is the correct Spanish term for scalpel",
+            "active": false,
+        }
+
++ Response 201 (application/json)
+
+        {
+            "text": "What is the correct Spanish term for scalpel",
+            "active": false,
+            "version": "D0D1709B7BB5A65FB06393F574850413EF0009F4"
+            "refs" : {
+              "self": /questions/11580224-f8c1-4346-9337-1da9c12ca647"
+              "correctChoice": "/choices/e586cc87-d08b-4877-8a42-cb54ee48b361",
+              "categories": "/choices/e586cc87-d08b-4877-8a42-cb54ee48b361/categories"
+            },
+            "createdAt": "Sun, 24 Jan 2016 20:29:00 GMT",
+            "updatedAt": "Sun, 24 Jan 2016 20:29:00 GMT"  
+        }

@@ -1,4 +1,5 @@
 BIN = node_modules/.bin
+SPEC_FILES = find ./src -name '*.spec.js'
 
 clean:
 	@echo "Cleaning build artifacts..."
@@ -14,35 +15,36 @@ clean-coverage:
 
 install: clean-node build
 
-install-dev-deps:
-	@echo "Installing Node modules... (development)"
-	@npm install --dev
-
 install-deps:
-	@echo "Installing Node modules... (production)"
+	@echo "Installing Node modules..."
 	@npm install
 
 vendor:
 	@echo "Shrink-wrapping dependencies"
 	@npm shrinkwrap
 
-test: clean install-dev-deps
+test: install-deps
 	@echo "Running specifications..."
-	$(BIN)/_mocha --compilers js:babel-core/register --colors --recursive "./**/specs/*.spec.js"
+	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --require ./etc/testing/bootstrapper.js
 
-coverage: clean-coverage
+changelog:
+	@rm CHANGELOG.md
+	$(BIN)/conventional-changelog -p angular -i CHANGELOG.md -w
+
+coverage: clean-coverage install-deps
 	@echo "Generating code coverage reports..."
-	$(BIN)/istanbul cover --report html $(BIN)/_mocha -- --compilers js:babel-core/register --recursive "lib/**/*.spec.js"
+	$(SPEC_FILES) | xargs $(BIN)/istanbul cover $(BIN)/_mocha -- --compilers js:babel-core/register --require ./etc/testing/bootstrapper.js
+	$(BIN)/coveralls < coverage/lcov.info
 
 build: clean install-deps
 	@echo "Building project..."
 	@mkdir dist
-	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist .
+	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist ./src
 
-build-dev: clean install-dev-deps
+build-dev: clean install-deps
 	@echo "Building project with debugging symbols..."
 	@mkdir dist
-	$(BIN)/babel --babelrc ./.babelrc --plugins source-map-support -d debug . --source-maps
+	$(BIN)/babel --babelrc ./.babelrc -d dist ./src --source-maps --watch
 
 
-.PHONY: clean install-dev-deps install-deps vendor coverage test build build-dev install clean-coverage
+.PHONY: clean install-deps vendor coverage test build build-dev install clean-coverage changelog

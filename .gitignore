@@ -1,6 +1,9 @@
+
 node_modules
-coverage
-debug
+.DS_Store
+*.log
 dist
 .idea
-.DS_Store
+debug
+coverage
+.tern-port
