@@ -101,7 +101,7 @@ describe('Choice data model', () => {
       });
 
       it('does not generate a uuid', () => {
-        expect(choice.get('uuid')).to.be.undefined;
+        expect(choice.get('id')).to.be.undefined;
       });
     });
 
