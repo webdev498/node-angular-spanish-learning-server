@@ -1,94 +1,100 @@
-# Common Grounds International
-## Medical Spanish Examination Application (Web Services)
+# CGI Web Services Tier
 
-### Introduction
+This is the future home of the CGI Web Services project. Nothing to see here, please move along
 
-
-### Installation
-
-    make install
-
-#### Run-time Dependencies
-* Node.js ~> 4.0.0
-* GNU Make - Available through XCode CLI tools or through your distributions package manager
-
-### Development-Time Dependencies
-These dependencies are in addition to the run-time dependencies listed above.
-* NPM ~> 4.0.0
+[ ![Codeship Status for josh_king_/cgi-she-server](https://codeship.com/projects/105187a0-a218-0133-f6ea-1ece657cc271/status?branch=master)](https://codeship.com/projects/128764)
 
 
-### Running the application
+## Contributing
 
-    export SERVER_PORT=8080
-    make build
-    node ./dist/index.js
+### Development-Time dependencies
 
-### Debugging the application
+1. Node version 0.12.0 or later
+2. NPM version
+3. GNU Make (available through the XCode CLI tools)
+4. [Node Inspector](https://github.com/node-inspector/node-inspector)
 
-    make build-dev
-    node ./dist/debug/index.js # => Includes source maps for debugger
+### Installing Development dependencies
+
+      $ npm install
+
+### Starting the development server
+
+      $ ./bin/dev-server
+
+*If you are running the development server for the first time, you may need to change the execution mode of the file to executable by typeing `chmod +x ./dev-server`*
+
+#### Specifying the TCP port for CGI API
+
+CGI will bind to port 3000 by default; however, if you need to change this behavior, you can set an `PORT` environment variable to an alternative port number prior to starting up the application.
+
+    $ PORT=8000 ./bin/dev-server
+
+### Connecting to the Database
+
+The CGI API uses a PostgreSQL (PGSQL) data store for persistence. You can run PostgreSQL a number of ways, some of which are outlined below. There are several environment variables that are necessary in order to connect to the database:
+
+Variable | Default Value | Usage
+-------- | ------------- | -----------------------------------------
+DB_HOST  | 'localhost'   | The FQDN of the host running the database
+DB_USER  | 'cgi'      | The account database operations will be performed under
+DB_PASSWORD | 'cgi'   | The password for the `DB_USER` account
+DB_NAME  | 'cgi'      | The name of the database under which cgi data tables will be created
+
+While it is possible to specify each of these variables inline when invoking the server command, this is not very practical. Instead, it is recommend that you write a simple wrapper shell script that will define these variables for you:
+
+```shell
+# located somewhere in the source root, but not checked into version control
+export DB_HOST='my-host-name';
+export DB_USER='joe';
+export DB_PASSWORD='secret';
+export DB_NAME='walled-garden'
+export SECRET='mydirtylittlesecret'
+export PORT=8001
+
+./bin/server
+
+```
+
+#### Installing PostgreSQL through Homebrew
+
+PostgreSQL is distributed through the excellent package management tool for OS X, Homebrew. To install PGSQLn through homebrew, simply type:
+
+    $ brew install postgresql
+
+Next, you will need to create a database and user for the CGI Application. You can do this by using your favorite DB management tool ([pgAdmin](http://www.pgadmin.org/) is a popular one). You may also issue shell commands to accomplish the same thing.
+
+To create a user, you may use the [createuser](http://www.postgresql.org/docs/current/static/sql-createuser.html) utility function:
+
+    $ createuser quocha --interactive # follow on screen prompts to complete creating user
+
+Next we need to create a new database for that user. To do so, simply type:
+
+    $ createdb -O quocha quocha # -O {ownder} specifies the role (user) who owns the database
+
+#### Installing PostgreSQL as a Docker container
+
+If you would like to use PostgreSQL as a virtual appliance in a Docker container, it is recommended that you look at the [PostgreSQL image by Paintedfox](https://hub.docker.com/r/paintedfox/postgresql/). There are detailed instructions in the README file at that link, so setup and installation will not be covered here.
+
+### Logging
+
+Logging is configured during start-up of the application. In development mode, logging will be written to the console, but in production output will be written to a Syslog facility.
+
+### Running the Unit Test Suite
+
+The unit test can be run a couple different ways. If you want to run the full suite, simply execute the following from the root of the project directory:
+
+    $ make test
+
+If you want to run your tests from within an IDE like Webstorm, you will probably want to transpile the project with source maps first. To do that type the following from the root of the project directory:
+
+    $ make build-dev
+
+This will create a file watcher that will recompile whenever changes are detected to the project file system. This is particular helpful if you are debugging your unit tests and want to make changes and re-run your tests with minimal overhead.
+
+*It is important to note that the unit tests for this project require bootstrapping. Mocha exposes a --require flag that can be passed a relative path to a script to be required.  You will need to set this up manually if you plan to debug your tests in an IDE. You can use the Makefile as an example of how to set up etc/testing/bootstrapper.js.*
 
 
-### Testing
+### Commit Message Format and Changelogs
 
-All tests whould be included in a `**/specs/` directory and assume this file extension convention: `**.spec.js`.
-
-To run the unit tests, simply execute:
-
-    make test
-
-If you want code coverage analytics, then run:
-
-    make coverage
-
-The code coverage report will be located at: `$PROJECT_ROOT/coverage`
-
-
-### Running the DynamoDB Backing Store
-
-DynamoDB is a schemaless datastore from Amazon that allows Redis-style key/value data where keys may be a composite and values can include multiple data types including BSON documents.
-
-DynamoDB can be run a couple of ways:
-
-#### Standalone JAR file
-
-You can download and run DynamoDB from the commandline using Java and the distributed JAR file.
-
-See the documentation here: http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html
-
-for details.
-
-
-#### As a Docker container
-
-It may be easier to run the DynamoDB store as a Docker container. The container will handle ensuring you have all the necessary configuration and dependencies in place. It will also manage startup and shutdown of the of the DynamoDB instance.
-
-For Mac OS X, we recommend installing and using [Docker Toolbox](https://docs.docker.com/installation/mac/). You can then pull a DynamoDB container from [DockerHub](https://hub.docker.com/) - take a look at [ryanratcliff/dynamodb](https://hub.docker.com/r/ryanratcliff/dynamodb/).
-
-This will expose DynamoDB to your localhost where you can interact with it from the browser or from the CGI SHE server application.
-
-    $ docker pull deangiberson/aws-dynamodb-local
-    $ docker run -d -p 8000:8000 deangiberson/aws-dynamodb-local
-
-To access the JS shell: `http://{docker-host-ip-or-name}:8000/shell`
-
-
-Be sure to [read the Dockerfile](https://hub.docker.com/r/deangiberson/aws-dynamodb-local/~/dockerfile/) to know exactly what's happening behind the scenes for you.
-
-### Connecting to the DynamoDB backing store
-
-CGI SHE server application will connect to the DynamoDB instance using the [Dynasty library](http://dynastyjs.com/#). Dynasty is a promise-based API that allows for simple querying and CRUD operations of DynamoDB records. Dynasty requires to credentials to connect to DynamoDB:
-
-1. AWS Access Key
-2. AWS Sceret Access Key
-
-Access keys can be obtained through the [AWS management console](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html) or from the administrator of this project. **AT NO POINT SHOULD CREDENTIALS FOR AWS BE CHECKED INTO A SOURCE CODE REPOSITORY**. Credentials should be stored and treated as any other shared secret. Do not send credentials through e-mail and do not put credentials in shared documents.
-
-To expose the credentials to the application, simply set the following environment variables before starting the `./server` script:
-
-    $ AWS_ACCESS_KEY=MyFakeAccessKey
-    $ AWS_SECRET_ACCESS_KEY=MyFakeSecretAccessKey
-
-The server application will be looking for these variables to be set. If these variables are not present at boot-time, the server process will terminate and display a message in the console (STDERR).
-
-For information on how to use the Dynasty library, please see the documentation at the link above.
+This project uses the Conventional Changelog format for git commit messages. This allows us to generate meaningful changelog information from the metadata in git commit messages. In order for this to work, you must adhere to [these conventions](https://github.com/ajoslin/conventional-changelog/blob/master/conventions/angular.md).
