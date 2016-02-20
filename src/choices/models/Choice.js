@@ -34,7 +34,7 @@ const User = Orm.Model.extend({
   // Format the model for persistence to the database
   format(attributes) {
     return Object.keys(attributes)
-      .filter((attribute) => PERSISTENCE_WHITELIST.includes(attribute))
+      .filter(attribute => PERSISTENCE_WHITELIST.includes(attribute))
       .reduce((memo, attribute) => {
         memo[toSnakeCase(attribute)] = attributes[attribute];
         return memo;
@@ -80,9 +80,7 @@ const User = Orm.Model.extend({
   },
 
   validate() {
-    [Text].forEach((validate) => {
-      validate(this);
-    });
+    [Text].forEach(validate => { validate(this.attributes); });
   },
 
   beforeSave() {

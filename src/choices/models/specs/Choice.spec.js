@@ -87,8 +87,8 @@ describe('Choice data model', () => {
         choice.setUUID();
       });
 
-      it('generates a UUID', () => {
-        expect(choice.get('uuid')).to.be.defined;
+      it('generates a id', () => {
+        expect(choice.get('id')).to.be.defined;
       });
 
     });
@@ -116,8 +116,8 @@ describe('Choice data model', () => {
       choice.validate();
     });
 
-    it('validates the text', () => {
-      expect(validations.Text).to.have.been.calledWith(choice);
+    it('validates the text attribute', () => {
+      expect(validations.Text).to.have.been.calledWith(choice.attributes);
     });
 
   });
@@ -132,7 +132,7 @@ describe('Choice data model', () => {
       choice.trigger('saving');
     });
 
-    it("sets the models UUID", () => {
+    it("sets the models id", () => {
       expect(choice.setUUID).to.have.been.called;
     });
 

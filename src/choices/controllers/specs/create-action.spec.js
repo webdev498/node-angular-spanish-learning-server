@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 import * as ChoiceService from './../../service';
 import * as Controller from './../';
+import * as ServiceErrorFactory from './../../../exceptions/Factory';
 
 describe('Choice controller actions', () => {
   let reply, request, choiceDouble, error;
@@ -48,7 +49,12 @@ describe('Choice controller actions', () => {
         ChoiceService.create.reset();
         error = new Error();
         createStub.returns(Promise.reject(error));
+        stub(ServiceErrorFactory, 'create').returns(error);
         Controller.create(request, reply);
+      });
+
+      afterEach(() => {
+        ServiceErrorFactory.create.restore();
       });
 
       it('invokes the reply method provided by the router with the error', () => {

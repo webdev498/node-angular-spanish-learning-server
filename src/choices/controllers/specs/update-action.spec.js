@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as ChoiceService from './../../service';
 import * as Controller from './../';
-import { OK, CREATED, INTERNAL_ERROR } from './../../../http/statusCodes';
+import { OK } from './../../../http/statusCodes';
+import * as ServiceErrorFactory from './../../../exceptions/Factory';
 
 
 describe('when updating an existing Choice', () => {
@@ -52,27 +53,21 @@ describe('when updating an existing Choice', () => {
   });
 
   describe('when the update was not sucessful', () => {
-    let error = new Error();
+    let error;
 
     before(() => {
-      error.statusCode = INTERNAL_ERROR;
-      response = { notice: 'I am a thing'};
-      reply.returns(response);
+      error = new Error();
       serviceStub.returns(Promise.reject(error));
-    });
-
-    after(() => {
-      response = null;
-    });
-
-    it('replies with the error rejected from the promise', () => {
+      stub(ServiceErrorFactory, 'create').returns(error);
       Controller.update(request, reply);
-      expect(reply).to.have.been.called;
     });
 
-    it('sets the status code of the response to the status code property of the error', () => {
-      Controller.update(request, reply);
-      expect(response.statusCode).to.eq(INTERNAL_ERROR);
+    afterEach(() => {
+      ServiceErrorFactory.create.restore();
+    });
+
+    it('invokes the reply method provided by the router with the error', () => {
+      expect(reply).to.have.been.calledWith(error);
     });
 
   });
