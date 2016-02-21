@@ -1,5 +1,3 @@
 import routing from './routing';
 
-export const register = (server) => {
-  routing(server);
-};
+export const register = server => { routing(server); };

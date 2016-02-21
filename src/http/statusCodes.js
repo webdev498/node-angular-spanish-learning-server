@@ -8,7 +8,8 @@ export const METHOD_NOT_ALLOWED = 405;
 export const CONFLICT = 409;
 export const GONE = 410;
 export const PRECONDITION_FAILED = 412;
-export const UNPROCESSABLE_ENTITY = 418;
+export const UNPROCESSABLE_ENTITY = 422;
+export const CREATED = 201;
 
 // Server Error Codes
 

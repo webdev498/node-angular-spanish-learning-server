@@ -12,7 +12,7 @@
   ],
 
   "rules": {
-    "arrow-parens" : 1,
+    "arrow-parens" : [2, "as-needed"],
     "arrow-spacing" : 1,
     "no-this-before-super": 2,
     "semi" : 1
