@@ -42,7 +42,7 @@ export const decorate = server => {
 
   server.on('request-error', (request, error) => {
     const { id } = request;
-    loggerSingleton.error(`Internal Server Error - Request ID: ${ id } \n Error: ${ inspect(error) }`);
+    loggerSingleton.error(`Internal Server Error - Request ID: ${ id } \n Error: ${ inspect(error) }\n ${error.stack}`);
   });
 
   server.on('start', () => {

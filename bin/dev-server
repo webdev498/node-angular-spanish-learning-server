@@ -2,4 +2,4 @@
 
 BIN=$(pwd)/node_modules/.bin
 
-$BIN/babel-node-debug --hidden='["node-modules"]' --no-preload ./src/index.js
+$BIN/nodemon ./dist/index.js

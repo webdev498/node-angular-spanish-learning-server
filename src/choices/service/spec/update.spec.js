@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { stub, spy } from 'sinon';
-import Choice from './../../models/Choice';
+import Choice  from './../../models/Choice';
 import * as LoggingService from './../../../logging';
 import * as ChoicesService from './../';
 
@@ -14,34 +14,35 @@ describe('Choices service', () => {
 
     beforeEach(() => {
       choiceModelDouble = { save: () => {} };
-      loggerDouble.info = spy();
 
-
-      stub(LoggingService, 'logger').returns(loggerDouble);
+      stub(LoggingService, 'logInfo');
+      stub(LoggingService, 'logError');
       stub(Choice, 'forge').returns(choiceModelDouble);
+
       saveMock = stub(choiceModelDouble, 'save').returns(Promise.resolve());
 
     });
 
     afterEach(() => {
       Choice.forge.restore();
-      LoggingService.logger.restore();
+      LoggingService.logInfo.restore();
+      LoggingService.logError.restore();
     });
 
-    it('logs information to the logger', (done) => {
+    it('logs information to the logger', done => {
       ChoicesService.update({ id }, { text })
         .then(() => {
-          expect(loggerDouble.info).to.have.been.called;
+          expect(LoggingService.logInfo).to.have.been.called;
           done();
         });
     });
 
-    it('delegates to the #forge method on the Choice model', (done) => {
+    it('delegates to the #forge method on the Choice model', done => {
       ChoicesService.update({ id }, { text }).then(() => done());
       expect(Choice.forge).to.have.been.called;
     });
 
-    it('attempts to save the model with the new text attribute', (done) => {
+    it('attempts to save the model with the new text attribute', done => {
       ChoicesService.update({ id }, { text })
         .then(() => {
           expect(choiceModelDouble.save).to.have.been.called;
@@ -55,9 +56,9 @@ describe('Choices service', () => {
         saveMock.returns(Promise.resolve(saveResult));
       });
 
-      it('resolves the choice', (done) => {
+      it('resolves the choice', done => {
         ChoicesService.update({ id }, { text })
-          .then((result) => {
+          .then(result => {
             expect(result).to.equal(saveResult);
             done();
           });
@@ -71,16 +72,16 @@ describe('Choices service', () => {
         loggerDouble.error = spy();
       });
 
-      it('logs an error', (done) => {
+      it('logs an error', done => {
         ChoicesService.update({ id }, { text }).then(() => {}, () => {
-          expect(loggerDouble.error).to.have.been.called;
+          expect(LoggingService.logError).to.have.been.called;
           done();
         });
       });
 
-      it('rejects an error', (done) => {
+      it('rejects an error', done => {
         ChoicesService.update({ id }, { text })
-          .then(() => {}, (saveError) => {
+          .then(() => {}, saveError => {
             expect(saveError).to.equal(error);
             done();
           });
