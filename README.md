@@ -97,4 +97,4 @@ This will create a file watcher that will recompile whenever changes are detecte
 
 ### Commit Message Format and Changelogs
 
-This project uses the Conventional Changelog format for git commit messages. This allows us to generate meaningful changelog information from the metadata in git commit messages. In order for this to work, you must adhere to [these conventions](https://github.com/ajoslin/conventional-changelog/blob/master/conventions/angular.md).
+This project uses the Conventional Changelog format for git commit messages. This allows us to generate meaningful changelog information from the metadata in git commit messages. In order for this to work, you must adhere to [these conventions](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit).
