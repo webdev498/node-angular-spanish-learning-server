@@ -2,7 +2,7 @@ import { createLogger } from 'bucker';
 import { inspect } from 'util';
 
 let options = {};
-let localLogger;
+let loggerSingleton;
 
 if (process.env.NODE_ENV === 'production') {
 
@@ -31,29 +31,34 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-export const decorate = (server) => {
+export const decorate = server => {
 
-  localLogger = createLogger(options);
+  loggerSingleton = createLogger(options);
 
-  server.on('response', (request) => {
+  server.on('response', request => {
     const { id, info, method, path, paramsArray, payload } = request;
-    localLogger.info(`## ${ id } ## ${ info.remoteAddress } - ${ method }: ${ path } \n params: ${ inspect(paramsArray) } \n body: ${ inspect(payload) }`);
+    loggerSingleton.info(`## ${ id } ## ${ info.remoteAddress } - ${ method }: ${ path } \n params: ${ inspect(paramsArray) } \n body: ${ inspect(payload) }`);
   });
 
   server.on('request-error', (request, error) => {
     const { id } = request;
-    localLogger.error(`Internal Server Error - Request ID: ${ id } \n Error: ${ inspect(error) }`);
+    loggerSingleton.error(`Internal Server Error - Request ID: ${ id } \n Error: ${ inspect(error) }`);
   });
 
   server.on('start', () => {
     const { uri } = server.info;
-    localLogger.info(`Server running at: ${ uri }`);
+    loggerSingleton.info(`Server running at: ${ uri }`);
   });
 
-  server.on('route', (route) => {
-    localLogger.info(`Server registered route at: ${ route.method } ${ route.path }`);
+  server.on('route', route => {
+    loggerSingleton.info(`Server registered route at: ${ route.method } ${ route.path }`);
   });
 
 };
 
-export const logger = () => localLogger;
+export const logger = () => loggerSingleton;
+
+export function logError() { loggerSingleton.error(...arguments); };
+export function logInfo() { loggerSingleton.info(...arguments); }
+export function logWarning() { loggerSingleton.warn(...arguments); }
+export function logTrace() { loggerSingleton.debug(...arguments); }
