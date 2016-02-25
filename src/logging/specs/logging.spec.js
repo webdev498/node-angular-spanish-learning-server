@@ -63,10 +63,6 @@ describe('logging middleware', () => {
       logging.decorate(server);
     }));
 
-    after(() => {
-      bucker.createLogger.restore();
-    });
-
     describe('when response is emitted', () => {
       beforeEach(() => {
         server.emit('response', request);
