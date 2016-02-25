@@ -8,7 +8,7 @@ CREATE TABLE users
     password_salt VARCHAR(255),
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now(),
-    active BOOLEAN DEFAULT true
+    active BOOLEAN DEFAULT TRUE
 );
 CREATE UNIQUE INDEX "user_id_uindex" ON users (id);
 CREATE UNIQUE INDEX "user_email_uindex" ON users (email);

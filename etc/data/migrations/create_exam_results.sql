@@ -9,4 +9,4 @@ CREATE TABLE exam_results
     CONSTRAINT exam_results_exams_id_fk FOREIGN KEY (exams_id) REFERENCES exams (id),
     CONSTRAINT exam_results_users_id_fk FOREIGN KEY (users_id) REFERENCES users (id)
 );
-CREATE UNIQUE INDEX exam_results_id_uindex ON examresults (id);
+CREATE UNIQUE INDEX exam_results_id_uindex ON exam_results (id);

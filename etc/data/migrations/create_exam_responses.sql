@@ -12,4 +12,4 @@ CREATE TABLE exam_responses
     CONSTRAINT exam_responses_questions_id_fk FOREIGN KEY (questions_id) REFERENCES questions (id),
     CONSTRAINT exam_responses_choices_id_fk FOREIGN KEY (choices_id) REFERENCES choices (id)
 );
-CREATE UNIQUE INDEX "Exam_Responses_id_uindex" ON exam_responses (id);
+CREATE UNIQUE INDEX "exam_responses_id_uindex" ON exam_responses (id);
