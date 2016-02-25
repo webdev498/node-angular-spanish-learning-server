@@ -5,12 +5,12 @@ import { expect } from 'chai';
 
 const { logTrace, logInfo, logWarning, logError } = logger;
 
-describe.only('logging API', () => {
+describe('logging API', () => {
   let loggerSingleton;
   let serverDouble = { on: stub() };
 
   before(() => {
-    loggerSingleton = ['debug', 'info', 'warn', 'error'].reduce((singleton, level) => { singleton[level] = spy(); return singleton }, {});
+    loggerSingleton = ['debug', 'info', 'warn', 'error'].reduce((singleton, level) => { singleton[level] = spy(); return singleton; }, {});
     stub(bucker, 'createLogger').returns(loggerSingleton);
     logger.decorate(serverDouble);
   });
