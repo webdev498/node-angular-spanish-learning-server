@@ -1,7 +1,5 @@
 # CGI Web Services Tier
 
-This is the future home of the CGI Web Services project. Nothing to see here, please move along
-
 [ ![Codeship Status for josh_king_/cgi-she-server](https://codeship.com/projects/105187a0-a218-0133-f6ea-1ece657cc271/status?branch=master)](https://codeship.com/projects/128764)
 
 
@@ -12,21 +10,21 @@ This is the future home of the CGI Web Services project. Nothing to see here, pl
 1. Node version 0.12.0 or later
 2. NPM version
 3. GNU Make (available through the XCode CLI tools)
-4. [Node Inspector](https://github.com/node-inspector/node-inspector)
+4. [Node Inspector](https://github.com/node-inspector/node-inspector) (Optional)
 
 ### Installing Development dependencies
 
       $ npm install
 
-### Starting the development server
+### Starting the Server
 
-      $ ./bin/dev-server
+      $ ./bin/server
 
 *If you are running the development server for the first time, you may need to change the execution mode of the file to executable by typeing `chmod +x ./dev-server`*
 
 #### Specifying the TCP port for CGI API
 
-CGI will bind to port 3000 by default; however, if you need to change this behavior, you can set an `PORT` environment variable to an alternative port number prior to starting up the application.
+CGI will listen, by default, on port 3000 for HTTP traffic; however, if you need to change this behavior, you can set a `PORT` environment variable to an alternative port number prior to starting up the application.
 
     $ PORT=8000 ./bin/dev-server
 
@@ -40,6 +38,8 @@ DB_HOST  | 'localhost'   | The FQDN of the host running the database
 DB_USER  | 'cgi'      | The account database operations will be performed under
 DB_PASSWORD | 'cgi'   | The password for the `DB_USER` account
 DB_NAME  | 'cgi'      | The name of the database under which cgi data tables will be created
+
+*If you do not specify these variables, then the default value will be used at runtime*
 
 While it is possible to specify each of these variables inline when invoking the server command, this is not very practical. Instead, it is recommend that you write a simple wrapper shell script that will define these variables for you:
 
@@ -58,7 +58,7 @@ export PORT=8001
 
 #### Installing PostgreSQL through Homebrew
 
-PostgreSQL is distributed through the excellent package management tool for OS X, Homebrew. To install PGSQLn through homebrew, simply type:
+PostgreSQL is distributed through the excellent package management tool for OSX, Homebrew. To install PGSQL through Homebrew, simply type:
 
     $ brew install postgresql
 
@@ -66,19 +66,35 @@ Next, you will need to create a database and user for the CGI Application. You c
 
 To create a user, you may use the [createuser](http://www.postgresql.org/docs/current/static/sql-createuser.html) utility function:
 
-    $ createuser quocha --interactive # follow on screen prompts to complete creating user
+    $ createuser cgi --interactive # follow on screen prompts to complete creating user
 
 Next we need to create a new database for that user. To do so, simply type:
 
-    $ createdb -O quocha quocha # -O {ownder} specifies the role (user) who owns the database
+    $ createdb -O cgi cgi # -O {owner} specifies the role (user) who owns the database
 
 #### Installing PostgreSQL as a Docker container
 
 If you would like to use PostgreSQL as a virtual appliance in a Docker container, it is recommended that you look at the [PostgreSQL image by Paintedfox](https://hub.docker.com/r/paintedfox/postgresql/). There are detailed instructions in the README file at that link, so setup and installation will not be covered here.
 
+#### Creating the database Schema
+
+Once you've create the database and the role (user) that will use it, you can then create tables in the `public` schema. There are a number of SQL scripts located in `/etc/data/migrations` designed to help you generate the necessary tables. The Schemas are numbered in the order in the which they should be run. You can execute these SQL files either through `pgAdmin` or through the `pgsql` CLI.
+
+
 ### Logging
 
 Logging is configured during start-up of the application. In development mode, logging will be written to the console, but in production output will be written to a Syslog facility.
+
+### Additional Environment Variables
+
+
+Variable        | Default Value   | Required for Dev  | Usage
+--------        | -------------   | ----------------  | ------------------------------
+SECRET          | <NONE>          | YES               | The cryptographic secret used to sign JWT tokens
+SYSLOG_HOST     | <NONE>          | No                | The hostname of the server hosting the system logging server
+SYSLOG_PORT     | <NONE>          | No                | The TCP port number the System
+SYSLOG_FACILITY | 1               | No                | The logging facility to associate the log messages with
+
 
 ### Running the Unit Test Suite
 
