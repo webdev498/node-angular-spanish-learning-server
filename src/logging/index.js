@@ -58,7 +58,7 @@ export const decorate = server => {
 
 export const logger = () => loggerSingleton;
 
-export function logError() { loggerSingleton.error(...arguments); };
+export function logError() { loggerSingleton.error(...arguments); }
 export function logInfo() { loggerSingleton.info(...arguments); }
 export function logWarning() { loggerSingleton.warn(...arguments); }
 export function logTrace() { loggerSingleton.debug(...arguments); }
