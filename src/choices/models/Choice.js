@@ -21,7 +21,7 @@ const PERSISTENCE_WHITELIST = [
   'version'
 ];
 
-const User = Orm.Model.extend({
+const Choice = Orm.Model.extend({
   tableName,
   idAttribute,
 
@@ -96,4 +96,4 @@ const User = Orm.Model.extend({
 
 });
 
-export default User;
+export default Choice;
