@@ -1,5 +1,5 @@
 {
-  "name": "quocha-api",
+  "name": "cgi-server",
   "version": "0.0.0",
   "description": "The web services layer powering the Quocha mobile apps",
   "main": "index.js",
