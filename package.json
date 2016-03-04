@@ -1,7 +1,7 @@
 {
   "name": "cgi-server",
   "version": "0.0.0",
-  "description": "The web services layer powering the Quocha mobile apps",
+  "description": "The web services layer powering the Common Grounds International Medical Spanish assessment tool",
   "main": "index.js",
   "engines": {
     "node": ">=4.2"
@@ -9,7 +9,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/bright-fame/QuochaAPI.git"
+    "url": "git@bitbucket.org:josh_king_/cgi-she-server.git"
   },
   "keywords": [
     "Node.js",
@@ -25,9 +25,9 @@
   "license": "Closed",
   "private": true,
   "bugs": {
-    "url": "https://github.com/bright-fame/QuochaAPI/issues"
+    "url": "https://rally1.rallydev.com/#/43665352246d/dashboard"
   },
-  "homepage": "https://rally1.rallydev.com/#/43665352246d/dashboard",
+  "homepage": "https://bitbucket.org/josh_king_/cgi-she-server",
   "devDependencies": {
     "babel": "^5.8.29",
     "babel-core": "^5.8.25",
