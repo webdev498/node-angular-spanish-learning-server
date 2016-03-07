@@ -8,23 +8,20 @@ import * as validations from './../../validations';
 import * as Orm from '../../../data/orm';
 
 let attributes = {
-  "text": 'Who is the queen of England?',
-  "version": 1
+  "name": 'Medications'
 };
 
 let pascalCaseAttributes = {
-  "text": 'Who is the queen of England?',
-  "version": 1
+  "name": 'Medications'
 };
 
 let snakeCaseAttributes = {
-  "text": 'Who is the queen of England?',
-  "version": 1
+  "name": 'Medications'
 };
 
-describe('Choice data model', () => {
+describe('Category data model', () => {
 
-  let connection, Choice;
+  let connection, Category;
 
   before(() => {
     connection = knex({
@@ -34,7 +31,7 @@ describe('Choice data model', () => {
 
     mockKnex.mock(connection);
     stub(Orm, 'getORM').returns(bookshelf(connection));
-    Choice = require('../Choice');
+    Category = require('../Category');
   });
 
   after(() => {
@@ -45,7 +42,7 @@ describe('Choice data model', () => {
   describe("formatting a model's attribute for persistence", () => {
     let result;
     before(() => {
-      result = new Choice().format(attributes);
+      result = new Category().format(attributes);
     });
 
     it('converts the attributes from pascal case to snake case', () => {
@@ -58,7 +55,7 @@ describe('Choice data model', () => {
     let result;
 
     before(() => {
-      result = new Choice().parse(snakeCaseAttributes);
+      result = new Category().parse(snakeCaseAttributes);
     });
 
     it('converts snake case to pascal case', () => {
@@ -69,80 +66,79 @@ describe('Choice data model', () => {
   describe('serializing to JSON', () => {
     let result;
     before(() => {
-      result = new Choice(attributes).serialize();
+      result = new Category(attributes).serialize();
     });
 
-    it('returns back and object containing only the id, text, version, translation, phase, active, createdAt, updateAt', () => {
-      const { id, text, version, translation, phase, active, createdAt, updatedAt } = attributes;
-      const { relations } = result;
-      expect(result).to.eql({ id, text, version, translation, phase, relations, active, createdAt, updatedAt });
+    it('returns back and object containing only the id, name, and parentId', () => {
+      const { id, name, parentId, createdAt, updatedAt } = attributes;
+      expect(result).to.eql({ id, name, parentId, createdAt, updatedAt });
     });
   });
 
   describe("a model's uuid", () => {
-    let choice;
+    let category;
 
     describe("when the model hasn't been saved", () => {
       before(() => {
-        choice = new Choice();
-        choice.setUUID();
+        category = new Category();
+        category.setUUID();
       });
 
       it('generates a id', () => {
-        expect(choice.get('id')).to.be.defined;
+        expect(category.get('id')).to.be.defined;
       });
 
     });
 
     describe('when the model has been saved', () => {
       before(() => {
-        choice = new Choice();
-        choice.isNew = false;
-        choice.setUUID();
+        category = new Category();
+        category.isNew = false;
+        category.setUUID();
       });
 
       it('does not generate a uuid', () => {
-        expect(choice.get('id')).to.be.undefined;
+        expect(category.get('id')).to.be.undefined;
       });
     });
 
   });
 
   describe('validation', () => {
-    let choice;
+    let category;
 
     before(() => {
-      choice = new Choice();
-      stub(validations, 'Text');
-      choice.validate();
+      category = new Category();
+      stub(validations, 'Name');
+      category.validate();
     });
 
     after(() => {
-      validations.Text.restore();
+      validations.Name.restore();
     });
 
     it('validates the text attribute', () => {
-      expect(validations.Text).to.have.been.calledWith(choice.attributes);
+      expect(validations.Name).to.have.been.calledWith(category.attributes);
     });
 
   });
 
   describe('before the model is saved', () => {
-    let choice;
+    let category;
 
     before(() => {
-      choice = new Choice();
-      choice.setUUID = spy();
-      choice.validate = spy();
-      choice.trigger('saving');
+      category = new Category();
+      category.setUUID = spy();
+      category.validate = spy();
+      category.trigger('saving');
     });
 
     it("sets the models id", () => {
-      expect(choice.setUUID).to.have.been.called;
+      expect(category.setUUID).to.have.been.called;
     });
 
     it('validates the models attributes', () => {
-      expect(choice.validate).to.have.been.called;
+      expect(category.validate).to.have.been.called;
     });
 
   });

@@ -1,8 +1,8 @@
 import Choice from '../models/Choice';
-import { logger } from './../../logging';
+import { logInfo, logError } from './../../logging';
 
 export const create = ({ text, translation, phase, active }) => {
-logger().info(`Attempting to create new choice: ${ text} with attributes - translation: ${translation} phase: ${phase} active: ${active}`);
+logInfo(`Attempting to create new choice: ${ text} with attributes - translation: ${translation} phase: ${phase} active: ${active}`);
 
   return new Promise((resolve, reject) => {
     Choice.forge({
@@ -15,12 +15,12 @@ logger().info(`Attempting to create new choice: ${ text} with attributes - trans
     .then(
         choice => { resolve(choice); },
         error => {
-          logger().error(error);
+          logError(error);
           reject(error);
         }
       )
       .catch(exception => {
-        logger().error(exception);
+        logError(exception);
         reject(exception);
       }
     );
@@ -32,36 +32,36 @@ export const update = ({ id }, { text, translation, version, phase, active }) =>
   const params = { text, translation, version, phase, active};
   const attributes = omitEmptyProperties(params);
 
-  logger().info(`Attempting to update choice with id: ${ id } and attributes: ${ JSON.stringify(attributes) }`);
+  logInfo(`Attempting to update choice with id: ${ id } and attributes: ${ JSON.stringify(attributes) }`);
   return new Promise((resolve, reject) => {
     Choice.forge({ id })
       .save(attributes, {patch: true}).then(
         choice => {
-          logger().info(`Successfully updated Choice with id: ${ id }`);
+          logInfo(`Successfully updated Choice with id: ${ id }`);
           resolve(choice);
         },
         error => {
-          logger().error(error);
+          logError(error);
           reject(error);
         }
       )
       .catch(exception => {
-        logger().error(exception);
+        logError(exception);
         reject(exception);
       });
   });
 };
 
 export const all = () => {
-  logger().info('Fetching all choices.');
+  logInfo('Fetching all choices.');
   return new Promise((resolve, reject) => {
-    Choice.fetchAll({required: false}).then(
+    Choice.fetchAll({withRelated: ['category']}).then(
       choices => {
-        logger().info(`Retrieved ${choices.length} choices from the database`);
+        logInfo(`Retrieved ${choices.length} choices from the database`);
         resolve(choices);
       },
       exception => {
-        logger().error(exception);
+        logError(exception);
         reject(exception);
       }
     );
