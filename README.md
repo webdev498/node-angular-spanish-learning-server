@@ -16,7 +16,7 @@
 
       $ npm install
 
-### Starting the Server
+### Running A Local Development Server
 
       $ ./bin/server
 
@@ -80,6 +80,13 @@ If you would like to use PostgreSQL as a virtual appliance in a Docker container
 
 Once you've create the database and the role (user) that will use it, you can then create tables in the `public` schema. There are a number of SQL scripts located in `/etc/data/migrations` designed to help you generate the necessary tables. The Schemas are numbered in the order in the which they should be run. You can execute these SQL files either through `pgAdmin` or through the `pgsql` CLI.
 
+### Running as a Docker container
+
+    $ docker run --env NODE_ENV="development|production" --env DB_HOST="<DB_HOST>" --env DB_USER="<DB_USER>" --env DB_NAME="<DB_NAME>" --env DB_PASSWORD="<DB_PASSWORD>" --env SECRET="<SECRET>" --name cgi <IMAGE NAME|ID>
+
+In order to run the above command, you will need to build an image from the Dockerfile provided by this repository. To do that, you will need to run the following command:
+
+    $ docker build -t cgi/api .
 
 ### Logging
 
