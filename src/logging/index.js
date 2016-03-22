@@ -4,6 +4,10 @@ import { inspect } from 'util';
 let options = {};
 let loggerSingleton;
 
+const name = 'Logging service';
+const version = '0.0.1';
+
+
 if (process.env.NODE_ENV === 'production') {
 
   const { SYSLOG_HOST, SYSLOG_PORT, SYSLOG_FACILITY }  = process.env;
@@ -31,8 +35,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-export const decorate = server => {
 
+export const register = (server, options, next) => {
   loggerSingleton = createLogger(options);
 
   server.on('response', request => {
@@ -54,10 +58,16 @@ export const decorate = server => {
     loggerSingleton.info(`Server registered route at: ${ route.method } ${ route.path }`);
   });
 
+  next();
 };
 
-export const logger = () => loggerSingleton;
+register.attributes = {
+  name,
+  version
+};
 
+
+export const logger = () => loggerSingleton;
 export function logError() { loggerSingleton.error(...arguments); }
 export function logInfo() { loggerSingleton.info(...arguments); }
 export function logWarning() { loggerSingleton.warn(...arguments); }
