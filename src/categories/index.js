@@ -1,6 +1,7 @@
 import routing from './routing';
 
-const name = 'Choices resource service';
+
+const name = 'Categories resource service';
 const version = '0.0.1';
 
 export const register = (server, options, next) => {

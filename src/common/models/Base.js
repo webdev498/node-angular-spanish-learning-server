@@ -1,6 +1,4 @@
 import { getORM } from '../../data/orm';
-import './Choice';
-import { Name } from './../validations';
 import { toPascalCase, toSnakeCase } from '../../javascript/datatypes/string';
 import * as UUID from '../../javascript/datatypes/uuid';
 import crypto from 'crypto';
@@ -9,60 +7,50 @@ const CRYPTO_ALGORITHM = 'sha1';
 const DIGEST_TYPE = 'hex';
 
 const Orm = getORM();
-
-const tableName = 'public.categories';
 const idAttribute = 'id';
 
-const PERSISTENCE_WHITELIST = [
-  'id',
-  'name',
-  'parent_id'
-];
-
-const Category = Orm.model('Category', {
-  tableName,
+const Base = Orm.model('Base', {
   idAttribute,
 
-  constructor() {
-    Orm.Model.apply(this, arguments);
+  initialize(attributes, { persistenceWhitelist, versionableAttributes, foreignKeys }) {
     this.on('saving', this.beforeSave.bind(this));
     this.on('updating', this.beforeUpdate.bind(this));
-  },
-
-  choices(){
-    return this.hasMany('Choice', 'category_id');
+    this.persistenceWhitelist = persistenceWhitelist.concat(['id']);
+    this.versionableAttributes = versionableAttributes;
+    this.foreignKeys = foreignKeys || [];
   },
 
   // Format the model for persistence to the database
   format(attributes) {
+    let { foreignKeys, persistenceWhitelist } = this;
     return Object.keys(attributes)
-      .filter(attribute => PERSISTENCE_WHITELIST.includes(attribute))
+      .filter(attribute => persistenceWhitelist.includes(attribute))
       .reduce((memo, attribute) => {
-        memo[toSnakeCase(attribute)] = attributes[attribute];
+        if (foreignKeys.includes(attribute)) {
+          memo[attribute] = attributes[attribute];
+        } else {
+          memo[toSnakeCase(attribute)] = attributes[attribute];
+        }
         return memo;
       }, {});
   },
 
+
   // parse the data returned from the database to match the proper attributes
   parse(data) {
+    let { foreignKeys } = this;
     return Object.keys(data).reduce((memo, property) => {
-      memo[toPascalCase(property)] = data[property];
+      if (foreignKeys && foreignKeys.includes(property)) {
+        memo[property] = data[property];
+      } else {
+        memo[toPascalCase(property)] = data[property];
+      }
       return memo;
     }, {});
   },
 
   //defines an object that will be serialized to JSON when JSON.stringify is called
-  serialize() {
-    const { id, name, parentId, createdAt, updatedAt } = this.attributes;
-
-    return {
-      id,
-      name,
-      parentId,
-      createdAt,
-      updatedAt
-    };
-  },
+  serialize() { throw new Error("Abstract method. Override in your base class."); },
 
   setUUID() {
     if (this.isNew && !this.has('id')) {
@@ -71,16 +59,19 @@ const Category = Orm.model('Category', {
   },
 
   generateVersion() {
-    const { id, name, parentId } = this.attributes;
+    const values = this.versionableAttributes.reduce((memo, attribute) => {
+      if (this.attributes[attribute]) {
+        memo[attribute] = this.attributes[attribute];
+      }
+      return memo;
+    }, {});
 
-    const string = JSON.stringify({ id, name, parentId });
+    const string = JSON.stringify(values);
     const version = crypto.createHash(CRYPTO_ALGORITHM).update(string).digest(DIGEST_TYPE);
     this.set({ version: version });
   },
 
-  validate() {
-    [Name].forEach(validate => { validate(this.attributes); });
-  },
+  validate() { throw new Error("Abstract method. Override in your base class"); },
 
   beforeSave() {
     this.setUUID();
@@ -95,4 +86,4 @@ const Category = Orm.model('Category', {
 
 });
 
-export default Category;
+export default Base;

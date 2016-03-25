@@ -33,6 +33,7 @@ export const update = ({ id }, { text, translation, version, phase, active }) =>
   const attributes = omitEmptyProperties(params);
 
   logInfo(`Attempting to update choice with id: ${ id } and attributes: ${ JSON.stringify(attributes) }`);
+
   return new Promise((resolve, reject) => {
     Choice.forge({ id })
       .save(attributes, {patch: true}).then(
@@ -55,7 +56,7 @@ export const update = ({ id }, { text, translation, version, phase, active }) =>
 export const all = () => {
   logInfo('Fetching all choices.');
   return new Promise((resolve, reject) => {
-    Choice.fetchAll({withRelated: ['category']}).then(
+    Choice.fetchAll({withRelated: ['categories']}).then(
       choices => {
         logInfo(`Retrieved ${choices.length} choices from the database`);
         resolve(choices);

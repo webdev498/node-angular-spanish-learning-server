@@ -13,6 +13,7 @@ const method = 'post';
 const paramsArray = [];
 const payload = {};
 const path = '/path/to/handler';
+const next = spy();
 
 
 describe('logging middleware', () => {
@@ -30,7 +31,7 @@ describe('logging middleware', () => {
     before(() => {
       server = new EventEmitter();
       stub(server, 'on');
-      logging.decorate(server);
+      logging.register(server, {}, next);
     });
 
 
@@ -60,7 +61,7 @@ describe('logging middleware', () => {
       stub(bucker, 'createLogger').returns(logger);
       server = new EventEmitter();
       server.info = {uri: 'http://localhost:8000'};
-      logging.decorate(server);
+      logging.register(server, {}, next);
     }));
 
     describe('when response is emitted', () => {

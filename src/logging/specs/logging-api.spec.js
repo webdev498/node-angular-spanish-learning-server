@@ -8,11 +8,12 @@ const { logTrace, logInfo, logWarning, logError } = logger;
 describe('logging API', () => {
   let loggerSingleton;
   let serverDouble = { on: stub() };
+  let next = spy();
 
   before(() => {
     loggerSingleton = ['debug', 'info', 'warn', 'error'].reduce((singleton, level) => { singleton[level] = spy(); return singleton; }, {});
     stub(bucker, 'createLogger').returns(loggerSingleton);
-    logger.decorate(serverDouble);
+    logger.register(serverDouble, null, next);
   });
 
   after(() => {

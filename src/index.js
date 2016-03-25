@@ -2,6 +2,7 @@ import 'babel/polyfill';
 import Server from './Server';
 import * as logging from './logging';
 import * as ChoiceService from './choices';
+import * as CategoriesService from './categories';
 import * as UserService from './users';
 
 const server = new Server({
@@ -13,11 +14,12 @@ const server = new Server({
 const port = process.env.PORT || 3000;
 
 const noop = () => {};
-
 server.connection({ port });
 
-logging.decorate(server);
-ChoiceService.register(server);
-UserService.register(server);
+server.register({ register: logging }, noop);
+server.register({register: CategoriesService}, noop);
+server.register({register: ChoiceService}, noop);
+server.register({register: UserService}, noop);
+
 
 server.start(noop);
