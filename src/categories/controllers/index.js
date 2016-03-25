@@ -31,3 +31,16 @@ export const remove = (request, reply) => {
     }
   );
 };
+
+export const update = (request, reply) => {
+  const { id } = request.params;
+  const { name } = request.payload;
+
+  return CategoriesService.update({ id, name }).then(
+    category => reply(category).statusCode = OK,
+    error => {
+      let serviceError = ServiceErrorFactory.create(request, error);
+      reply(serviceError).statusCode = serviceError.statusCode;
+    }
+  );
+};
