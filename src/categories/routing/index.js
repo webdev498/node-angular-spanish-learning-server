@@ -1,4 +1,4 @@
-import { create, all, remove } from './../controllers/';
+import { create, all, remove, update } from './../controllers/';
 
 export default server => {
 
@@ -18,5 +18,11 @@ export default server => {
     method: 'DELETE',
     path: '/categories/{id}',
     handler: remove
+  });
+
+  server.route({
+    method: 'PUT',
+    path: '/categories/{id}',
+    handler: update
   });
 };
