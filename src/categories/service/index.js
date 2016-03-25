@@ -31,3 +31,10 @@ export const all = () => {
     );
   });
 };
+
+export const remove = ({ id }) => {
+  logInfo(`Soft deleting category with id: ${id}`);
+  return new Promise((resolve, reject) => {
+    Category.forge({ id }).save({active: false}).then(resolve, reject);
+  });
+};
