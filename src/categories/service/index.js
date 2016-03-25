@@ -21,3 +21,13 @@ export const create = ({ name }) => {
   });
 
 };
+
+export const all = () => {
+  logInfo("Fetching all categories");
+  return new Promise((resolve, reject) => {
+    Category.where({active: true}).fetchAll().then(
+      categories => resolve(categories),
+      error => reject(error)
+    );
+  });
+};

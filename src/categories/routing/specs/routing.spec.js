@@ -27,7 +27,28 @@ describe('routing for categories service', () => {
     it('registers a POST method', () => {
       expect(routeCall.method).to.equal('POST');
     });
-
-
   });
+
+  describe('GET /categories', () => {
+    let routeCall;
+
+    beforeEach(() => {
+      server.route = spy();
+      router(server);
+      routeCall = server.route.args[1][0];
+    });
+
+    it('routes requests to the "create" action on the categories controller', () => {
+      expect(routeCall.handler).to.equal(Controller.all);
+    });
+
+    it('registers the path of "/categories"', () => {
+      expect(routeCall.path).to.equal('/categories');
+    });
+
+    it('registers a POST method', () => {
+      expect(routeCall.method).to.equal('GET');
+    });
+  });
+
 });

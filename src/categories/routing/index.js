@@ -1,4 +1,4 @@
-import { create } from './../controllers/';
+import { create, all } from './../controllers/';
 
 export default server => {
 
@@ -6,5 +6,11 @@ export default server => {
     method: 'POST',
     path: '/categories',
     handler: create
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/categories',
+    handler: all
   });
 };
