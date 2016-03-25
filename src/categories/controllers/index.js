@@ -1,4 +1,4 @@
-import { CREATED, OK } from './../../http/statusCodes';
+import { CREATED, OK, NO_CONTENT } from './../../http/statusCodes';
 import * as ServiceErrorFactory from './../../exceptions/Factory';
 import * as CategoriesService from './../service';
 
@@ -15,6 +15,16 @@ export const create = (request, reply) => {
 export const all = (request, reply) => {
   return CategoriesService.all().then(
     categories => reply(categories).statusCode = OK,
+    error => {
+      let serviceError = ServiceErrorFactory.create(request, error);
+      reply(serviceError).statusCode = serviceError.statusCode;
+    }
+  );
+};
+
+export const remove = (request, reply) => {
+  return CategoriesService.remove(request.params).then(
+    () => reply().statusCode = NO_CONTENT,
     error => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
