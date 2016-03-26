@@ -22,15 +22,12 @@ const Base = Orm.model('Base', {
 
   // Format the model for persistence to the database
   format(attributes) {
-    let { foreignKeys, persistenceWhitelist } = this;
+    let { persistenceWhitelist } = this;
+
     return Object.keys(attributes)
       .filter(attribute => persistenceWhitelist.includes(attribute))
       .reduce((memo, attribute) => {
-        if (foreignKeys.includes(attribute)) {
-          memo[attribute] = attributes[attribute];
-        } else {
-          memo[toSnakeCase(attribute)] = attributes[attribute];
-        }
+        memo[toSnakeCase(attribute)] = attributes[attribute];
         return memo;
       }, {});
   },
@@ -38,7 +35,8 @@ const Base = Orm.model('Base', {
 
   // parse the data returned from the database to match the proper attributes
   parse(data) {
-    let { foreignKeys } = this;
+    let foreignKeys = this.getForeignKeys();
+
     return Object.keys(data).reduce((memo, property) => {
       if (foreignKeys && foreignKeys.includes(property)) {
         memo[property] = data[property];
@@ -53,25 +51,29 @@ const Base = Orm.model('Base', {
   serialize() { throw new Error("Abstract method. Override in your base class."); },
 
   setUUID() {
-    if (this.isNew && !this.has('id')) {
+    if (this.isNew() && !this.has('id')) {
       this.set({id: UUID.v4()});
     }
   },
 
   generateVersion() {
-    const values = this.versionableAttributes.reduce((memo, attribute) => {
-      if (this.attributes[attribute]) {
-        memo[attribute] = this.attributes[attribute];
-      }
-      return memo;
-    }, {});
+    if(this.versionableAttributes && this.versionableAttributes.length) {
+      const values = this.versionableAttributes.reduce((memo, attribute) => {
+        if (this.attributes[attribute]) {
+          memo[attribute] = this.attributes[attribute];
+        }
+        return memo;
+      }, {});
 
-    const string = JSON.stringify(values);
-    const version = crypto.createHash(CRYPTO_ALGORITHM).update(string).digest(DIGEST_TYPE);
-    this.set({ version: version });
+      const string = JSON.stringify(values);
+      const version = crypto.createHash(CRYPTO_ALGORITHM).update(string).digest(DIGEST_TYPE);
+      this.set({ version: version });
+    }
   },
 
   validate() { throw new Error("Abstract method. Override in your base class"); },
+
+  getForeignKeys() { return []; },
 
   beforeSave() {
     this.setUUID();

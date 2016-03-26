@@ -22,7 +22,7 @@ describe('User controller', () => {
     UserService.signup.restore();
   });
 
-  describe('creating a new user', () => {
+  describe('signing up a new user', () => {
     describe('when signup is successful', () => {
 
       before(() => {

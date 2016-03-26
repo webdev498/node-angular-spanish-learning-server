@@ -20,24 +20,6 @@ let attributes = {
   passwordSalt: 'salt'
 };
 
-let pascalCaseAttributes = {
-  id: '123-ksd-192kd-29kd',
-  firstName: 'Joe',
-  lastName: 'Shmoe',
-  email: 'joe@nowhere.net',
-  passwordHash: 'hash',
-  passwordSalt: 'salt'
-};
-
-let snakeCaseAttributes = {
-  "id": "123-ksd-192kd-29kd",
-  "first_name": "Joe",
-  "last_name": "Shmoe",
-  "email": "joe@nowhere.net",
-  "password_hash": "hash",
-  "password_salt": "salt"
-};
-
 describe('User data model', () => {
 
   let connection, User;
@@ -58,34 +40,6 @@ describe('User data model', () => {
     Orm.getORM.restore();
   });
 
-  describe("formatting a model's attribute for persistence", () => {
-    let result;
-    before(() => {
-      result = new User().format(attributes);
-    });
-
-    it('converts the attributes from pascal case to snake case', () => {
-      expect(result).to.eql(snakeCaseAttributes);
-    });
-
-    it('does not contain the password and passwordConfirmation k/v pairs', () => {
-      expect(result).to.not.include.keys('password', 'password_confirmation');
-    });
-
-  });
-
-  describe('parsing result sets from the database', () => {
-    let result;
-
-    before(() => {
-      result = new User().parse(snakeCaseAttributes);
-    });
-
-    it('converts snake case to pascal case', () => {
-      expect(result).to.eql(pascalCaseAttributes);
-    });
-  });
-
   describe('sanitizing the models attributes', () => {
     let result;
     before(() => {
@@ -95,35 +49,6 @@ describe('User data model', () => {
       const { id, firstName, lastName, email } = attributes;
       expect(result).to.eql({id, firstName, lastName, email});
     });
-  });
-
-  describe("a model's id", () => {
-    let user;
-
-    describe("when the model hasn't been saved", () => {
-      before(() => {
-        user = new User();
-        user.setUUID();
-      });
-
-      it('generates a UUID', () => {
-        expect(user.get('id')).to.be.defined;
-      });
-
-    });
-
-    describe('when the model has been saved', () => {
-      before(() => {
-        user = new User();
-        user.isNew = false;
-        user.setUUID();
-      });
-
-      it('does not generate a id', () => {
-        expect(user.get('id')).to.be.undefined;
-      });
-    });
-
   });
 
   describe('generating a cryptographic salt and hashing the password', () => {
@@ -161,7 +86,7 @@ describe('User data model', () => {
 
       before(() => {
         user = new User();
-        user.isNew = false;
+        user.isNew = stub().returns(false);
         user.hashPassword();
       });
 
@@ -211,10 +136,6 @@ describe('User data model', () => {
       user.validate = spy();
       user.hashPassword = spy();
       user.trigger('saving');
-    });
-
-    it("sets the models UUID", () => {
-      expect(user.setUUID).to.have.been.called;
     });
 
     it('validates the models attributes', () => {
