@@ -206,7 +206,7 @@ describe('User data model', () => {
     let user;
 
     before(() => {
-      user = new User();
+      user = new User({ password: 'Password'});
       user.setUUID = spy();
       user.validate = spy();
       user.hashPassword = spy();

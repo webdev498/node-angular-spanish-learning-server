@@ -5,7 +5,7 @@ import * as TokenProvider from './../../../authentication/tokenProvider';
 import * as ServiceErrorFactory from './../../../exceptions/Factory';
 import * as Controller from './../';
 
-describe('user controller actions', () => {
+describe('User controller', () => {
   let reply, request, userDouble, sanitizedUser, signupStub, tokenProviderStub, error, token = '123abc';
 
   before(() => {
@@ -29,7 +29,7 @@ describe('user controller actions', () => {
         stub(userDouble, 'sanitize').returns(sanitizedUser);
         signupStub.returns(Promise.resolve(userDouble));
         tokenProviderStub.returns(Promise.resolve(token));
-        Controller.create(request, reply);
+        return Controller.create(request, reply);
       });
 
       after(() => {
@@ -55,7 +55,7 @@ describe('user controller actions', () => {
         error = new Error();
         stub(ServiceErrorFactory, 'create').returns(error);
         signupStub.returns(Promise.reject(error));
-        Controller.create(request, reply);
+        return Controller.create(request, reply);
       });
 
       after(() => {

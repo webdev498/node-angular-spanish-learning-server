@@ -6,16 +6,14 @@ import * as UserService from './../';
 
 describe('Users service', () => {
   describe('registering a new user', () => {
-    let loggerDouble = {};
     let userModelDouble = {};
     let saveMock;
 
     beforeEach(() => {
       userModelDouble = { save: () => {} };
-      loggerDouble.info = spy();
 
-
-      stub(LoggingService, 'logger').returns(loggerDouble);
+      stub(LoggingService, 'logInfo');
+      stub(LoggingService, 'logError');
       stub(User, 'forge').returns(userModelDouble);
       saveMock = stub(userModelDouble, 'save').returns(Promise.resolve());
 
@@ -23,7 +21,8 @@ describe('Users service', () => {
 
     afterEach(() => {
       User.forge.restore();
-      LoggingService.logger.restore();
+      LoggingService.logError.restore();
+      LoggingService.logInfo.restore();
     });
 
     it('logs information to the logger', (done) => {
@@ -34,7 +33,7 @@ describe('Users service', () => {
         password: 'secret',
         passwordConfirmation: 'secret'
       }).then(() => {
-        expect(loggerDouble.info).to.have.been.called;
+        expect(LoggingService.logInfo).to.have.been.called;
         done();
       });
     });
@@ -88,7 +87,6 @@ describe('Users service', () => {
       let error = {};
       beforeEach(() => {
         saveMock.returns(Promise.reject(error));
-        loggerDouble.error = spy();
       });
 
       it('logs an error', (done) => {
@@ -99,7 +97,7 @@ describe('Users service', () => {
           password: 'secret',
           passwordConfirmation: 'secret'
         }).then(() => {}, () => {
-          expect(loggerDouble.error).to.have.been.called;
+          expect(LoggingService.logError).to.have.been.called;
           done();
         });
       });

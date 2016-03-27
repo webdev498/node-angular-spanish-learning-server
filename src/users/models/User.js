@@ -1,41 +1,21 @@
 import bcrypt from 'bcrypt';
 import { getORM } from '../../data/orm';
+import Base from './../../common/models/Base';
 import { EmailAddress, PasswordComplexity, PasswordsMatch } from './../validations';
-import { toPascalCase, toSnakeCase } from '../../javascript/datatypes/string';
-import * as UUID from '../../javascript/datatypes/uuid';
 
 const Orm = getORM();
 
 const tableName = 'public.users';
-const idAttribute = 'id';
 
-const PERSISTENCE_WHITELIST = ['id', 'firstName', 'lastName', 'email', 'passwordHash', 'passwordSalt'];
+const persistenceWhitelist = ['id', 'firstName', 'lastName', 'email', 'passwordHash', 'passwordSalt'];
+const versionableAttributes = persistenceWhitelist;
 
-const User = Orm.Model.extend({
+const User = Base.extend({
   tableName,
-  idAttribute,
 
-  constructor() {
-    Orm.Model.apply(this, arguments);
-    this.on('saving', this.beforeSave.bind(this));
-  },
-
-  // Format the model for persistence to the database
-  format(attributes) {
-    return Object.keys(attributes)
-      .filter((attribute) => PERSISTENCE_WHITELIST.includes(attribute))
-      .reduce((memo, attribute) => {
-        memo[toSnakeCase(attribute)] = attributes[attribute];
-        return memo;
-      }, {});
-  },
-
-  // parse the data returned from the database to match the proper attributes
-  parse(data) {
-    return Object.keys(data).reduce((memo, property) => {
-      memo[toPascalCase(property)] = data[property];
-      return memo;
-    }, {});
+  initialize(attributes) {
+    Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
+    this.on('saving', () => this.hashPassword());
   },
 
   sanitize() {
@@ -49,10 +29,16 @@ const User = Orm.Model.extend({
     };
   },
 
-  setUUID() {
-    if (this.isNew) {
-      this.set({id: UUID.v4()});
-    }
+  serialize() {
+    const { id, firstName, lastName, email, createdAt, updatedAt } = this.attributes;
+    return {
+      id,
+      firstName,
+      lastName,
+      email,
+      createdAt,
+      updatedAt
+    };
   },
 
   // TODO: Make async
@@ -66,17 +52,11 @@ const User = Orm.Model.extend({
   },
 
   validate() {
-    [EmailAddress, PasswordComplexity, PasswordsMatch].forEach((validate) => {
+    [EmailAddress, PasswordComplexity, PasswordsMatch].forEach(validate => {
       validate(this.attributes);
     });
-  },
-
-  beforeSave() {
-    this.setUUID();
-    this.validate();
-    this.hashPassword();
   }
 
 });
 
-export default User;
+export default Orm.model('User', User);
