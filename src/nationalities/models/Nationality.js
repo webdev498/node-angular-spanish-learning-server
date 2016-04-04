@@ -1,6 +1,6 @@
 import { getORM } from '../../data/orm';
 import Base from './../../common/models/Base';
-import User from './User';
+import User from './../../users/models/User';
 
 const Orm = getORM();
 
