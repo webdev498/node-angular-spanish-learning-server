@@ -1,13 +1,26 @@
 import bcrypt from 'bcrypt';
 import { getORM } from '../../data/orm';
 import Base from './../../common/models/Base';
+import Address from './Address';
+import Telephone from './Telephone';
+import Nationality from './Nationality';
 import { EmailAddress, PasswordComplexity, PasswordsMatch } from './../validations';
 
 const Orm = getORM();
 
-const tableName = 'public.users';
+const tableName = 'users';
 
-const persistenceWhitelist = ['id', 'firstName', 'lastName', 'email', 'passwordHash', 'passwordSalt'];
+const persistenceWhitelist = [
+  'firstName',
+  'lastName',
+  'email',
+  'passwordHash',
+  'passwordSalt',
+  'nationalityId',
+  'gender',
+  'dateOfBirth'
+];
+
 const versionableAttributes = persistenceWhitelist;
 
 const User = Base.extend({
@@ -16,6 +29,22 @@ const User = Base.extend({
   initialize(attributes) {
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
     this.on('saving', () => this.hashPassword());
+  },
+
+  getForeignKeys() {
+    return ['nationality_id'];
+  },
+
+  telephones() {
+    return this.hasMany(Telephone);
+  },
+
+  addresses() {
+    return this.hasMany(Address);
+  },
+
+  nationality(){
+    return this.belongsTo(Nationality);
   },
 
   sanitize() {
@@ -30,12 +59,17 @@ const User = Base.extend({
   },
 
   serialize() {
-    const { id, firstName, lastName, email, createdAt, updatedAt } = this.attributes;
+    const { id, firstName, lastName, email, dateOfBirth, gender, createdAt, updatedAt } = this.attributes;
+    const { relations } = this;
+
     return {
       id,
       firstName,
       lastName,
+      dateOfBirth,
+      gender,
       email,
+      relations,
       createdAt,
       updatedAt
     };
@@ -43,7 +77,7 @@ const User = Base.extend({
 
   // TODO: Make async
   hashPassword() {
-    if (this.isNew) {
+    if (this.isNew()) {
       let passwordSalt = bcrypt.genSaltSync(10);
       let passwordHash  = bcrypt.hashSync(this.get('password'), passwordSalt);
       this.set({ passwordSalt, passwordHash });
@@ -52,9 +86,13 @@ const User = Base.extend({
   },
 
   validate() {
-    [EmailAddress, PasswordComplexity, PasswordsMatch].forEach(validate => {
-      validate(this.attributes);
-    });
+    let validations = [EmailAddress];
+
+    if (this.isNew()) {
+      validations = validations.concat([PasswordComplexity, PasswordsMatch]);
+    }
+
+    validations.forEach(validate => validate(this.attributes));
   }
 
 });

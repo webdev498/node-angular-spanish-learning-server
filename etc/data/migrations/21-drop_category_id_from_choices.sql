@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS choices DROP COLUMN category_id;

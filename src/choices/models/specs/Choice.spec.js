@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { stub, spy } from 'sinon';
+import { stub } from 'sinon';
 
 import knex from 'knex';
 import bookshelf from 'bookshelf';
@@ -12,15 +12,6 @@ let attributes = {
   "version": 1
 };
 
-let pascalCaseAttributes = {
-  "text": 'Who is the queen of England?',
-  "version": 1
-};
-
-let snakeCaseAttributes = {
-  "text": 'Who is the queen of England?',
-  "version": 1
-};
 
 describe('Choice data model', () => {
 
@@ -42,30 +33,6 @@ describe('Choice data model', () => {
     Orm.getORM.restore();
   });
 
-  describe("formatting a model's attribute for persistence", () => {
-    let result;
-    before(() => {
-      result = new Choice().format(attributes);
-    });
-
-    it('converts the attributes from pascal case to snake case', () => {
-      expect(result).to.eql(snakeCaseAttributes);
-    });
-
-  });
-
-  describe('parsing result sets from the database', () => {
-    let result;
-
-    before(() => {
-      result = new Choice().parse(snakeCaseAttributes);
-    });
-
-    it('converts snake case to pascal case', () => {
-      expect(result).to.eql(pascalCaseAttributes);
-    });
-  });
-
   describe('serializing to JSON', () => {
     let result;
     before(() => {
@@ -77,35 +44,6 @@ describe('Choice data model', () => {
       const { relations } = result;
       expect(result).to.eql({ id, text, version, translation, phase, relations, active, createdAt, updatedAt });
     });
-  });
-
-  describe("a model's uuid", () => {
-    let choice;
-
-    describe("when the model hasn't been saved", () => {
-      before(() => {
-        choice = new Choice();
-        choice.setUUID();
-      });
-
-      it('generates a id', () => {
-        expect(choice.get('id')).to.be.defined;
-      });
-
-    });
-
-    describe('when the model has been saved', () => {
-      before(() => {
-        choice = new Choice();
-        choice.isNew = false;
-        choice.setUUID();
-      });
-
-      it('does not generate a uuid', () => {
-        expect(choice.get('id')).to.be.undefined;
-      });
-    });
-
   });
 
   describe('validation', () => {
@@ -123,26 +61,6 @@ describe('Choice data model', () => {
 
     it('validates the text attribute', () => {
       expect(validations.Text).to.have.been.calledWith(choice.attributes);
-    });
-
-  });
-
-  describe('before the model is saved', () => {
-    let choice;
-
-    before(() => {
-      choice = new Choice();
-      choice.setUUID = spy();
-      choice.validate = spy();
-      choice.trigger('saving');
-    });
-
-    it("sets the models id", () => {
-      expect(choice.setUUID).to.have.been.called;
-    });
-
-    it('validates the models attributes', () => {
-      expect(choice.validate).to.have.been.called;
     });
 
   });

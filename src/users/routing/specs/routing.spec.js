@@ -30,6 +30,6 @@ describe('User service routing', () => {
         path: '/users',
         handler: list
       });
-    })
-  })
+    });
+  });
 });

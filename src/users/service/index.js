@@ -1,18 +1,24 @@
 import User from '../models/User';
 import { logError, logInfo } from './../../logging';
 
-export const signup = ({ firstName, lastName, email, password, passwordConfirmation }) => {
-  logInfo(`Attempting to register new user: ${ firstName } ${ lastName}`);
+export const signup = ({ payload }) => {
+
+  const telephones = payload.telephones || [];
+  const addresses = payload.addresses || [];
+
+  logInfo(`Attempting to register new user: ${ payload.firstName } ${ payload.lastName}`);
 
   return new Promise((resolve, reject) => {
-    User.forge({
-      firstName,
-      lastName,
-      email,
-      passwordConfirmation,
-      password
-    })
+    User.forge(payload)
     .save()
+    .tap(user => {
+      const userId = user.get('id');
+
+      const promises = telephones.map(telephone => user.related('telephones').create(Object.assign(telephone, { userId })))
+        .concat(addresses.map(address => user.related('addresses').create(Object.assign(address, { userId }))));
+
+      return Promise.all(promises);
+    })
     .then(
         user => {
           resolve(user);
@@ -34,11 +40,12 @@ export const signup = ({ firstName, lastName, email, password, passwordConfirmat
 export const all = () => {
   logInfo('Fetching all users');
 
+  const withRelated = ['nationality', 'addresses', 'telephones'];
   return new Promise((resolve, reject) => {
     User.forge()
         .fetchAll({
           require: false,
-          columns: ['id', 'first_name', 'last_name', 'active', 'created_at', 'updated_at']
+          withRelated
         }).then(
         resolve,
         error => {
@@ -51,4 +58,24 @@ export const all = () => {
     });
   });
 
+};
+
+export const update = ({ params, payload }) => {
+  const { id } = params;
+
+  logInfo(`Updating user with id: ${id} and params ${payload}`);
+  return new Promise((resolve, reject) => {
+    return User.forge({ id })
+    .save(payload, { patch: true })
+    .then(
+      resolve,
+      error => {
+        logError(error);
+        reject(error);
+      }
+    ).catch(exception => {
+      logError(exception);
+      reject(exception);
+    });
+  });
 };
