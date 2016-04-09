@@ -27,6 +27,17 @@ export const list = (request, reply) => {
   );
 };
 
+export const get = (request, reply) => {
+  return UserService.get(request.params).then(
+    reply,
+    error => {
+      let serviceError = ServiceErrorFactory.create(request, error);
+      reply(serviceError).statusCode = serviceError.statusCode;
+    }
+  );
+};
+
+
 export const update = (request, reply) => {
   return UserService.update(request).then(
     reply,
