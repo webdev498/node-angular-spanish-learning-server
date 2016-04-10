@@ -1,4 +1,4 @@
-import { create, list, update } from './../controllers/';
+import { create, list, update, get } from './../controllers/';
 
 export default server => {
 
@@ -13,6 +13,13 @@ export default server => {
     path: '/users',
     handler: list
   });
+
+  server.route({
+    method: 'GET',
+    path: '/users/{id}',
+    handler: get
+  });
+
 
   server.route({
     method: 'PUT',

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { create, list } from './../../controllers';
+import { create, list, get } from './../../controllers';
 import router from './../';
 
 describe('User service routing', () => {
@@ -32,4 +32,18 @@ describe('User service routing', () => {
       });
     });
   });
+  
+  describe('GET /users/:id', () => {
+    before(() => {
+      server.route = spy();
+      router(server);
+    });
+    it("registers the controller's get function as the handler", () => {
+      expect(server.route).to.have.been.calledWith({
+        method: 'GET',
+        path: '/users/{id}',
+        handler: get
+      })
+    })
+  })
 });

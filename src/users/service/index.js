@@ -57,7 +57,28 @@ export const all = () => {
       reject(exception);
     });
   });
+};
 
+export const get = ({ id }) => {
+  logInfo(`Fetching user with id: ${id}`);
+
+  const withRelated = ['nationality', 'addresses', 'telephones'];
+  return new Promise((resolve,reject) => {
+    User.forge({ id })
+      .fetch({
+        require:false,
+        withRelated
+      }).then(
+      resolve,
+      error => {
+        logError(error);
+        reject(error);
+      }
+    ).catch(exception => {
+      logError(exception);
+      reject(exception);
+    });
+  });
 };
 
 export const update = ({ params, payload }) => {
