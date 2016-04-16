@@ -84,6 +84,11 @@ const User = Base.extend({
     }
 
   },
+  
+  validatePassword(password) {
+    const hash = this.get('passwordHash');
+    return bcrypt.compareSync(password, hash);
+  },
 
   validate() {
     let validations = [EmailAddress];
