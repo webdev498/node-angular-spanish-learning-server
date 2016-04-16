@@ -21,12 +21,14 @@ describe('Users service', () => {
     let saveMock;
 
     beforeEach(() => {
-      userModelDouble = { save: () => {} };
+      userModelDouble = {};
 
       stub(LoggingService, 'logInfo');
       stub(LoggingService, 'logError');
       stub(User, 'forge').returns(userModelDouble);
-      saveMock = stub(userModelDouble, 'save').returns(Promise.resolve());
+
+      userModelDouble.fetch = stub().returns(Promise.resolve(userModelDouble));
+      userModelDouble.save = stub().returns(Promise.resolve(userModelDouble));
     });
 
     afterEach(() => {
@@ -55,14 +57,9 @@ describe('Users service', () => {
     });
 
     describe('whent he save is successful', () => {
-      let saveResult = {};
-      beforeEach(() => {
-        saveMock.returns(Promise.resolve(saveResult));
-      });
-
       it('resolves the user', done => {
         UserService.update({ params, payload }).then(result => {
-          expect(result).to.equal(saveResult);
+          expect(result).to.equal(userModelDouble);
           done();
         });
       });
@@ -71,7 +68,7 @@ describe('Users service', () => {
     describe('when the save was unsuccessful', () => {
       let error = {};
       beforeEach(() => {
-        saveMock.returns(Promise.reject(error));
+        userModelDouble.save = stub().returns(Promise.reject(error));
       });
 
       it('logs an error', done => {

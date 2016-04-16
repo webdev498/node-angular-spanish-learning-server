@@ -77,7 +77,7 @@ const User = Base.extend({
 
   // TODO: Make async
   hashPassword() {
-    if (this.isNew()) {
+    if (this.isNew() || !this.isHashed()) {
       let passwordSalt = bcrypt.genSaltSync(10);
       let passwordHash  = bcrypt.hashSync(this.get('password'), passwordSalt);
       this.set({ passwordSalt, passwordHash });
@@ -93,6 +93,10 @@ const User = Base.extend({
     }
 
     validations.forEach(validate => validate(this.attributes));
+  },
+
+  isHashed() {
+    return this.get('passwordSalt') && this.get('passwordHash');
   }
 
 });
