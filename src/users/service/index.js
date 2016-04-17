@@ -86,17 +86,17 @@ export const update = ({ params, payload }) => {
 
   logInfo(`Updating user with id: ${id} and params ${payload}`);
   return new Promise((resolve, reject) => {
-    return User.forge({ id })
-    .save(payload, { patch: true })
-    .then(
-      resolve,
-      error => {
-        logError(error);
-        reject(error);
-      }
-    ).catch(exception => {
-      logError(exception);
-      reject(exception);
+    get(params).then(
+      user => {
+        user.save(payload, {patch: true})
+        .then(() => resolve(user))
+        .catch(error => {
+          logError(error);
+          reject(error);
+        });
+      }).catch(exception => {
+        logError(exception);
+        reject(exception);
     });
   });
 };

@@ -81,12 +81,13 @@ describe('User data model', () => {
 
     });
 
-    describe('when the model is not new', () => {
+    describe('when the model is not new or the hash already exists', () => {
       let user;
 
       before(() => {
         user = new User();
         user.isNew = stub().returns(false);
+        user.isHashed = stub().returns(true)
         user.hashPassword();
       });
 
