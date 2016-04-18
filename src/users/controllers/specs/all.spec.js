@@ -24,7 +24,7 @@ describe('User controller', () => {
       it('replies with the collection of users', () => expect(reply).to.have.been.calledWith(users));
     });
 
-    describe('when the database operation was successful', () => {
+    describe('when the database operation was not successful', () => {
       let serviceError = { statusCode: 401 };
       let runtimeError = {};
       let response = {};

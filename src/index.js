@@ -5,6 +5,7 @@ import * as ChoiceService from './choices';
 import * as CategoriesService from './categories';
 import * as UserService from './users';
 import * as NationalityService from './nationalities';
+import * as LoginService from './login';
 
 const server = new Server({
   connections: {
@@ -22,6 +23,6 @@ server.register({register: CategoriesService}, noop);
 server.register({register: ChoiceService}, noop);
 server.register({register: UserService}, noop);
 server.register({register: NationalityService}, noop);
-
+server.register({register: LoginService}, noop);
 
 server.start(noop);

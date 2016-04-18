@@ -81,6 +81,27 @@ export const get = ({ id }) => {
   });
 };
 
+export const getByEmail = (email) => {
+  logInfo(`Fetching user with email: ${email}`);
+  
+  const withRelated = ['nationality', 'addresses', 'telephones'];
+  return new Promise((resolve, reject) => {
+    User.where({ email })
+    .fetch({
+      require:false,
+      withRelated
+    }).then((user) => {
+       resolve(user)
+    }, error => {
+      logError(error);
+      reject(error);
+    }).catch(exception => {
+      logError(exception);
+      reject(exception);
+    });
+  });
+};
+
 export const update = ({ params, payload }) => {
   const { id } = params;
 
