@@ -12,8 +12,6 @@ import {
   UserPasswordMismatchError
 } from './../../users/exceptions';
 
-
-
 describe('Exception factory', () => {
 
   let requestDouble = {

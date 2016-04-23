@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import PasswordComplexityError from './../../exceptions/PasswordComplexityError';
 import validatesPasswordComplexity from './../validatesPasswordComplexity';
+import PasswordComplexityError from './../../exceptions/PasswordComplexityError';
 
 describe('validating password complexity', () => {
   describe('invalid password', () => {

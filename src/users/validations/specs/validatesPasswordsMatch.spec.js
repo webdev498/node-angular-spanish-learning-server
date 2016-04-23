@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import PasswordMatchError from './../../exceptions/PasswordMatchError';
 import validatesPasswordsMatch from './../validatesPasswordsMatch';
+import PasswordMatchError from './../../exceptions/PasswordMatchError';
 
 describe('validating password matches confirmation', () => {
 

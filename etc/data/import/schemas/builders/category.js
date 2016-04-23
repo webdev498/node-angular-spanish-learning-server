@@ -1,4 +1,5 @@
-require('babel/polyfill');
+require('babel-polyfill');
+
 var models = require('./../../../../../dist/choices/models');
 
 var Category = models.Category;

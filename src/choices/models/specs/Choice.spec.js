@@ -6,6 +6,7 @@ import bookshelf from 'bookshelf';
 import mockKnex from 'mock-knex';
 import * as validations from './../../validations';
 import * as Orm from '../../../data/orm';
+import Choice from '../Choice';
 
 let attributes = {
   "text": 'Who is the queen of England?',
@@ -15,17 +16,17 @@ let attributes = {
 
 describe('Choice data model', () => {
 
-  let connection, Choice;
+  let connection;
 
   before(() => {
     connection = knex({
       client: 'sqlite3',
-      connection: {filename: ':memory:'}
+      connection: {filename: ':memory:'},
+      useNullAsDefault: true
     });
 
     mockKnex.mock(connection);
     stub(Orm, 'getORM').returns(bookshelf(connection));
-    Choice = require('../Choice');
   });
 
   after(() => {

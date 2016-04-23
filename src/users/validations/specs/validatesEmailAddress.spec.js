@@ -9,7 +9,7 @@ describe('validating email addresses', () => {
         email: 'my.invalid.email-com'
       };
 
-    it('raises and InvalidEmailError', () => {
+    it('raises an InvalidEmailError', () => {
       expect(() => { validatesEmailAddress(attributes); }).to.throw(InvalidEmailError);
     });
   });
@@ -20,8 +20,8 @@ describe('validating email addresses', () => {
       };
 
 
-    it('does not raise an exception', () => {
-      expect(() => { validatesEmailAddress(attributes); }).to.not.throw();
+    it('does not raise an InvalidEmailError', () => {
+      expect(() => { validatesEmailAddress(attributes); }).to.not.throw(InvalidEmailError);
     });
   });
 

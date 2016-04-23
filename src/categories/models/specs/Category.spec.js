@@ -6,6 +6,7 @@ import bookshelf from 'bookshelf';
 import mockKnex from 'mock-knex';
 import * as validations from './../../validations';
 import * as Orm from '../../../data/orm';
+import Category from '../Category';
 
 let attributes = {
   "name": 'Medications'
@@ -13,17 +14,17 @@ let attributes = {
 
 describe('Category data model', () => {
 
-  let connection, Category;
+  let connection;
 
   before(() => {
     connection = knex({
       client: 'sqlite3',
-      connection: {filename: ':memory:'}
+      connection: {filename: ':memory:'},
+      useNullAsDefault: true
     });
 
     mockKnex.mock(connection);
     stub(Orm, 'getORM').returns(bookshelf(connection));
-    Category = require('../Category');
   });
 
   after(() => {
