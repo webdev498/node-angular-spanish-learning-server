@@ -1,6 +1,9 @@
 import User from '../models/User';
 import { logError, logInfo } from './../../logging';
 
+const withRelated = ['nationality', 'addresses', 'telephones'];
+
+
 export const signup = ({ payload }) => {
 
   const telephones = payload.telephones || [];
@@ -40,7 +43,6 @@ export const signup = ({ payload }) => {
 export const all = () => {
   logInfo('Fetching all users');
 
-  const withRelated = ['nationality', 'addresses', 'telephones'];
   return new Promise((resolve, reject) => {
     User.forge()
         .fetchAll({
@@ -62,11 +64,10 @@ export const all = () => {
 export const get = ({ id }) => {
   logInfo(`Fetching user with id: ${id}`);
 
-  const withRelated = ['nationality', 'addresses', 'telephones'];
   return new Promise((resolve,reject) => {
     User.forge({ id })
       .fetch({
-        require:false,
+        require: false,
         withRelated
       }).then(
       resolve,
@@ -83,7 +84,7 @@ export const get = ({ id }) => {
 
 export const getByEmail = (email) => {
   logInfo(`Fetching user with email: ${email}`);
-  
+
   const withRelated = ['nationality', 'addresses', 'telephones'];
   return new Promise((resolve, reject) => {
     User.where({ email })
@@ -91,7 +92,7 @@ export const getByEmail = (email) => {
       require:false,
       withRelated
     }).then((user) => {
-       resolve(user)
+       resolve(user);
     }, error => {
       logError(error);
       reject(error);
@@ -110,11 +111,11 @@ export const update = ({ params, payload }) => {
     get(params).then(
       user => {
         user.save(payload, {patch: true})
-        .then(() => resolve(user))
-        .catch(error => {
-          logError(error);
-          reject(error);
-        });
+          .then(() => resolve(user))
+          .catch(error => {
+            logError(error);
+            reject(error);
+          });
       }).catch(exception => {
         logError(exception);
         reject(exception);
