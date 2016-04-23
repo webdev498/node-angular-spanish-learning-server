@@ -42,6 +42,21 @@ describe('Base data model', () => {
     Orm.getORM.restore();
   });
 
+  describe('instantiation', () => {
+    describe('when foreign keys are passed to the base class constructor', () => {
+      it('sets those keys on the state of the model', () => {
+        const instance = new Base(attributes, { foreignKeys: ['relation_id']});
+        expect(instance.foreignKeys).to.include('relation_id');
+      });
+    });
+    describe('when foreign keys are not passed to the constructor', () => {
+      it('sets an empty array on the state of the model', () => {
+        const instance = new Base(attributes, {});
+        expect(instance.foreignKeys.length).to.equal(0);
+      });
+    });
+  });
+
   describe("formatting a model's attribute for persistence", () => {
     let base;
     beforeEach(() => {

@@ -12,12 +12,12 @@ const idAttribute = 'id';
 const Base = Orm.model('Base', {
   idAttribute,
 
-  initialize(attributes, { persistenceWhitelist, versionableAttributes, foreignKeys }) {
+  initialize(attributes, { persistenceWhitelist = [], versionableAttributes = [], foreignKeys = [] }) {
     this.on('saving', this.beforeSave.bind(this));
     this.on('updating', this.beforeUpdate.bind(this));
     this.persistenceWhitelist = persistenceWhitelist.concat(['id']);
     this.versionableAttributes = versionableAttributes;
-    this.foreignKeys = foreignKeys || [];
+    this.foreignKeys = foreignKeys;
   },
 
   // Format the model for persistence to the database
@@ -35,14 +35,8 @@ const Base = Orm.model('Base', {
 
   // parse the data returned from the database to match the proper attributes
   parse(data) {
-    let foreignKeys = this.getForeignKeys();
-
     return Object.keys(data).reduce((memo, property) => {
-      if (foreignKeys && foreignKeys.includes(property)) {
-        memo[property] = data[property];
-      } else {
-        memo[toPascalCase(property)] = data[property];
-      }
+      memo[toPascalCase(property)] = data[property];
       return memo;
     }, {});
   },
@@ -72,8 +66,6 @@ const Base = Orm.model('Base', {
   },
 
   validate() { throw new Error("Abstract method. Override in your base class"); },
-
-  getForeignKeys() { return []; },
 
   beforeSave() {
     this.setUUID();

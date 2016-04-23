@@ -23,16 +23,14 @@ const persistenceWhitelist = [
 
 const versionableAttributes = persistenceWhitelist;
 
+const foreignKeys = ['nationality_id'];
+
 const User = Base.extend({
   tableName,
 
   initialize(attributes) {
-    Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
+    Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes, foreignKeys });
     this.on('saving', () => this.hashPassword());
-  },
-
-  getForeignKeys() {
-    return ['nationality_id'];
   },
 
   telephones() {
