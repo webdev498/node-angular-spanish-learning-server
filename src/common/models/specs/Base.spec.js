@@ -5,7 +5,8 @@ import knex from 'knex';
 import bookshelf from 'bookshelf';
 import mockKnex from 'mock-knex';
 import * as Orm from '../../../data/orm';
-
+import Base from '../Base';
+import 'babel-polyfill';
 
 let attributes = {
   id: '123-ksd-192kd-29kd',
@@ -24,17 +25,17 @@ let snakeCaseAttributes = {
 
 describe('Base data model', () => {
 
-  let connection, Base;
+  let connection;
 
   before(() => {
     connection = knex({
       client: 'sqlite3',
-      connection: {filename: ':memory:'}
+      connection: {filename: ':memory:'},
+      useNullAsDefault: true
     });
 
     mockKnex.mock(connection);
     stub(Orm, 'getORM').returns(bookshelf(connection));
-    Base = require('../Base');
   });
 
   after(() => {

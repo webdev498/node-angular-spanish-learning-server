@@ -6,7 +6,7 @@ import bookshelf from 'bookshelf';
 import mockKnex from 'mock-knex';
 import * as validations from './../../validations';
 import * as Orm from '../../../data/orm';
-
+import User from '../User';
 import bcrypt from 'bcrypt';
 
 let attributes = {
@@ -22,17 +22,17 @@ let attributes = {
 
 describe('User data model', () => {
 
-  let connection, User;
+  let connection;
 
   before(() => {
     connection = knex({
       client: 'sqlite3',
-      connection: {filename: ':memory:'}
+      connection: {filename: ':memory:'},
+      useNullAsDefault: true
     });
 
     mockKnex.mock(connection);
     stub(Orm, 'getORM').returns(bookshelf(connection));
-    User = require('../User');
   });
 
   after(() => {

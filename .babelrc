@@ -1,7 +1,8 @@
 {
-  "stage": 1,
   "sourceMaps": "inline",
-  "loose": ["es6.modules", "es6.classes", "es7.decorators"],
+  "presets": [
+    "node5"
+  ],
   "env" :{
     "production": {
       "ignore": [

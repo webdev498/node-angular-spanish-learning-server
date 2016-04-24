@@ -1,4 +1,4 @@
-import 'babel/polyfill';
+import 'babel-polyfill';
 import Server from './Server';
 import * as logging from './logging';
 import * as ChoiceService from './choices';

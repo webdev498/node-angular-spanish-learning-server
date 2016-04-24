@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-require('babel/polyfill');
+require('babel-polyfill');
 var logger = require('./logging');
 var parseOptions = require('./cli/argv');
 var parsers = require('./parsers');

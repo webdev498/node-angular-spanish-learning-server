@@ -1,4 +1,4 @@
-require('babel/polyfill');
+require('babel-polyfill');
 
 // TODO: Don't couple though location on the file system.
 // Need to find a better way to share entities in the long-term
