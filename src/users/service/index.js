@@ -4,15 +4,15 @@ import { logError, logInfo } from './../../logging';
 const withRelated = ['nationality', 'addresses', 'telephones'];
 
 
-export const signup = ({ payload }) => {
+export const signup = (userInfo) => {
 
-  const telephones = payload.telephones || [];
-  const addresses = payload.addresses || [];
+  const telephones = userInfo.telephones || [];
+  const addresses = userInfo.addresses || [];
 
-  logInfo(`Attempting to register new user: ${ payload.firstName } ${ payload.lastName}`);
+  logInfo(`Attempting to register new user: ${ userInfo.firstName } ${ userInfo.lastName}`);
 
   return new Promise((resolve, reject) => {
-    User.forge(payload)
+    User.forge(userInfo)
     .save()
     .tap(user => {
       const userId = user.get('id');
