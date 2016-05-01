@@ -10,44 +10,39 @@ describe('Login controller', () => {
 
   before(() => {
     reply = spy();
-    request = { payload: { email: 'test@test.com', password: 'test' } };
-    loginStub = stub(LoginService, 'login');
+    loginStub = stub(LoginService, 'oAuthLogin');
   });
 
   after(() => {
-    LoginService.login.restore();
+    LoginService.oAuthLogin.restore();
   });
 
-  describe('login in with email and password', () => {
+  describe('login in with oauth provider', () => {
     describe('when user is authenticated', () => {
       before(() => {
+        request = { auth: { isAuthenticated: true, credentials: { profile: {} } } };
         response = { token: "123" };
         loginStub.returns(Promise.resolve("123"));
-        return Controller.login(request, reply);
+        return Controller.oAuthLogin(request, reply);
       });
 
       after(() => {
-        LoginService.login.reset();
+        LoginService.oAuthLogin.reset();
       });
 
-      it('delegates to the get action of the LoginService', () => expect(LoginService.login).to.have.been.called);
+      it('delegates to the get action of the LoginService', () => expect(LoginService.oAuthLogin).to.have.been.called);
       it('replies with the a token', () => expect(reply).to.have.been.calledWith(response));
     });
 
     describe('when user authentication fails', () => {
       let serviceError = { statusCode: UNAUTHORIZED };
       before(() => {
+        request = { auth: { isAuthenticated: false, credentials: { profile: {} } } };
         response = ({ authenticated: false });
-        loginStub.returns(Promise.reject(AuthenticationError));
         reply = stub().returns(response);
-        return Controller.login(request, reply);
+        return Controller.oAuthLogin(request, reply);
       });
-
-      after(() => {
-        LoginService.login.reset();
-      });
-
-      it('delegates to the get action of the LoginService', () => expect(LoginService.login).to.have.been.called);
+      
       it('sets the status code on the response to Unauthorized 401', () => expect(response.statusCode).to.equal(serviceError.statusCode));
     })
   });
