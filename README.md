@@ -38,6 +38,12 @@ DB_HOST  | 'localhost'   | The FQDN of the host running the database
 DB_USER  | 'cgi'      | The account database operations will be performed under
 DB_PASSWORD | 'cgi'   | The password for the `DB_USER` account
 DB_NAME  | 'cgi'      | The name of the database under which cgi data tables will be created
+OAUTH_PASSWORD | '' | The password for all OAuth authentication
+FACEBOOK_APP_ID | '' | Facebook application Id
+FACEBOOK_SECRET | '' | The Facebook secret
+GOOGLE_APP_ID | '' | The Google application Id
+GOOGLE_SECRET | '' | The Google secret
+PORT | '3000' | Port the server listens on 
 
 *If you do not specify these variables, then the default value will be used at runtime*
 
@@ -50,6 +56,11 @@ export DB_USER='joe';
 export DB_PASSWORD='secret';
 export DB_NAME='walled-garden'
 export SECRET='mydirtylittlesecret'
+export OAUTH_PASSWORD='cookie_encryption_password_secure'
+export FACEBOOK_APP_ID='Look in drop box'
+export FACEBOOK_SECRET='Look in drop box'
+export GOOGLE_APP_ID='Look in drop box'
+export GOOGLE_SECRET='Look in drop box'
 export PORT=8001
 
 ./bin/server
