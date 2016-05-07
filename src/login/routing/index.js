@@ -4,7 +4,10 @@ export default server => {
   server.route({
     method: 'POST',
     path: '/login',
-    handler: login
+    config: {
+      auth: false,
+      handler: login
+    }
   });
 
   server.route({

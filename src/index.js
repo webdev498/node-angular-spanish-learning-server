@@ -7,7 +7,9 @@ import * as UserService from './users';
 import * as NationalityService from './nationalities';
 import * as LoginService from './login';
 import * as OAuthProvider from './authentication/oAuthConfig';
+import * as TokenProvider from './authentication/tokenProvider';
 import Bell from 'bell';
+import HapiJwtAuth2 from 'hapi-auth-jwt2';
 
 const server = new Server({
   connections: {
@@ -17,19 +19,26 @@ const server = new Server({
 
 const port = process.env.PORT || 3000;
 
-const noop = () => {};
+const noop = () => { };
 server.connection({ port });
-server.register({register: logging}, noop);
-//TODO: Figure out how to move this out of here
+server.register({ register: logging }, noop);
+
 server.register(Bell, (err) => {
-  if(err) { logging.logError(err); }
+  if (err) { logging.logError(err); }
   server.auth.strategy('facebook', 'bell', OAuthProvider.FacebookOptions);
   server.auth.strategy('google', 'bell', OAuthProvider.GoogleOptions);
 });
-server.register({register: CategoriesService}, noop);
-server.register({register: ChoiceService}, noop);
-server.register({register: UserService}, noop);
-server.register({register: NationalityService}, noop);
-server.register({register: LoginService}, noop);
+
+server.register(HapiJwtAuth2, (err) => {
+  if (err) { logging.logError(err); }
+  server.auth.strategy('jwt', 'jwt', TokenProvider.jwtAuthOptions);
+  server.auth.default('jwt');
+});
+
+server.register({ register: CategoriesService }, noop);
+server.register({ register: ChoiceService }, noop);
+server.register({ register: UserService }, noop);
+server.register({ register: NationalityService }, noop);
+server.register({ register: LoginService }, noop);
 
 server.start(noop);

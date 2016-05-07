@@ -1,13 +1,19 @@
 import jwt from 'jsonwebtoken';
+import * as UserService from './../users/service'
 
 const { TOKEN_EXPIRATION, SECRET } = process.env;
-
 
 const options = {
   algorithm: 'HS256',
   expiresIn: TOKEN_EXPIRATION || '365d',
   issuer: 'urn:cgi:authentication',
   subject: 'urn:cgi:user'
+};
+
+export const jwtAuthOptions = {
+  key: SECRET,
+  validateFunc: validate,
+  verifyOptions: options
 };
 
 export const sign = (payload) => {
@@ -21,3 +27,12 @@ export const sign = (payload) => {
     }
   });
 };
+
+function validate(decodedToken, request, callback) {
+  UserService.get(decodedToken).then((user) => {
+    if (user && user.get('active')) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  });
+}
