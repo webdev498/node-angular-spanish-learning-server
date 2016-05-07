@@ -14,7 +14,10 @@ describe('Login service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'POST',
         path: '/login',
-        handler: login
+        config: {
+          auth: false,
+          handler: login
+        }
       });
     });
   });
