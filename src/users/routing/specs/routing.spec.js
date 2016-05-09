@@ -14,7 +14,10 @@ describe('User service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'POST',
         path: '/users',
-        handler: create
+        config: {
+          auth: false,
+          handler: create
+        }
       });
     });
   });
@@ -32,7 +35,7 @@ describe('User service routing', () => {
       });
     });
   });
-  
+
   describe('GET /users/:id', () => {
     before(() => {
       server.route = spy();
