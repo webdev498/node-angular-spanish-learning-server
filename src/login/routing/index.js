@@ -1,6 +1,6 @@
 import { login, oAuthLogin } from './../controllers/';
 
-export default server => {
+export default (server) => {
   server.route({
     method: 'POST',
     path: '/login',
@@ -27,4 +27,4 @@ export default server => {
       handler: oAuthLogin
     }
   });
-}
+};

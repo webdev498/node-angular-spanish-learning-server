@@ -9,11 +9,11 @@ export const all = () => {
         .fetchAll()
         .then(
         resolve,
-        error => {
+        (error) => {
           logError(error);
           reject(error);
         }
-    ).catch(exception => {
+    ).catch((exception) => {
       logError(exception);
       reject(exception);
     });

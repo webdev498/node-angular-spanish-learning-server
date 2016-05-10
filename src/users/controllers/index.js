@@ -5,12 +5,12 @@ import { CREATED } from './../../http/statusCodes';
 
 export const create = (request, reply) => {
   UserService.signup(request.payload).then(
-    user => {
-      TokenProvider.sign(user.sanitize()).then(token => {
+    (user) => {
+      TokenProvider.sign(user.sanitize()).then((token) => {
         return reply({token}).statusCode = CREATED;
       });
     },
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -20,7 +20,7 @@ export const create = (request, reply) => {
 export const list = (request, reply) => {
   return UserService.all().then(
     reply,
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -30,7 +30,7 @@ export const list = (request, reply) => {
 export const get = (request, reply) => {
   return UserService.get(request.params).then(
     reply,
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -41,7 +41,7 @@ export const get = (request, reply) => {
 export const update = (request, reply) => {
   return UserService.update(request).then(
     reply,
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }

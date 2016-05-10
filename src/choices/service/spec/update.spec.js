@@ -29,7 +29,7 @@ describe('Choices service', () => {
       LoggingService.logError.restore();
     });
 
-    it('logs information to the logger', done => {
+    it('logs information to the logger', (done) => {
       ChoicesService.update({ id }, { text })
         .then(() => {
           expect(LoggingService.logInfo).to.have.been.called;
@@ -37,12 +37,12 @@ describe('Choices service', () => {
         });
     });
 
-    it('delegates to the #forge method on the Choice model', done => {
+    it('delegates to the #forge method on the Choice model', (done) => {
       ChoicesService.update({ id }, { text }).then(() => done());
       expect(Choice.forge).to.have.been.called;
     });
 
-    it('attempts to save the model with the new text attribute', done => {
+    it('attempts to save the model with the new text attribute', (done) => {
       ChoicesService.update({ id }, { text })
         .then(() => {
           expect(choiceModelDouble.save).to.have.been.called;
@@ -56,9 +56,9 @@ describe('Choices service', () => {
         saveMock.returns(Promise.resolve(saveResult));
       });
 
-      it('resolves the choice', done => {
+      it('resolves the choice', (done) => {
         ChoicesService.update({ id }, { text })
-          .then(result => {
+          .then((result) => {
             expect(result).to.equal(saveResult);
             done();
           });
@@ -72,16 +72,16 @@ describe('Choices service', () => {
         loggerDouble.error = spy();
       });
 
-      it('logs an error', done => {
+      it('logs an error', (done) => {
         ChoicesService.update({ id }, { text }).then(() => {}, () => {
           expect(LoggingService.logError).to.have.been.called;
           done();
         });
       });
 
-      it('rejects an error', done => {
+      it('rejects an error', (done) => {
         ChoicesService.update({ id }, { text })
-          .then(() => {}, saveError => {
+          .then(() => {}, (saveError) => {
             expect(saveError).to.equal(error);
             done();
           });

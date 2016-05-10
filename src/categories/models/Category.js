@@ -33,7 +33,7 @@ const Category = Base.extend({
   },
 
   validate() {
-    [Name].forEach(validate => { validate(this.attributes); });
+    [Name].forEach((validate) => { validate(this.attributes); });
   }
 
 });

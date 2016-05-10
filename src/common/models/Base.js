@@ -25,7 +25,7 @@ const Base = Orm.model('Base', {
     let { persistenceWhitelist } = this;
 
     return Object.keys(attributes)
-      .filter(attribute => persistenceWhitelist.includes(attribute))
+      .filter((attribute) => persistenceWhitelist.includes(attribute))
       .reduce((memo, attribute) => {
         memo[toSnakeCase(attribute)] = attributes[attribute];
         return memo;

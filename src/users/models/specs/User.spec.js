@@ -87,7 +87,7 @@ describe('User data model', () => {
       before(() => {
         user = new User();
         user.isNew = stub().returns(false);
-        user.isHashed = stub().returns(true)
+        user.isHashed = stub().returns(true);
         user.hashPassword();
       });
 

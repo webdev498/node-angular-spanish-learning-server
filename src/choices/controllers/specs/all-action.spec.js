@@ -3,9 +3,6 @@ import { stub, spy } from 'sinon';
 import * as ChoiceService from './../../service';
 import * as Controller from './../';
 
-const noop = () => {};
-
-
 describe('fetching choices', () => {
   let request = {},
       response = {},

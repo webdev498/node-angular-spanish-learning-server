@@ -49,6 +49,6 @@ describe('Login controller', () => {
 
       it('delegates to the get action of the LoginService', () => expect(LoginService.login).to.have.been.called);
       it('sets the status code on the response to Unauthorized 401', () => expect(response.statusCode).to.equal(serviceError.statusCode));
-    })
+    });
   });
 });

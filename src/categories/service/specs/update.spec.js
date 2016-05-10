@@ -30,7 +30,7 @@ describe('Category service', () => {
 
     describe('if the save is successful', () => {
       it('resolves the updated model', () => {
-        return CategoryService.update({ id, name }).then(category => {
+        return CategoryService.update({ id, name }).then((category) => {
           expect(category).to.equal(categoryModel);
         });
       });
@@ -51,7 +51,7 @@ describe('Category service', () => {
       });
 
       it('resolves an error', () => {
-        return CategoryService.update({ id, name }).then(noop, exception => {
+        return CategoryService.update({ id, name }).then(noop, (exception) => {
           expect(exception).to.equal(error);
         });
       });

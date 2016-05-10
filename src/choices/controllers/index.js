@@ -5,10 +5,10 @@ import * as ServiceErrorFactory from './../../exceptions/Factory';
 
 export const create = (request, reply) => {
   return ChoiceService.create(request.payload).then(
-    choice => {
+    (choice) => {
       reply(choice).statusCode = CREATED;
     },
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -17,10 +17,10 @@ export const create = (request, reply) => {
 
 export const update = (request, reply) => {
   return ChoiceService.update(request.params, request.payload).then(
-    choice => {
+    (choice) => {
       reply(choice).statusCode = OK;
     },
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -29,10 +29,10 @@ export const update = (request, reply) => {
 
 export const list = (request, reply) => {
   return ChoiceService.all(request.params).then(
-    choices => {
+    (choices) => {
       reply(choices);
     },
-    error => {
+    (error) => {
       const { statusCode } = error;
      reply(error).statusCode = statusCode;
     }

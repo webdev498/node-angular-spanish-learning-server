@@ -28,7 +28,7 @@ describe('Users service get', () => {
       userModelDouble.fetch = stub().returns(Promise.resolve(user));
     });
 
-    it('fetching user', () => UserService.get(user.id).then(result => expect(result).to.equal(user)));
+    it('fetching user', () => UserService.get(user.id).then((result) => expect(result).to.equal(user)));
   });
 
   describe('when there is a database error', () => {
@@ -37,6 +37,6 @@ describe('Users service get', () => {
     beforeEach(() => {
       userModelDouble.fetch = stub().returns(Promise.reject(error));
     });
-    it('fetching a user error', () => UserService.get(user.id).catch(errorResult => expect(errorResult).to.equal(error)));
+    it('fetching a user error', () => UserService.get(user.id).catch((errorResult) => expect(errorResult).to.equal(error)));
   });
 });

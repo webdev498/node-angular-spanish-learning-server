@@ -25,8 +25,8 @@ describe('Choices service', () => {
         fetchStub = stub(Choice, 'fetchAll').returns(Promise.resolve(choices));
       });
 
-      it('resolves the promise with those records', done => {
-        ChoicesService.all().then(results => {
+      it('resolves the promise with those records', (done) => {
+        ChoicesService.all().then((results) => {
           expect(results).to.eq(choices);
           done();
         });
@@ -40,8 +40,8 @@ describe('Choices service', () => {
         fetchStub.returns(Promise.resolve(choices));
       });
 
-      it('resolves an empty array', done => {
-        ChoicesService.all().then(results => {
+      it('resolves an empty array', (done) => {
+        ChoicesService.all().then((results) => {
           expect(results).to.eq(choices);
           done();
         }).catch(done);
@@ -56,8 +56,8 @@ describe('Choices service', () => {
         fetchStub.returns(Promise.reject(databaseError));
       });
 
-      it('rejects promise with a DatabaseOperation error', done => {
-          ChoicesService.all().then(() => {}, exception => {
+      it('rejects promise with a DatabaseOperation error', (done) => {
+          ChoicesService.all().then(() => {}, (exception) => {
             expect(exception).to.eq(databaseError);
             done();
           });

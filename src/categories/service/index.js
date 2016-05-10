@@ -6,15 +6,15 @@ export const create = ({ name }) => {
 
   return new Promise((resolve, reject) => {
     Category.forge({ name }).save().then(
-      category => {
+      (category) => {
         logInfo(`Successfully created category "${name}" with id ${category.get('id')}`);
         resolve(category);
       },
-      error => {
+      (error) => {
         logError(error);
         reject(error);
       }
-    ).catch(exception => {
+    ).catch((exception) => {
       logError(exception);
       reject(exception);
     });
