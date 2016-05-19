@@ -23,14 +23,15 @@ const Address = Base.extend({
   },
 
   serialize() {
-    const { id, street, city, state, postalCode } = this.attributes;
+    const { id, street, city, state, postalCode, type } = this.attributes;
 
     return {
       id,
       street,
       city,
       state,
-      postalCode
+      postalCode,
+      type
     };
   },
 

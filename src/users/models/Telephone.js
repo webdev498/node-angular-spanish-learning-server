@@ -23,14 +23,15 @@ const Telephone = Base.extend({
   },
 
   serialize() {
-    const { id, countryCode, areaCode, number, extention } = this.attributes;
+    const { id, countryCode, areaCode, number, extension, type } = this.attributes;
 
     return {
       id,
       countryCode,
       areaCode,
       number,
-      extention
+      extension,
+      type
     };
   },
 
