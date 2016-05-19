@@ -46,7 +46,7 @@ describe('User service routing', () => {
         method: 'GET',
         path: '/users/{id}',
         handler: get
-      })
-    })
-  })
+      });
+    });
+  });
 });

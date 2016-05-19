@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 export const register = (server, options, next) => {
   loggerSingleton = createLogger(options);
 
-  server.on('response', request => {
+  server.on('response', (request) => {
     const { id, info, method, path, paramsArray, payload } = request;
     loggerSingleton.info(`## ${ id } ## ${ info.remoteAddress } - ${ method }: ${ path } \n params: ${ inspect(paramsArray) } \n body: ${ inspect(payload) }`);
   });
@@ -54,7 +54,7 @@ export const register = (server, options, next) => {
     loggerSingleton.info(`Server running at: ${ uri }`);
   });
 
-  server.on('route', route => {
+  server.on('route', (route) => {
     loggerSingleton.info(`Server registered route at: ${ route.method } ${ route.path }`);
   });
 

@@ -28,7 +28,7 @@ describe('Users service FetchAll', () => {
       userModelDouble.fetchAll = stub().returns(Promise.resolve(users));
     });
 
-    it('fetching all users', () => UserService.all().then(result => expect(result).to.equal(users)));
+    it('fetching all users', () => UserService.all().then((result) => expect(result).to.equal(users)));
   });
 
   describe('when there is a database error', () => {
@@ -37,6 +37,6 @@ describe('Users service FetchAll', () => {
     beforeEach(() => {
       userModelDouble.fetchAll = stub().returns(Promise.reject(error));
     });
-    it('fetching all users error', () => UserService.all().catch(errorResult => expect(errorResult).to.equal(error)));
+    it('fetching all users error', () => UserService.all().catch((errorResult) => expect(errorResult).to.equal(error)));
   });
 });

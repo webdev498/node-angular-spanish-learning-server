@@ -81,7 +81,7 @@ const User = Base.extend({
       this.set({ passwordSalt, passwordHash });
     }
   },
-  
+
   validatePassword(password) {
     const hash = this.get('passwordHash');
     if(!hash) { return false; }
@@ -95,7 +95,7 @@ const User = Base.extend({
       validations = validations.concat([PasswordComplexity, PasswordsMatch]);
     }
 
-    validations.forEach(validate => validate(this.attributes));
+    validations.forEach((validate) => validate(this.attributes));
   },
 
   isHashed() {

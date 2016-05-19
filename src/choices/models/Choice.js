@@ -48,7 +48,7 @@ const Choice = Base.extend({
   },
 
   validate() {
-    [Text].forEach(validate => { validate(this.attributes); });
+    [Text].forEach((validate) => { validate(this.attributes); });
   }
 
 });

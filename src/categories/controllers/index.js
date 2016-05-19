@@ -4,8 +4,8 @@ import * as CategoriesService from './../service';
 
 export const create = (request, reply) => {
   return CategoriesService.create(request.payload).then(
-    category => reply(category).statusCode = CREATED,
-    error => {
+    (category) => reply(category).statusCode = CREATED,
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -14,8 +14,8 @@ export const create = (request, reply) => {
 
 export const all = (request, reply) => {
   return CategoriesService.all().then(
-    categories => reply(categories).statusCode = OK,
-    error => {
+    (categories) => reply(categories).statusCode = OK,
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -25,7 +25,7 @@ export const all = (request, reply) => {
 export const remove = (request, reply) => {
   return CategoriesService.remove(request.params).then(
     () => reply().statusCode = NO_CONTENT,
-    error => {
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }
@@ -37,8 +37,8 @@ export const update = (request, reply) => {
   const { name } = request.payload;
 
   return CategoriesService.update({ id, name }).then(
-    category => reply(category).statusCode = OK,
-    error => {
+    (category) => reply(category).statusCode = OK,
+    (error) => {
       let serviceError = ServiceErrorFactory.create(request, error);
       reply(serviceError).statusCode = serviceError.statusCode;
     }

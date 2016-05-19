@@ -28,7 +28,7 @@ describe('Category service', () => {
 
     describe('if the fetch is successful', () => {
       it('resolves a collection of models', () => {
-        return CategoryService.all().then(categoryCollection => {
+        return CategoryService.all().then((categoryCollection) => {
           expect(categoryCollection).to.equal(categories);
         });
       });
@@ -41,7 +41,7 @@ describe('Category service', () => {
         query.fetchAll = stub().returns(Promise.reject(error));
       });
       it('resolves an error', () => {
-        return CategoryService.all().then(noop, exception => {
+        return CategoryService.all().then(noop, (exception) => {
           expect(exception).to.equal(error);
         });
       });

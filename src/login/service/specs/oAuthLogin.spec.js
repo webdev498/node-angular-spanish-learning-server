@@ -1,16 +1,15 @@
 import { expect } from 'chai';
-import { spy, stub } from 'sinon';
+import { stub } from 'sinon';
 import * as UserService from './../../../users/service';
 import * as TokenProvider from './../../../authentication/tokenProvider';
-import * as LoginService from './../../service'
-import AuthenticationError from './../../exceptions/AuthenticationError';
+import * as LoginService from './../../service';
 import * as LoggingService from './../../../logging';
 
 describe('Login Service', () => {
-  let userDouble, getStub, signupStub, tokenProviderStub, email, strategy, profile, token;
+  let userDouble, getStub, signupStub, tokenProviderStub, strategy, profile, token;
 
   before(() => {
-    userDouble = { sanitize: () => { } }
+    userDouble = { sanitize: () => { } };
     strategy = 'facebook';
     profile = { name: { first: 'test', last: 'test' }, email: 'test@test.com' };
     getStub = stub(UserService, 'getByEmail');
@@ -43,7 +42,7 @@ describe('Login Service', () => {
           TokenProvider.sign.reset();
         });
 
-        it('returns a token', () => LoginService.oAuthLogin(strategy, profile).then(result => { expect(result).to.equal(token) }));
+        it('returns a token', () => LoginService.oAuthLogin(strategy, profile).then((result) => { expect(result).to.equal(token); }));
       });
 
       describe('when user does not exist in database', () => {
@@ -58,7 +57,7 @@ describe('Login Service', () => {
           UserService.signup.reset();
         });
 
-        it('returns a token', () => LoginService.oAuthLogin(strategy, profile).then(result => { expect(result).to.equal(token) }));
+        it('returns a token', () => LoginService.oAuthLogin(strategy, profile).then((result) => { expect(result).to.equal(token); }));
       });
 
     });

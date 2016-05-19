@@ -14,24 +14,24 @@ export const signup = (userInfo) => {
   return new Promise((resolve, reject) => {
     User.forge(userInfo)
     .save()
-    .tap(user => {
+    .tap((user) => {
       const userId = user.get('id');
 
-      const promises = telephones.map(telephone => user.related('telephones').create(Object.assign(telephone, { userId })))
-        .concat(addresses.map(address => user.related('addresses').create(Object.assign(address, { userId }))));
+      const promises = telephones.map((telephone) => user.related('telephones').create(Object.assign(telephone, { userId })))
+        .concat(addresses.map((address) => user.related('addresses').create(Object.assign(address, { userId }))));
 
       return Promise.all(promises);
     })
     .then(
-        user => {
+        (user) => {
           resolve(user);
         },
-        error => {
+        (error) => {
           logError(error);
           reject(error);
         }
       )
-      .catch(exception => {
+      .catch((exception) => {
         logError(exception);
         reject(exception);
       }
@@ -50,11 +50,11 @@ export const all = () => {
           withRelated
         }).then(
         resolve,
-        error => {
+        (error) => {
           logError(error);
           reject(error);
         }
-    ).catch(exception => {
+    ).catch((exception) => {
       logError(exception);
       reject(exception);
     });
@@ -71,11 +71,11 @@ export const get = ({ id }) => {
         withRelated
       }).then(
       resolve,
-      error => {
+      (error) => {
         logError(error);
         reject(error);
       }
-    ).catch(exception => {
+    ).catch((exception) => {
       logError(exception);
       reject(exception);
     });
@@ -93,10 +93,10 @@ export const getByEmail = (email) => {
       withRelated
     }).then((user) => {
        resolve(user);
-    }, error => {
+    }, (error) => {
       logError(error);
       reject(error);
-    }).catch(exception => {
+    }).catch((exception) => {
       logError(exception);
       reject(exception);
     });
@@ -109,14 +109,14 @@ export const update = ({ params, payload }) => {
   logInfo(`Updating user with id: ${id} and params ${payload}`);
   return new Promise((resolve, reject) => {
     get(params).then(
-      user => {
+      (user) => {
         user.save(payload, {patch: true})
           .then(() => resolve(user))
-          .catch(error => {
+          .catch((error) => {
             logError(error);
             reject(error);
           });
-      }).catch(exception => {
+      }).catch((exception) => {
         logError(exception);
         reject(exception);
     });

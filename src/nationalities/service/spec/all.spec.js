@@ -28,7 +28,7 @@ describe('Users service FetchAll', () => {
       nationalitiesDouble.fetchAll = stub().returns(Promise.resolve(nationalities));
     });
 
-    it('fetching all nationalities', () => NationalityService.all().then(result => expect(result).to.equal(nationalities)));
+    it('fetching all nationalities', () => NationalityService.all().then((result) => expect(result).to.equal(nationalities)));
   });
 
   describe('when there is a database error', () => {
@@ -37,6 +37,6 @@ describe('Users service FetchAll', () => {
     beforeEach(() => {
       nationalitiesDouble.fetchAll = stub().returns(Promise.reject(error));
     });
-    it('fetching all nationalities error', () => NationalityService.all().catch(errorResult => expect(errorResult).to.equal(error)));
+    it('fetching all nationalities error', () => NationalityService.all().catch((errorResult) => expect(errorResult).to.equal(error)));
   });
 });

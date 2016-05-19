@@ -34,19 +34,19 @@ describe('Users service', () => {
       LoggingService.logInfo.restore();
     });
 
-    it('logs information to the logger', done => {
+    it('logs information to the logger', (done) => {
       UserService.signup({ payload }).then(() => {
         expect(LoggingService.logInfo).to.have.been.called;
         done();
       });
     });
 
-    it('delegates to the #forge method on the User model', done => {
+    it('delegates to the #forge method on the User model', (done) => {
       UserService.signup({ payload }).then(() => done());
       expect(User.forge).to.have.been.called;
     });
 
-    it('attempts to save the model', done => {
+    it('attempts to save the model', (done) => {
       UserService.signup({ payload }).then(() => {
         expect(userModelDouble.save).to.have.been.called;
         done();
@@ -59,8 +59,8 @@ describe('Users service', () => {
         saveMock.returns(Promise.resolve(saveResult));
       });
 
-      it('resolves the user', done => {
-        UserService.signup({ payload }).then(result => {
+      it('resolves the user', (done) => {
+        UserService.signup({ payload }).then((result) => {
           expect(result).to.equal(saveResult);
           done();
         });
@@ -73,15 +73,15 @@ describe('Users service', () => {
         saveMock.returns(Promise.reject(error));
       });
 
-      it('logs an error', done => {
+      it('logs an error', (done) => {
         UserService.signup({ payload }).then(() => {}, () => {
           expect(LoggingService.logError).to.have.been.called;
           done();
         });
       });
 
-      it('rejects an error', done => {
-        UserService.signup({ payload }).then(() => {}, saveError => {
+      it('rejects an error', (done) => {
+        UserService.signup({ payload }).then(() => {}, (saveError) => {
           expect(saveError).to.equal(error);
           done();
         });

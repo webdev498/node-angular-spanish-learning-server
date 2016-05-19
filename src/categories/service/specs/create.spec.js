@@ -29,7 +29,7 @@ describe('Category service', () => {
 
     describe('if the save is successful', () => {
       it('resolves the newly saved model', () => {
-        return CategoryService.create({ name }).then(category => {
+        return CategoryService.create({ name }).then((category) => {
           expect(category).to.equal(categoryModel);
         });
       });
@@ -42,7 +42,7 @@ describe('Category service', () => {
         categoryModel.save = stub().returns(Promise.reject(error));
       });
       it('resolves an error', () => {
-        return CategoryService.create({ name }).then(noop, exception => {
+        return CategoryService.create({ name }).then(noop, (exception) => {
           expect(exception).to.equal(error);
         });
       });

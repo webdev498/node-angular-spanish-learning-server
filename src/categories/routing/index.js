@@ -1,6 +1,6 @@
 import { create, all, remove, update } from './../controllers/';
 
-export default server => {
+export default (server) => {
 
   server.route({
     method: 'POST',

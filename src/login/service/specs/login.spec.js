@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { spy, stub } from 'sinon';
+import { stub } from 'sinon';
 import * as UserService from './../../../users/service';
 import * as TokenProvider from './../../../authentication/tokenProvider';
-import * as LoginService from './../../service'
+import * as LoginService from './../../service';
 import AuthenticationError from './../../exceptions/AuthenticationError';
 import * as LoggingService from './../../../logging';
 
@@ -10,7 +10,7 @@ describe('Login Service', () => {
   let userDouble, getStub, tokenProviderStub, email, password, token;
 
   before(() => {
-    userDouble = { validatePassword: () => { }, sanitize: () => { } }
+    userDouble = { validatePassword: () => { }, sanitize: () => { } };
     email = 'test@test.com';
     password = 'password';
     getStub = stub(UserService, 'getByEmail');
@@ -42,7 +42,7 @@ describe('Login Service', () => {
           TokenProvider.sign.reset();
         });
 
-        it('returns a token', () => LoginService.login(email, password).then(result => { expect(result).to.equal(token) }));
+        it('returns a token', () => LoginService.login(email, password).then((result) => { expect(result).to.equal(token); }));
       });
 
       describe('when user is not found by email', () => {
@@ -54,10 +54,10 @@ describe('Login Service', () => {
           UserService.getByEmail.reset();
         });
 
-        it('raises an Authentication Error', () => 
+        it('raises an Authentication Error', () =>
           expect(LoginService.login(email, password)).to.be.rejectedWith(AuthenticationError));
       });
-      
+
       describe('when password is wrong', () => {
         before(() => {
           getStub.returns(Promise.resolve(userDouble));
@@ -68,10 +68,10 @@ describe('Login Service', () => {
           UserService.getByEmail.reset();
         });
 
-        it('raises an Authentication Error', () => 
+        it('raises an Authentication Error', () =>
           expect(LoginService.login(email, password)).to.be.rejectedWith(AuthenticationError));
       });
-      
+
     });
   });
 });

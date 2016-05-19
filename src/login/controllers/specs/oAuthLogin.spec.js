@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 import * as LoginService from './../../service';
 import * as Controller from './../';
-import AuthenticationError from './../../exceptions/AuthenticationError';
 import { UNAUTHORIZED } from './../../../http/statusCodes';
 
 describe('Login controller', () => {
@@ -42,8 +41,8 @@ describe('Login controller', () => {
         reply = stub().returns(response);
         return Controller.oAuthLogin(request, reply);
       });
-      
+
       it('sets the status code on the response to Unauthorized 401', () => expect(response.statusCode).to.equal(serviceError.statusCode));
-    })
+    });
   });
 });

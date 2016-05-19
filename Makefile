@@ -23,7 +23,7 @@ vendor:
 	@echo "Shrink-wrapping dependencies"
 	@npm shrinkwrap
 
-test: install-deps
+test: install-deps lint
 	@echo "Running specifications..."
 	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --require ./etc/testing/bootstrapper.js
 
@@ -41,10 +41,14 @@ build: clean install-deps
 	@mkdir dist
 	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist ./src
 
+lint:
+	@echo "Linting the project for syntax errors"
+	$(BIN)/eslint .
+
 build-dev: clean install-deps
 	@echo "Building project with debugging symbols..."
 	@mkdir dist
 	$(BIN)/babel --babelrc ./.babelrc -d dist ./src --source-maps --watch
 
 
-.PHONY: clean install-deps vendor coverage test build build-dev install clean-coverage changelog
+.PHONY: clean install-deps vendor coverage test build build-dev install clean-coverage changelog lint

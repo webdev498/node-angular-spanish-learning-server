@@ -4,18 +4,19 @@ import * as UserService from './../../users/service';
 import * as TokenProvider from './../../authentication/tokenProvider';
 
 export const login = (email, password) => {
-  logInfo(`Logging in with email ${email}.`)
+  logInfo(`Logging in with email ${email}.`);
+
   return new Promise((resolve, reject) => {
-    UserService.getByEmail(email).then(user => {
+    UserService.getByEmail(email).then((user) => {
       if (user && user.validatePassword(password)) {
-        TokenProvider.sign(user.sanitize()).then(token => {
+        TokenProvider.sign(user.sanitize()).then((token) => {
           resolve(token);
         });
       } else {
         reject(new AuthenticationError());
       }
     },
-      error => {
+      (error) => {
         logError(error);
         reject(error);
       });
@@ -23,31 +24,31 @@ export const login = (email, password) => {
 };
 
 export const oAuthLogin = (strategy, profile) => {
-  logInfo(`Attempting to login with ${strategy}.`)
+  logInfo(`Attempting to login with ${strategy}.`);
   return new Promise((resolve, reject) => {
     let userInfo = extractProfileInfo(strategy, profile);
-    UserService.getByEmail(userInfo.email).then(user => {
+    UserService.getByEmail(userInfo.email).then((user) => {
       if (user) {
-        TokenProvider.sign(user.sanitize()).then(token => {
+        TokenProvider.sign(user.sanitize()).then((token) => {
           resolve(token);
         });
       } else {
-        UserService.signup(userInfo).then(user => {
-          TokenProvider.sign(user.sanitize()).then(token => {
+        UserService.signup(userInfo).then((user) => {
+          TokenProvider.sign(user.sanitize()).then((token) => {
             resolve(token);
           });
-        }, error => {
+        }, (error) => {
           logError(error);
           reject(error);
         });
       }
     },
-      error => {
+      (error) => {
         logError(error);
         reject(error);
       });
   });
-}
+};
 
 const extractProfileInfo = (strategy, profile) => {
   var userInfo = {};
@@ -66,5 +67,4 @@ const extractProfileInfo = (strategy, profile) => {
   }
 
   return userInfo;
-}
-
+};

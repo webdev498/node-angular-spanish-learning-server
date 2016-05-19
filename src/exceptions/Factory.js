@@ -22,5 +22,4 @@ const mapping = {
 export const create = (request, error) => {
   let Ctor = mapping[error.constructor];
   return Ctor? new Ctor(request, error) : error;
-
 };

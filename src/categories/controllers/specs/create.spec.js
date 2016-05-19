@@ -14,7 +14,7 @@ describe('creating a new category', () => {
     let error = { statusCode: 404 };
     let reply = stub().returns(response);
 
-    beforeEach(done => {
+    beforeEach((done) => {
       stub(CategoryService, 'create').returns(Promise.reject({}));
       stub(ServiceErrorFactory, 'create').returns(error);
       Controller.create(request, reply).then(() => done());
@@ -38,7 +38,7 @@ describe('creating a new category', () => {
     let reply = stub().returns(response);
     let categories = [];
 
-    beforeEach(done => {
+    beforeEach((done) => {
       stub(CategoryService, 'create').returns(Promise.resolve(categories));
       Controller.create(request, reply).then(() => done());
     });

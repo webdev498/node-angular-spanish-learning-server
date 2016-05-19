@@ -28,7 +28,7 @@ describe('Category service', () => {
 
     describe('if the save is successful', () => {
       it('resolves the newly saved model', () => {
-        return CategoryService.remove({ id }).then(category => {
+        return CategoryService.remove({ id }).then((category) => {
           expect(category).to.equal(categoryModel);
         });
       });
@@ -49,7 +49,7 @@ describe('Category service', () => {
       });
 
       it('resolves an error', () => {
-        return CategoryService.remove({ id }).then(noop, exception => {
+        return CategoryService.remove({ id }).then(noop, (exception) => {
           expect(exception).to.equal(error);
         });
       });
