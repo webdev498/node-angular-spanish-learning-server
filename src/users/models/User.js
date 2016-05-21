@@ -15,7 +15,6 @@ const persistenceWhitelist = [
   'lastName',
   'email',
   'passwordHash',
-  'passwordSalt',
   'nationalityId',
   'gender',
   'dateOfBirth'
@@ -78,7 +77,7 @@ const User = Base.extend({
     if (this.get('password') && (this.isNew() || !this.isHashed())) {
       let passwordSalt = bcrypt.genSaltSync(10);
       let passwordHash  = bcrypt.hashSync(this.get('password'), passwordSalt);
-      this.set({ passwordSalt, passwordHash });
+      this.set({ passwordHash });
     }
   },
 
@@ -99,7 +98,7 @@ const User = Base.extend({
   },
 
   isHashed() {
-    return this.get('passwordSalt') && this.get('passwordHash');
+    return this.get('passwordHash');
   }
 
 });
