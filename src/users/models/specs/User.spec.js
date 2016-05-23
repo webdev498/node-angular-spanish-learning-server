@@ -16,8 +16,7 @@ let attributes = {
   email: 'joe@nowhere.net',
   password: 'secret',
   passwordConfirmation: 'password',
-  passwordHash: 'hash',
-  passwordSalt: 'salt'
+  passwordHash: 'hash'
 };
 
 describe('User data model', () => {
@@ -71,10 +70,6 @@ describe('User data model', () => {
         user.hashPassword();
       });
 
-      it('generates a salt and assignes it to the passwordSalt attribute', () => {
-        expect(user.get('passwordSalt')).to.be.defined;
-      });
-
       it('hashes the password', () => {
         expect(user.get('passwordHash')).to.be.defined;
       });
@@ -89,10 +84,6 @@ describe('User data model', () => {
         user.isNew = stub().returns(false);
         user.isHashed = stub().returns(true);
         user.hashPassword();
-      });
-
-      it('does not generate a cryptographic salt', () => {
-        expect(user.get('passwordSalt')).to.be.undefined;
       });
 
       it('does not generate a password hash', () => {
