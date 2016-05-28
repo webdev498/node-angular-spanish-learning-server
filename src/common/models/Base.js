@@ -1,4 +1,4 @@
-import { getORM } from '../../data/orm';
+import Orm from '../../data/orm';
 import { toPascalCase, toSnakeCase } from '../../javascript/datatypes/string';
 import * as UUID from '../../javascript/datatypes/uuid';
 import crypto from 'crypto';
@@ -6,7 +6,6 @@ import crypto from 'crypto';
 const CRYPTO_ALGORITHM = 'sha1';
 const DIGEST_TYPE = 'hex';
 
-const Orm = getORM();
 const idAttribute = 'id';
 
 const Base = Orm.model('Base', {

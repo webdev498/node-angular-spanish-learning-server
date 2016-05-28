@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
-import { getORM } from '../../data/orm';
+import Orm from '../../data/orm';
 import Base from './../../common/models/Base';
 import Address from './Address';
 import Telephone from './Telephone';
 import Nationality from './../../nationalities/models/Nationality';
 import { EmailAddress, PasswordComplexity, PasswordsMatch } from './../validations';
 
-const Orm = getORM();
+
 
 const tableName = 'users';
 

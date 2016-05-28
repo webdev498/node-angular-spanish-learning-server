@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
-
-import knex from 'knex';
-import bookshelf from 'bookshelf';
-import mockKnex from 'mock-knex';
 import * as validations from './../../validations';
-import * as Orm from '../../../data/orm';
 import Category from '../Category';
 
 let attributes = {
@@ -14,23 +9,6 @@ let attributes = {
 
 describe('Category data model', () => {
 
-  let connection;
-
-  before(() => {
-    connection = knex({
-      client: 'sqlite3',
-      connection: {filename: ':memory:'},
-      useNullAsDefault: true
-    });
-
-    mockKnex.mock(connection);
-    stub(Orm, 'getORM').returns(bookshelf(connection));
-  });
-
-  after(() => {
-    mockKnex.unmock(connection);
-    Orm.getORM.restore();
-  });
 
   describe('serializing to JSON', () => {
     let result;

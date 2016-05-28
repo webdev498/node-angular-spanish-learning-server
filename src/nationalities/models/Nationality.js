@@ -1,8 +1,8 @@
-import { getORM } from '../../data/orm';
+import Orm from '../../data/orm';
 import Base from './../../common/models/Base';
 import User from './../../users/models/User';
 
-const Orm = getORM();
+
 
 const tableName = 'nationalities';
 const persistenceWhitelist = ['name'];

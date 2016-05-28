@@ -1,9 +1,7 @@
-import { getORM } from '../../data/orm';
+import Orm from '../../data/orm';
 import { Name } from './../validations';
 import Base from './../../common/models/Base';
 import './../../choices/models/Choice';
-
-const Orm = getORM();
 
 const tableName = 'categories';
 const persistenceWhitelist = ['name', 'active'];
