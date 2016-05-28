@@ -1,11 +1,7 @@
 import bookshelf from 'bookshelf';
-import { getConnection } from './connection';
+import connection from './connection';
 
-let orm;
+const Orm = bookshelf(connection);
+Orm.plugin('registry');
 
-
-export const getORM = (connection) => {
-  orm = (orm || bookshelf(connection || getConnection()));
-  orm.plugin('registry');
-  return orm;
-};
+export default Orm;

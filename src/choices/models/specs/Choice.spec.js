@@ -1,11 +1,7 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
 
-import knex from 'knex';
-import bookshelf from 'bookshelf';
-import mockKnex from 'mock-knex';
 import * as validations from './../../validations';
-import * as Orm from '../../../data/orm';
 import Choice from '../Choice';
 
 let attributes = {
@@ -13,26 +9,7 @@ let attributes = {
   "version": 1
 };
 
-
 describe('Choice data model', () => {
-
-  let connection;
-
-  before(() => {
-    connection = knex({
-      client: 'sqlite3',
-      connection: {filename: ':memory:'},
-      useNullAsDefault: true
-    });
-
-    mockKnex.mock(connection);
-    stub(Orm, 'getORM').returns(bookshelf(connection));
-  });
-
-  after(() => {
-    mockKnex.unmock(connection);
-    Orm.getORM.restore();
-  });
 
   describe('serializing to JSON', () => {
     let result;

@@ -1,9 +1,9 @@
-import { getORM } from '../../data/orm';
+import Orm from '../../data/orm';
 import './../../categories/models/Category';
 import Base from './../../common/models/Base';
 import { Text } from './../validations';
 
-const Orm = getORM();
+
 
 const tableName = 'choices';
 
