@@ -1,4 +1,4 @@
-import { login, oAuthLogin } from './../controllers/';
+import { login, googleAuthLogin, facebookAuthLogin } from './../controllers/';
 
 export default (server) => {
   server.route({
@@ -11,20 +11,20 @@ export default (server) => {
   });
 
   server.route({
-    method: 'GET',
+    method: 'POST',
     path: '/login/facebook',
     config: {
-      auth: 'facebook',
-      handler: oAuthLogin
+      auth: false,
+      handler: facebookAuthLogin
     }
   });
 
   server.route({
-    method: 'GET',
+    method: 'POST',
     path: '/login/google',
     config: {
-      auth: 'google',
-      handler: oAuthLogin
+      auth: false,
+      handler: googleAuthLogin
     }
   });
 };
