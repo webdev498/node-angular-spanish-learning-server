@@ -27,6 +27,10 @@ test: install-deps lint
 	@echo "Running specifications..."
 	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --require ./etc/testing/bootstrapper.js
 
+test-only:
+	@echo "Running specifications..."
+	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --require ./etc/testing/bootstrapper.js
+
 changelog:
 	@rm CHANGELOG.md
 	$(BIN)/conventional-changelog -p angular -i CHANGELOG.md -w

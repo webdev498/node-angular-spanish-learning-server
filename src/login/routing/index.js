@@ -4,27 +4,27 @@ export default (server) => {
   server.route({
     method: 'POST',
     path: '/login',
+    handler: login,
     config: {
-      auth: false,
-      handler: login
+      auth: false
     }
   });
 
   server.route({
     method: 'POST',
     path: '/login/facebook',
+    handler: facebookAuthLogin,
     config: {
-      auth: false,
-      handler: facebookAuthLogin
+      auth: false
     }
   });
 
   server.route({
     method: 'POST',
     path: '/login/google',
+    handler: googleAuthLogin,
     config: {
-      auth: false,
-      handler: googleAuthLogin
+      auth: false
     }
   });
 };

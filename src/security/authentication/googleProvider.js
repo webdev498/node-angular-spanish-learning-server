@@ -1,5 +1,5 @@
 import googleapi from 'googleapis';
-import { logError } from './../logging';
+import { logError } from './../../logging';
 import { GoogleOptions } from './oauthConfig';
 
 const {clientId, clientSecret, redirectUri} = GoogleOptions;

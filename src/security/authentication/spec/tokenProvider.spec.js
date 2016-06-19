@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as TokenProvider from './../tokenProvider';
-import * as UserService from './../../users/service';
+import * as UserService from './../../../users/service';
 import jwt from 'jsonwebtoken';
 
 describe('token provider', () => {

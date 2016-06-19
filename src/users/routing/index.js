@@ -5,28 +5,54 @@ export default (server) => {
   server.route({
     method: 'POST',
     path: '/users',
+    handler: create,
     config: {
       auth: false,
-      handler: create
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:users::create'
+        }
+      }
     }
   });
 
   server.route({
     method: 'GET',
     path: '/users',
-    handler: list
+    handler: list,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:users::list'
+        }
+      }
+    }
   });
 
   server.route({
     method: 'GET',
     path: '/users/{id}',
-    handler: get
+    handler: get,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:users::view'
+        }
+      }
+    }
   });
 
   server.route({
     method: 'PUT',
     path: '/users/{id}',
-    handler: update
+    handler: update,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:users::update'
+        }
+      }
+    }
   });
 
 };

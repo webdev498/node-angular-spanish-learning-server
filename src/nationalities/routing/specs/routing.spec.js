@@ -15,9 +15,14 @@ describe('Nationality service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'GET',
         path: '/nationalities',
+        handler: list,
         config: {
           auth: false,
-          handler: list
+          plugins: {
+            AuthorizationMiddleware: {
+              permission: 'urn:cgi:permission:nationalities::list'
+            }
+          }
         }
       });
     });

@@ -16,13 +16,11 @@ const persistenceWhitelist = [
   'version'
 ];
 
-const versionableAttributes = ["id", "text", "translation", "phase"];
-
 const Choice = Base.extend({
   tableName,
 
   initialize(attributes) {
-    Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
+    Base.prototype.initialize.call(this, attributes, { persistenceWhitelist });
   },
 
   categories() {

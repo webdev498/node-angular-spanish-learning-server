@@ -1,0 +1,3 @@
+#! /bin/sh
+
+node -p "var uuid = require('uuid'); uuid.v4().trim();" | pbcopy

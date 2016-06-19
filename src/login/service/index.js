@@ -1,9 +1,10 @@
 import { logError, logInfo } from './../../logging';
 import AuthenticationError from './../exceptions/AuthenticationError';
 import * as UserService from './../../users/service';
-import * as TokenProvider from './../../authentication/tokenProvider';
-import GoogleProvider from './../../authentication/googleProvider';
-import FacebookProvider from './../../authentication/facebookProvider';
+import * as TokenProvider from './../../security/authentication/tokenProvider';
+import GoogleProvider from './../../security/authentication/googleProvider';
+import FacebookProvider from './../../security/authentication/facebookProvider';
+
 
 export const login = (email, password) => {
   logInfo(`Logging in with email ${email}.`);

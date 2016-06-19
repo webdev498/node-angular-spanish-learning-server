@@ -1,7 +1,7 @@
 import User from '../models/User';
 import { logError, logInfo } from './../../logging';
 
-const withRelated = ['nationality', 'addresses', 'telephones'];
+const withRelated = ['nationality', 'addresses', 'telephones', 'role'];
 
 
 export const signup = (userInfo) => {

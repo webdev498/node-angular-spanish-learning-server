@@ -1,6 +1,6 @@
-import Orm from '../../data/orm';
-import { toPascalCase, toSnakeCase } from '../../javascript/datatypes/string';
-import * as UUID from '../../javascript/datatypes/uuid';
+import Orm from 'data/orm';
+import { toPascalCase, toSnakeCase } from 'datatypes/string';
+import * as UUID from 'datatypes/uuid';
 import crypto from 'crypto';
 
 const CRYPTO_ALGORITHM = 'sha1';
@@ -60,7 +60,7 @@ const Base = Orm.model('Base', {
 
       const string = JSON.stringify(values);
       const version = crypto.createHash(CRYPTO_ALGORITHM).update(string).digest(DIGEST_TYPE);
-      this.set({ version: version });
+      this.set({ version });
     }
   },
 

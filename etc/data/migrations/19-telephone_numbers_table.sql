@@ -9,4 +9,3 @@ CREATE TABLE telephones (
   updated_at TIMESTAMP DEFAULT now(),
   CONSTRAINT telephones_user_id_fk FOREIGN KEY (user_id) REFERENCES users (id)
 );
-ALTER TABLE IF EXISTS telephones OWNER TO cgi;

@@ -1,12 +1,11 @@
 import bcrypt from 'bcrypt';
-import Orm from '../../data/orm';
-import Base from './../../common/models/Base';
-import Address from './Address';
-import Telephone from './Telephone';
-import Nationality from './../../nationalities/models/Nationality';
+import Orm from 'data/orm';
+import Base from 'models/Base';
 import { EmailAddress, PasswordComplexity, PasswordsMatch } from './../validations';
-
-
+import 'models/Address';
+import 'models/Telephone';
+import 'models/Nationality';
+import 'models/Role';
 
 const tableName = 'users';
 
@@ -16,13 +15,14 @@ const persistenceWhitelist = [
   'email',
   'passwordHash',
   'nationalityId',
+  'roleId',
   'gender',
   'dateOfBirth'
 ];
 
 const versionableAttributes = persistenceWhitelist;
 
-const foreignKeys = ['nationality_id'];
+const foreignKeys = ['nationality_id', 'role_id'];
 
 const User = Base.extend({
   tableName,
@@ -30,18 +30,35 @@ const User = Base.extend({
   initialize(attributes) {
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes, foreignKeys });
     this.on('saving', () => this.hashPassword());
+    this.orm = Orm;
   },
 
   telephones() {
-    return this.hasMany(Telephone);
+    return this.hasMany('Telephone');
   },
 
   addresses() {
-    return this.hasMany(Address);
+    return this.hasMany('Address');
   },
 
   nationality() {
-    return this.belongsTo(Nationality);
+    return this.belongsTo('Nationality');
+  },
+
+  role() {
+    return this.belongsTo('Role');
+  },
+
+  hasPermission(permission) {
+    return new Promise((resolve, reject) => {
+      const { role } = this.relations;
+      this.orm.knex.select()
+      .from(this.orm.knex.raw('find_permissions_for_role(?)', [role.get('id')]))
+      .then((results) => {
+        resolve(results.some((result) => result.permission === permission));
+      })
+      .catch(reject);
+    });
   },
 
   sanitize() {

@@ -5,24 +5,52 @@ export default (server) => {
   server.route({
     method: 'POST',
     path: '/categories',
-    handler: create
+    handler: create,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:categories::create'
+        }
+      }
+    }
   });
 
   server.route({
     method: 'GET',
     path: '/categories',
-    handler: all
+    handler: all,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:categories::view'
+        }
+      }
+    }
   });
 
   server.route({
     method: 'DELETE',
     path: '/categories/{id}',
-    handler: remove
+    handler: remove,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:categories::delete'
+        }
+      }
+    }
   });
 
   server.route({
     method: 'PUT',
     path: '/categories/{id}',
-    handler: update
+    handler: update,
+    config: {
+      plugins: {
+        AuthorizationMiddleware: {
+          permission: 'urn:cgi:permission:categories::update'
+        }
+      }
+    }
   });
 };

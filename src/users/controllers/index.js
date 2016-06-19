@@ -1,5 +1,5 @@
 import * as UserService from '../service';
-import * as TokenProvider from './../../authentication/tokenProvider';
+import * as TokenProvider from './../../security/authentication/tokenProvider';
 import * as ServiceErrorFactory from './../../exceptions/Factory';
 import { CREATED } from './../../http/statusCodes';
 

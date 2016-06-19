@@ -4,9 +4,7 @@ CREATE TABLE IF NOT EXISTS addresses (
   city VARCHAR(255),
   state VARCHAR(2),
   postal_code VARCHAR(16),
-  user_id UUID NOT NULL,
+  user_id UUID REFERENCES users(id),
   created_at TIMESTAMP DEFAULT now(),
-  updated_at TIMESTAMP DEFAULT now(),
-  CONSTRAINT addresses_user_id_fk FOREIGN KEY (user_id) REFERENCES users (id)
+  updated_at TIMESTAMP
 );
-ALTER TABLE IF EXISTS addresses OWNER TO cgi;

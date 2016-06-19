@@ -1,7 +1,7 @@
 import { stub } from 'sinon';
 import {expect} from 'chai';
-import GoogleProvider from './../../../authentication/googleProvider';
-import * as TokenProvider from './../../../authentication/tokenProvider';
+import GoogleProvider from './../../../security/authentication/googleProvider';
+import * as TokenProvider from './../../../security/authentication/tokenProvider';
 import * as LoginService from './../index.js';
 import * as UserService from './../../../users/service/index.js';
 
