@@ -6,9 +6,7 @@ import * as CategoriesService from './categories';
 import * as UserService from './users';
 import * as NationalityService from './nationalities';
 import * as LoginService from './login';
-import * as OAuthProvider from './authentication/oAuthConfig';
 import * as TokenProvider from './authentication/tokenProvider';
-import Bell from 'bell';
 import HapiJwtAuth2 from 'hapi-auth-jwt2';
 
 const server = new Server({
@@ -22,12 +20,6 @@ const port = process.env.PORT || 3000;
 const noop = () => { };
 server.connection({ port });
 server.register({ register: logging }, noop);
-
-server.register(Bell, (err) => {
-  if (err) { logging.logError(err); }
-  server.auth.strategy('facebook', 'bell', OAuthProvider.FacebookOptions);
-  server.auth.strategy('google', 'bell', OAuthProvider.GoogleOptions);
-});
 
 server.register(HapiJwtAuth2, (err) => {
   if (err) { logging.logError(err); }

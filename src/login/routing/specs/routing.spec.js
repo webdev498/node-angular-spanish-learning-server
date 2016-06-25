@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { login, oAuthLogin } from './../../controllers';
+import { login, googleAuthLogin, facebookAuthLogin } from './../../controllers';
 import router from './../';
 
 describe('Login service routing', () => {
@@ -22,35 +22,35 @@ describe('Login service routing', () => {
     });
   });
 
-  describe('GET /login/facebook', () => {
+  describe('POST /login/facebook', () => {
     before(() => {
       server.route = spy();
       router(server);
     });
     it("registers the controller's create function as the handler", () => {
       expect(server.route).to.have.been.calledWith({
-        method: 'GET',
+        method: 'POST',
         path: '/login/facebook',
         config: {
-          auth: 'facebook',
-          handler: oAuthLogin
+          auth: false,
+          handler: facebookAuthLogin
         }
       });
     });
   });
 
-  describe('GET /login/google', () => {
+  describe('POST /login/google', () => {
     before(() => {
       server.route = spy();
       router(server);
     });
     it("registers the controller's create function as the handler", () => {
       expect(server.route).to.have.been.calledWith({
-        method: 'GET',
+        method: 'POST',
         path: '/login/google',
         config: {
-          auth: 'google',
-          handler: oAuthLogin
+          auth: false,
+          handler: googleAuthLogin
         }
       });
     });

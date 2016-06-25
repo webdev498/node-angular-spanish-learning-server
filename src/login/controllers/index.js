@@ -1,5 +1,4 @@
 import * as LoginService from './../service';
-import * as ServiceErrorFactory from './../../exceptions/Factory';
 import { UNAUTHORIZED } from './../../http/statusCodes';
 
 export const login = (request, reply) => {
@@ -14,20 +13,22 @@ export const login = (request, reply) => {
     });
 };
 
-export const oAuthLogin = (request, reply) => {
-  if (request.auth.isAuthenticated) {
-    const strategy = request.auth.strategy;
-    const profile = request.auth.credentials.profile;
+export const googleAuthLogin = async (request, reply) => {
+  const { code } = request.payload;
+  try {
+    const token = await LoginService.googleLogin(code);
+    return reply({ token });
+  } catch (error) {
+    reply({ authenticated: false }).statusCode = UNAUTHORIZED;
+  }
+};
 
-    LoginService.oAuthLogin(strategy, profile)
-      .then((token) => {
-        return reply({ token });
-      },
-      (error) => {
-        let serviceError = ServiceErrorFactory.create(request, error);
-        reply(serviceError).statusCode = serviceError.statusCode;
-      });
-  } else {
+export const facebookAuthLogin = async (request, reply) => {
+  const { code } = request.payload;
+  try {
+    const token = await LoginService.facebookLogin(code);
+    return reply({ token });
+  } catch (error) {
     reply({ authenticated: false }).statusCode = UNAUTHORIZED;
   }
 };

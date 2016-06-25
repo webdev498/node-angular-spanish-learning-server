@@ -48,7 +48,7 @@
     "istanbul": "^0.4.3",
     "minimist": "^1.2.0",
     "mocha": "^2.4.5",
-    "mock-knex": "^0.3.1",
+    "mock-knex": "^0.3.2",
     "nodemon": "^1.9.1",
     "npm": "^3.7.3",
     "should": "^8.3.1",
@@ -59,17 +59,18 @@
     "stream-transform": "^0.1.1"
   },
   "dependencies": {
-    "bcrypt": "^0.8.6",
-    "bell": "^7.6.0",
+    "bcrypt": "^0.8.7",
     "bookends": "^0.14.0",
-    "bookshelf": "^0.9.4",
+    "bookshelf": "^0.9.5",
     "bucker": "^1.1.1",
-    "hapi": "^13.3.0",
+    "fb": "^1.1.1",
+    "googleapis": "^8.0.0",
+    "hapi": "^13.4.1",
     "hapi-auth-jwt2": "^6.0.0",
     "jsonwebtoken": "^5.7.0",
-    "knex": "^0.10.0",
+    "knex": "^0.11.5",
     "node-uuid": "^1.4.7",
-    "pg": "^4.5.3",
+    "pg": "^5.1.0",
     "uuid": "^2.0.2"
   }
 }

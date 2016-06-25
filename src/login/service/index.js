@@ -2,6 +2,8 @@ import { logError, logInfo } from './../../logging';
 import AuthenticationError from './../exceptions/AuthenticationError';
 import * as UserService from './../../users/service';
 import * as TokenProvider from './../../authentication/tokenProvider';
+import GoogleProvider from './../../authentication/googleProvider';
+import FacebookProvider from './../../authentication/facebookProvider';
 
 export const login = (email, password) => {
   logInfo(`Logging in with email ${email}.`);
@@ -23,48 +25,29 @@ export const login = (email, password) => {
   });
 };
 
-export const oAuthLogin = (strategy, profile) => {
-  logInfo(`Attempting to login with ${strategy}.`);
-  return new Promise((resolve, reject) => {
-    let userInfo = extractProfileInfo(strategy, profile);
-    UserService.getByEmail(userInfo.email).then((user) => {
-      if (user) {
-        TokenProvider.sign(user.sanitize()).then((token) => {
-          resolve(token);
-        });
-      } else {
-        UserService.signup(userInfo).then((user) => {
-          TokenProvider.sign(user.sanitize()).then((token) => {
-            resolve(token);
-          });
-        }, (error) => {
-          logError(error);
-          reject(error);
-        });
+export const googleLogin = (code) => {
+  return loginOrSignupWithProvider(GoogleProvider.build(), code);
+};
+
+export const facebookLogin = (code) => {
+  return loginOrSignupWithProvider(FacebookProvider.build(), code);
+};
+
+function loginOrSignupWithProvider(provider, code) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { firstName, lastName, email } = await provider.getProfile(code);
+      let user = await UserService.getByEmail(email);
+
+      if (!user) {
+        user = await UserService.signup({ firstName, lastName, email });
       }
-    },
-      (error) => {
-        logError(error);
-        reject(error);
-      });
+
+      const token = await TokenProvider.sign(user.sanitize());
+      resolve(token);
+    } catch (error) {
+      logError(error);
+      reject(error);
+    }
   });
-};
-
-const extractProfileInfo = (strategy, profile) => {
-  var userInfo = {};
-
-  switch (strategy) {
-    case 'facebook':
-      userInfo.firstName = profile.name.first;
-      userInfo.lastName = profile.name.last;
-      userInfo.email = profile.email;
-      break;
-    case 'google':
-      userInfo.firstName = profile.name.givenName;
-      userInfo.lastName = profile.name.familyName;
-      userInfo.email = profile.emails[0].value;
-      break;
-  }
-
-  return userInfo;
-};
+}
