@@ -4,7 +4,10 @@ export default (server) => {
   server.route({
     method: 'GET',
     path: '/nationalities',
-    handler: list
+    config: {
+      auth: false,
+      handler: list
+    }
   });
 
 };
