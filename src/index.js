@@ -11,7 +11,13 @@ import HapiJwtAuth2 from 'hapi-auth-jwt2';
 
 const server = new Server({
   connections: {
-    routes: { cors: true }
+    routes: {
+      cors: {
+        origin: ['*'],
+        headers: ['*'],
+        credentials: true
+      }
+    }
   }
 });
 
