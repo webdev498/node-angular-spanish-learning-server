@@ -14,8 +14,13 @@ const server = new Server({
     routes: {
       cors: {
         origin: ['*'],
-        headers: ['*'],
-        credentials: true
+        headers: [
+          'Accept',
+          'Authorization',
+          'Content-Type',
+          'If-None-Match',
+          'X-Auth-Token'
+        ]
       }
     }
   }
