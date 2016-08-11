@@ -8,4 +8,3 @@ CREATE TABLE questions
     CONSTRAINT questions_question_templates_id_fk FOREIGN KEY (question_template_id) REFERENCES question_templates (id),
     CONSTRAINT questions_question_types_id_fk FOREIGN KEY (question_type_id) REFERENCES question_types (id)
 );
-CREATE UNIQUE INDEX questions_id_uindex ON questions (id);

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 import * as UserService from './../../service';
-import * as TokenProvider from './../../../authentication/tokenProvider';
+import * as TokenProvider from './../../../security/authentication/tokenProvider';
 import * as ServiceErrorFactory from './../../../exceptions/Factory';
 import * as Controller from './../';
 

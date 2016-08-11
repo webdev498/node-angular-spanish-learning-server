@@ -1,6 +1,6 @@
 import Orm from '../../data/orm';
-import Base from './../../common/models/Base';
-import User from './../../users/models/User';
+import Base from 'models/Base';
+import User from 'models/User';
 
 
 
@@ -15,7 +15,7 @@ const Nationality = Base.extend({
   },
 
   user() {
-    return this.hasOne(User);
+    return this.hasMany(User);
   },
 
   serialize() {

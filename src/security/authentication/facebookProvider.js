@@ -1,5 +1,5 @@
 import facebookapi from 'fb';
-import { logError } from './../logging';
+import { logError } from './../../logging';
 import { FacebookOptions } from './oauthConfig';
 
 const {clientId, clientSecret, redirectUri} = FacebookOptions;

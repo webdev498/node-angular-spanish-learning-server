@@ -1,5 +1,5 @@
 import RequestError from '.';
-import { BAD_REQUEST } from './../../http/statusCodes';
+import { BAD_REQUEST } from 'http/statusCodes';
 
 const DEFAULT_BAD_REQUEST_MESSAGE = 'The request could not be fulfilled due to the incorrect syntax of the request.';
 

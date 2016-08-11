@@ -14,7 +14,14 @@ describe('Choice service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'POST',
         path: '/choices',
-        handler: create
+        handler: create,
+        config: {
+          plugins: {
+            AuthorizationMiddleware: {
+              permission: 'urn:cgi:permission:choices::create'
+            }
+          }
+        }
       });
     });
   });

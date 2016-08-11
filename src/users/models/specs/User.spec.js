@@ -117,4 +117,44 @@ describe('User data model', () => {
 
   });
 
+  describe('checking for a permission', () => {
+    let user = new User(),
+      query;
+
+    beforeEach(() => {
+      user.relations.role = { get: stub().returns('0asd-asdase-9asweeops') };
+      query = { from: () => {} };
+    });
+
+
+    describe('it has been granted', () => {
+      const validPermissions = [{permission: 'urn:cgi:permission:users::list'}];
+
+      beforeEach(() => {
+        stub(user.orm.knex, 'select').returns(query);
+        stub(query, 'from').returns(Promise.resolve(validPermissions));
+      });
+
+      afterEach(() => { user.orm.knex.select.restore(); });
+
+      it('returns true', async () => {
+        expect(await user.hasPermission('urn:cgi:permission:users::list')).to.equal(true);
+      });
+    });
+
+    describe('it has not been granted', () => {
+      const invalidPermissions = [{ permission: 'urn:cgi:permission:users::create'}];
+
+      beforeEach(() => {
+        stub(user.orm.knex, 'select').returns(query);
+        stub(query, 'from').returns(Promise.resolve(invalidPermissions));
+      });
+
+      afterEach(() => { user.orm.knex.select.restore(); });
+
+      it('returns false', async () => {
+        expect(await user.hasPermission('urn:cgi:permission:users::list')).to.equal(false);
+      });
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import * as UserService from './../users/service';
+import * as UserService from './../../users/service';
 
 const { TOKEN_EXPIRATION, SECRET } = process.env;
 

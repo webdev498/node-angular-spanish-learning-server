@@ -14,9 +14,14 @@ describe('User service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'POST',
         path: '/users',
+        handler: create,
         config: {
           auth: false,
-          handler: create
+          plugins: {
+            AuthorizationMiddleware: {
+              permission: 'urn:cgi:permission:users::create'
+            }
+          }
         }
       });
     });
@@ -31,7 +36,14 @@ describe('User service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'GET',
         path: '/users',
-        handler: list
+        handler: list,
+        config: {
+          plugins: {
+            AuthorizationMiddleware: {
+              permission: 'urn:cgi:permission:users::list'
+            }
+          }
+        }
       });
     });
   });
@@ -45,7 +57,14 @@ describe('User service routing', () => {
       expect(server.route).to.have.been.calledWith({
         method: 'GET',
         path: '/users/{id}',
-        handler: get
+        handler: get,
+        config: {
+          plugins: {
+            AuthorizationMiddleware: {
+              permission: 'urn:cgi:permission:users::view'
+            }
+          }
+        }
       });
     });
   });

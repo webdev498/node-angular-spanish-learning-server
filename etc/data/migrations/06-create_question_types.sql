@@ -4,6 +4,5 @@ CREATE TABLE question_types
     text VARCHAR(255) NOT NULL,
     version VARCHAR(40) NOT NULL,
     created_at TIMESTAMP DEFAULT now(),
-    updated_at TIMESTAMP DEFAULT now()
+    updated_at TIMESTAMP
 );
-CREATE UNIQUE INDEX "question_types_id_uindex" ON question_types (id);

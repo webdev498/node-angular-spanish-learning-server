@@ -3,6 +3,35 @@
   "presets": [
     "node5"
   ],
+  "plugins": [
+    ["module-alias", [
+      { "src": "./src/email/mailer", "expose": "email/mailer" },
+      { "src": "./src/exceptions/Factory", "expose": "exceptions/Factory" },
+      { "src": "./src/http/methods", "expose": "http/methods" },
+      { "src": "./src/http/statusCodes", "expose": "http/statusCodes" },
+      { "src": "./src/logging", "expose": "logging" },
+      { "src": "./src/common/models/Base", "expose": "models/Base"},
+      { "src": "./src/users/models/User", "expose": "models/User"},
+      { "src": "./src/users/models/Address", "expose": "models/Address"},
+      { "src": "./src/users/models/Telephone", "expose": "models/Telephone"},
+      { "src": "./src/choices/models/Choice", "expose": "models/Choice"},
+      { "src": "./src/nationalities/models/Nationality", "expose": "models/Nationality"},
+      { "src": "./src/categories/models/Category", "expose": "models/Category"},
+      { "src": "./src/security/authorization/models/Role", "expose": "models/Role"},
+      { "src": "./src/security/authorization/models/Permission", "expose": "models/Permission"},
+      { "src": "./src/security/authorization/models/Operation", "expose": "models/Operation"},
+      { "src": "./src/security/authorization/models/Resource", "expose": "models/Resource"},
+      { "src" : "./src/users/service", "expose": "users/service"},
+      { "src": "./src/security/authorization/roles", "expose": "security/authorization/roles"},
+      { "src": "./src/data/orm", "expose": "data/orm"},
+      { "src": "./src/javascript/datatypes/string", "expose": "datatypes/string"},
+      { "src": "./src/javascript/datatypes/uuid", "expose": "datatypes/uuid"},
+      { "src": "./src/security/authorization/middleware", "expose": "authorization/middleware"},
+      { "src": "./src/exceptions/requests/Unauthenticated", "expose": "exceptions/requests/Unauthenticated"},
+      { "src": "./src/exceptions/requests/Unauthorized", "expose": "exceptions/requests/Unauthorized"},
+      { "src": "./src/http/statusCodes", "expose": "http/statusCodes"}
+    ]]
+  ],
   "env" :{
     "production": {
       "ignore": [

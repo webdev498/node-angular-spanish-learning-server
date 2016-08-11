@@ -7,4 +7,3 @@ CREATE TABLE exam_templates
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now()
 );
-CREATE UNIQUE INDEX "exam_templates_id_uindex" ON exam_templates (id);
