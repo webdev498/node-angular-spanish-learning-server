@@ -38,12 +38,7 @@ DB_HOST  | 'localhost'   | The FQDN of the host running the database
 DB_USER  | 'cgi'      | The account database operations will be performed under
 DB_PASSWORD | 'cgi'   | The password for the `DB_USER` account
 DB_NAME  | 'cgi'      | The name of the database under which cgi data tables will be created
-OAUTH_PASSWORD | '' | The password for all OAuth authentication
-FACEBOOK_APP_ID | '' | Facebook application Id
-FACEBOOK_SECRET | '' | The Facebook secret
-GOOGLE_APP_ID | '' | The Google application Id
-GOOGLE_SECRET | '' | The Google secret
-PORT | '3000' | Port the server listens on 
+DB_PORT  | 5432       | The TCP port to use when communicating with the database server
 
 *If you do not specify these variables, then the default value will be used at runtime*
 
@@ -55,13 +50,15 @@ export DB_HOST='my-host-name';
 export DB_USER='joe';
 export DB_PASSWORD='secret';
 export DB_NAME='walled-garden'
-export SECRET='mydirtylittlesecret'
+export DB_PORT=5432
+export SECRET='its_a_secret'
 export OAUTH_PASSWORD='cookie_encryption_password_secure'
 export FACEBOOK_APP_ID='Look in drop box'
 export FACEBOOK_SECRET='Look in drop box'
 export GOOGLE_APP_ID='Look in drop box'
 export GOOGLE_SECRET='Look in drop box'
 export PORT=8001
+export NODE_ENV='development'
 
 ./bin/server
 
@@ -112,6 +109,14 @@ SECRET          | <NONE>          | YES               | The cryptographic secret
 SYSLOG_HOST     | <NONE>          | No                | The hostname of the server hosting the system logging server
 SYSLOG_PORT     | <NONE>          | No                | The TCP port number the System
 SYSLOG_FACILITY | 1               | No                | The logging facility to associate the log messages with
+OAUTH_PASSWORD  | <NONE>          | No                |  The password for all OAuth authentication
+FACEBOOK_APP_ID | <NONE>          | No                |  Facebook application Id
+FACEBOOK_SECRET | <NONE>          | No                |  The Facebook secret
+GOOGLE_APP_ID   | <NONE>          | No                |  The Google application Id
+GOOGLE_SECRET   | <NONE>          | No                |  The Google secret
+PORT            | <NONE>          | YES               |  Port the server listens on
+NODE_ENV        | <NONE>          | YES               |  Defines behavior of the application based on the runtime environment
+SECRET          | <NONE>          | YES               |  The cryptographic secret used to encrypt local passwords
 
 
 ### Running the Unit Test Suite
