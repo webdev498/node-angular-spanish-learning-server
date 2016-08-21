@@ -5,7 +5,7 @@
   ],
   "plugins": [
     ["module-alias", [
-      { "src": "./src/email/mailer", "expose": "email/mailer" },
+      { "src": "./src/email", "expose": "email" },
       { "src": "./src/exceptions/Factory", "expose": "exceptions/Factory" },
       { "src": "./src/http/methods", "expose": "http/methods" },
       { "src": "./src/http/statusCodes", "expose": "http/statusCodes" },
