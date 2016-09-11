@@ -1,0 +1,15 @@
+/:
+  get:
+    responses:
+      200:
+        body: Choice[]
+  post:
+    body: Choice
+    responses:
+      201:
+        body: Choice
+/{id}:
+  put:
+    body: Choice
+    responses:
+      204:

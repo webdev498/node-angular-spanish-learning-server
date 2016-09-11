@@ -1,0 +1,18 @@
+/:
+  post:
+    body: Category
+    responses:
+      201:
+        body: Category
+  get:
+    responses:
+      200:
+        body: Category[]
+/{id}:
+  put:
+    body: Category
+    responses:
+      204:
+  delete:
+    responses:
+      204:
