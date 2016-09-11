@@ -1,0 +1,20 @@
+
+/:
+  get:
+    responses:
+      200:
+        body: User[]
+  post:
+    body: User
+    responses:
+      201:
+        body: User
+/{id}:
+  get:
+    responses:
+      200:
+        body: User
+  put:
+    body: User
+    responses:
+      204:

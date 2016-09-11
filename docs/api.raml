@@ -1,0 +1,19 @@
+#%RAML 1.0
+title: CGI Web Services
+baseUri: http://api.commongatewayinternational.com
+mediaType:
+  - application/json
+protocols:
+  - HTTP
+types:
+  User: !include types/user.raml
+  Nationality: !include types/nationality.raml
+  Choice: !include types/choice.raml
+  Category: !include types/category.raml
+traits:
+  secured: !include traits/secured.raml
+version: v1.0
+/users: !include resources/users.raml
+/nationalities: !include resources/nationalities.raml
+/choices: !include resources/choices.raml
+/categories: !include resources/categories.raml
