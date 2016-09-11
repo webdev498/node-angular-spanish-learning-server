@@ -1,6 +1,6 @@
-import Orm from '../../data/orm';
+import Orm from 'data/orm';
 import Base from 'models/Base';
-import User from 'models/User';
+import User from 'users/models/User';
 
 
 

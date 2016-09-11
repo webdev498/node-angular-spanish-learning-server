@@ -1,7 +1,14 @@
 import { createLogger } from 'bucker';
 import { inspect } from 'util';
 
-let options = {};
+const options = {};
+const noopLogger = {
+  error: () => {},
+  warn: () => {},
+  info: () => {},
+  debug: () => {}
+};
+
 let loggerSingleton;
 
 const name = 'Logging service';
@@ -37,7 +44,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 export const register = (server, options, next) => {
-  loggerSingleton = createLogger(options);
+  loggerSingleton = process.env.NODE_ENV === 'test' ? noopLogger : createLogger(options);
 
   server.on('response', (request) => {
     const { id, info, method, path, paramsArray, payload } = request;

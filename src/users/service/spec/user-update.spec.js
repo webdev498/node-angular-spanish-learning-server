@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import User from './../../models/User';
-import * as LoggingService from './../../../logging';
-import * as UserService from './../';
+import User from 'users/models/User';
+import UserService from 'users/service/UserService';
+import * as logger from 'logging';
 
 const payload = {
   firstName: 'Joe',
@@ -16,72 +16,53 @@ const payload = {
 const params = { id: '29asd-ask2eadk-2aasdd'};
 
 describe('Users service', () => {
+  const service = new UserService();
+  const userModelDouble = { fetch: () => userModelDouble };
+
   describe('Updating an existing user', () => {
-    let userModelDouble = {};
-
-    beforeEach(() => {
-      userModelDouble = {};
-
-      stub(LoggingService, 'logInfo');
-      stub(LoggingService, 'logError');
-      stub(User, 'forge').returns(userModelDouble);
-
-      userModelDouble.fetch = stub().returns(Promise.resolve(userModelDouble));
-      userModelDouble.save = stub().returns(Promise.resolve(userModelDouble));
+    before(() => {
+      stub(logger, 'logInfo');
+      stub(logger, 'logError');
     });
 
-    afterEach(() => {
-      User.forge.restore();
-      LoggingService.logError.restore();
-      LoggingService.logInfo.restore();
+    after(() => {
+      logger.logError.restore();
+      logger.logInfo.restore();
     });
 
-    it('logs information to the logger', (done) => {
-      UserService.update({ params, payload }).then(() => {
-        expect(LoggingService.logInfo).to.have.been.called;
-        done();
+    describe('when the save is successful', () => {
+      before(() => {
+        stub(User, 'where').returns(userModelDouble);
+        userModelDouble.save = stub().returns(Promise.resolve(userModelDouble));
       });
-    });
 
-    it('delegates to the #forge method on the User model', (done) => {
-      UserService.update({ params, payload }).then(() => done());
-      expect(User.forge).to.have.been.called;
-    });
-
-    it('attempts to save the model', (done) => {
-      UserService.update({ params, payload }).then(() => {
-        expect(userModelDouble.save).to.have.been.called;
-        done();
+      after(() => {
+        User.where.restore();
       });
-    });
 
-    describe('whent he save is successful', () => {
-      it('resolves the user', (done) => {
-        UserService.update({ params, payload }).then((result) => {
-          expect(result).to.equal(userModelDouble);
-          done();
-        });
+      it('resolves the user', async () => {
+        expect(await service.update({ params, payload})).to.equal(userModelDouble);
       });
     });
 
     describe('when the save was unsuccessful', () => {
-      let error = {};
-      beforeEach(() => {
+      const error = new Error();
+
+      before(() => {
+        stub(User, 'where').returns(userModelDouble);
         userModelDouble.save = stub().returns(Promise.reject(error));
       });
 
-      it('logs an error', (done) => {
-        UserService.update({ params, payload }).then(() => {}, () => {
-          expect(LoggingService.logError).to.have.been.called;
-          done();
-        });
+      after(() => {
+        User.where.restore();
       });
 
-      it('rejects an error', (done) => {
-        UserService.update({ params, payload }).then(() => {}, (saveError) => {
-          expect(saveError).to.equal(error);
-          done();
-        });
+      it('rejects an error', async () => {
+        try {
+          await service.update({ params, payload });
+        } catch(err) {
+          expect(err).to.equal(error);
+        }
       });
     });
 

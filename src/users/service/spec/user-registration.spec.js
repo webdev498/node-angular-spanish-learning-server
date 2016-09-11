@@ -1,8 +1,7 @@
-import { expect } from 'chai';
 import { stub } from 'sinon';
-import User from './../../models/User';
-import * as LoggingService from './../../../logging';
-import * as UserService from './../';
+import User from 'users/models/User';
+import UserService from 'users/service/UserService';
+import * as logger from 'logging';
 
 const payload = {
   firstName: 'Joe',
@@ -15,78 +14,60 @@ const payload = {
 
 describe('Users service', () => {
   describe('registering a new user', () => {
-    let userModelDouble = {};
-    let saveMock;
+    const service = new UserService();
 
-    beforeEach(() => {
-      userModelDouble = { save: () => {}, tap: () => {} };
-
-      stub(LoggingService, 'logInfo');
-      stub(LoggingService, 'logError');
-      stub(User, 'forge').returns(userModelDouble);
-      stub(userModelDouble, 'save').returns(userModelDouble);
-      saveMock = stub(userModelDouble, 'tap').returns(Promise.resolve());
+    before(() => {
+      stub(logger, 'logInfo');
+      stub(logger, 'logError');
     });
 
-    afterEach(() => {
-      User.forge.restore();
-      LoggingService.logError.restore();
-      LoggingService.logInfo.restore();
-    });
-
-    it('logs information to the logger', (done) => {
-      UserService.signup({ payload }).then(() => {
-        expect(LoggingService.logInfo).to.have.been.called;
-        done();
-      });
-    });
-
-    it('delegates to the #forge method on the User model', (done) => {
-      UserService.signup({ payload }).then(() => done());
-      expect(User.forge).to.have.been.called;
-    });
-
-    it('attempts to save the model', (done) => {
-      UserService.signup({ payload }).then(() => {
-        expect(userModelDouble.save).to.have.been.called;
-        done();
-      });
+    after(() => {
+      logger.logError.restore();
+      logger.logInfo.restore();
     });
 
     describe('whent he save is successful', () => {
-      let saveResult = {};
-      beforeEach(() => {
-        saveMock.returns(Promise.resolve(saveResult));
+      let result;
+      const userModelDouble = { save: () => {}, tap: () => {} };
+      const saveResult = {};
+
+      before(async () => {
+        stub(User, 'forge').returns(userModelDouble);
+        stub(userModelDouble, 'save').returns(userModelDouble);
+        stub(userModelDouble, 'tap').returns(Promise.resolve(saveResult));
+        result = await service.signup({payload});
       });
 
-      it('resolves the user', (done) => {
-        UserService.signup({ payload }).then((result) => {
-          expect(result).to.equal(saveResult);
-          done();
-        });
+      after(() => {
+        User.forge.restore();
+      });
+
+      it('resolves the user', () => {
+        expect(result).to.equal(saveResult);
       });
     });
 
     describe('when the save was unsuccessful', () => {
-      let error = {};
-      beforeEach(() => {
-        saveMock.returns(Promise.reject(error));
+      const userModelDouble = { save: () => {}, tap: () => {} };
+      const error = new Error();
+
+      before(() => {
+        stub(userModelDouble, 'save').returns(userModelDouble);
+        stub(userModelDouble, 'tap').returns(Promise.reject(error));
+        stub(User, 'forge').returns(userModelDouble);
       });
 
-      it('logs an error', (done) => {
-        UserService.signup({ payload }).then(() => {}, () => {
-          expect(LoggingService.logError).to.have.been.called;
-          done();
-        });
+      after(() => {
+        User.forge.restore();
       });
 
-      it('rejects an error', (done) => {
-        UserService.signup({ payload }).then(() => {}, (saveError) => {
-          expect(saveError).to.equal(error);
-          done();
-        });
+      it('raises an error', async () => {
+        try {
+          await service.signup({payload});
+        } catch (err) {
+          expect(err).to.equal(error);
+        }
       });
     });
-
   });
 });

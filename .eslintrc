@@ -13,7 +13,11 @@
   "extends": [
     "eslint:recommended",
     "plugin:flowtype/recommended"
-    ],
+  ],
+  
+  "globals": {
+    "expect": true
+  },
 
   "env" : {
     "node": true,

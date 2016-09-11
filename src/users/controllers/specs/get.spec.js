@@ -1,59 +1,41 @@
-import { expect } from 'chai';
 import { spy, stub } from 'sinon';
-import * as UserService from './../../service';
-import * as ServiceErrorFactory from './../../../exceptions/Factory';
-import * as Controller from './../';
-import { OK } from './../../../http/statusCodes';
+import UserService from 'users/service/UserService';
+import UsersController from 'users/controllers/UsersController';
 
 describe('User controller', () => {
-  let reply, request, userDouble, getStub;
-
-  before(() => {
-    reply = spy();
-    request = { id: '1' };
-    userDouble = { id: '1' };
-    getStub = stub(UserService, 'get');
-  });
-
-  after(() => {
-    UserService.get.restore();
-  });
+  const request = { id: '1' };
+  const userDouble = { id: '1' };
 
   describe('fetching a specific user', () => {
     describe('when database operation is successful', () => {
+      const reply = spy();
+      const service = new UserService();
+      const controller = new UsersController(service);
 
-      before(() => {
-        getStub.returns(Promise.resolve(userDouble));
-        return Controller.get(request, reply);
+      before(async () => {
+        stub(service, 'get').returns(Promise.resolve(userDouble));
+        await controller.get(request, reply);
       });
 
-      after(() => {
-        UserService.get.reset();
+      it('replies with the user requested', () => {
+        expect(reply).to.have.been.calledWith(userDouble);
       });
-
-      it('delegates to the get action of the UserService', () => expect(UserService.get).to.have.been.called);
-      it('replies with the user requested', () => expect(reply).to.have.been.calledWith(userDouble));
     });
 
     describe('when the get is not successful', () => {
-      let error;
-      before(() => {
-        reply = stub().returns({});
-        error = { statusCode: OK };
-        stub(ServiceErrorFactory, 'create').returns(error);
-        getStub.returns(Promise.reject({}));
-        return Controller.get(request, reply);
-      });
+      const service = new UserService();
+      const controller = new UsersController(service);
+      const error = new Error();
+      const reply = stub().returns({});
 
-      after(() => {
-        UserService.get.reset();
-        ServiceErrorFactory.create.restore();
+      before(async () => {
+        stub(service, 'get').returns(Promise.reject(error));
+        await controller.get(request, reply);
       });
 
       it('invokes the reply method provided by the router with the error', () => {
         expect(reply).to.have.been.calledWith(error);
       });
-
     });
   });
 });

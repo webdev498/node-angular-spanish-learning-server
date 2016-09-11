@@ -4,11 +4,11 @@ import GoogleProvider from './../googleProvider';
 
 describe('google provider', () => {
   describe('static build client', () => {
-    beforeEach(() => {
+    before(() => {
       spy(GoogleProvider, 'build');
     });
 
-    afterEach(() => {
+    after(() => {
       GoogleProvider.build.restore();
     });
 
