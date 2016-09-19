@@ -1,7 +1,9 @@
 import 'babel-polyfill';
 import Server from './Server';
+import * as globalExceptionHandler from 'exceptions/globalHandler';
 import * as logging from './logging';
-import * as ChoiceService from './choices';
+import * as LanguageService from './languages';
+import * as TerminologyService from './terminology';
 import * as CategoriesService from './categories';
 import * as UserService from './users';
 import * as NationalityService from './nationalities';
@@ -27,11 +29,12 @@ const server = new Server({
   }
 });
 
-const port = process.env.PORT || 3000;
 
-const noop = () => { };
-server.connection({ port });
+const noop = (error) => { if (error) { logging.logError(error); }};
 
+server.connection({ port: process.env.PORT || 3000 });
+
+server.register(globalExceptionHandler, noop);
 server.register(logging, noop);
 server.register(HapiJwtAuth2, (err) => {
   if (err) { logging.logError(err); }
@@ -39,9 +42,9 @@ server.register(HapiJwtAuth2, (err) => {
   server.auth.default('jwt');
 });
 server.register(authMiddleware, noop);
-
 server.register(CategoriesService, noop);
-server.register(ChoiceService, noop);
+server.register(LanguageService, noop);
+server.register(TerminologyService, noop);
 server.register(UserService, noop);
 server.register(NationalityService, noop);
 server.register(LoginService, noop);
