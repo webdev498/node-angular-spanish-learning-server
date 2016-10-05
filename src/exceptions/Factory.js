@@ -1,10 +1,6 @@
 import UnprocessableEntity from './requests/UnprocessableEntity';
 
 import {
-  EmptyTextError
-} from './../choices/exceptions';
-
-import {
   PasswordMatchError,
   PasswordComplexityError,
   InvalidEmailError,
@@ -12,7 +8,6 @@ import {
 } from './../users/exceptions';
 
 const mapping = {
-  [EmptyTextError] : UnprocessableEntity,
   [PasswordMatchError] : UnprocessableEntity,
   [PasswordComplexityError] : UnprocessableEntity,
   [InvalidEmailError]: UnprocessableEntity,
