@@ -1,7 +1,6 @@
 import Orm from '../../data/orm';
 import { Name } from './../validations';
 import Base from './../../common/models/Base';
-import './../../choices/models/Choice';
 
 const tableName = 'categories';
 const persistenceWhitelist = ['name', 'active'];
@@ -12,10 +11,6 @@ const Category = Base.extend({
 
   initialize(attributes) {
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
-  },
-
-  choices(){
-    return this.belongsToMany('Choices');
   },
 
   serialize() {

@@ -16,7 +16,6 @@ export const signup = (userInfo) => {
     .save()
     .tap((user) => {
       const userId = user.get('id');
-
       const promises = telephones.map((telephone) => user.related('telephones').create(Object.assign(telephone, { userId })))
         .concat(addresses.map((address) => user.related('addresses').create(Object.assign(address, { userId }))));
 
@@ -37,7 +36,6 @@ export const signup = (userInfo) => {
       }
     );
   });
-
 };
 
 export const all = () => {

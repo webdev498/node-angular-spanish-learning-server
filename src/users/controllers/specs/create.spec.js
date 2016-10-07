@@ -1,15 +1,16 @@
 import { expect } from 'chai';
-import { spy, stub } from 'sinon';
+import { stub } from 'sinon';
 import * as UserService from './../../service';
 import * as TokenProvider from './../../../security/authentication/tokenProvider';
 import * as ServiceErrorFactory from './../../../exceptions/Factory';
 import * as Controller from './../';
+import * as EmailMessage from 'email';
 
 describe('User controller', () => {
   let reply, request, userDouble, sanitizedUser, signupStub, tokenProviderStub, error, token = '123abc';
 
   before(() => {
-    reply = spy();
+    reply = stub().returns({});
     request = { payload: {firstName: 'fn', lastName: 'ln', password:'pwd', confirmPassword: 'cpwd', email:'abc@abc.com'} };
     userDouble = {sanitize: () => {}};
     sanitizedUser = {};
@@ -25,11 +26,12 @@ describe('User controller', () => {
   describe('signing up a new user', () => {
     describe('when signup is successful', () => {
 
-      before(() => {
+      before(async () => {
         stub(userDouble, 'sanitize').returns(sanitizedUser);
         signupStub.returns(Promise.resolve(userDouble));
         tokenProviderStub.returns(Promise.resolve(token));
-        return Controller.create(request, reply);
+        stub(EmailMessage, 'signupConfirmation').returns(Promise.resolve());
+        await Controller.create(request, reply);
       });
 
       after(() => {

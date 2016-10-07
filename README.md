@@ -59,6 +59,10 @@ export GOOGLE_APP_ID='Look in drop box'
 export GOOGLE_SECRET='Look in drop box'
 export PORT=8001
 export NODE_ENV='development'
+export DEFAULT_FROM_ADDRESS='notifications@certififedspanish.com'
+export CONFIRMATION_CALLBACK_URL='http://localhost:4000/#/registerconfirm'
+export SES_KEY='Look in drobox',
+export SES_SECRET='Look in dropbox'
 
 ./bin/server
 

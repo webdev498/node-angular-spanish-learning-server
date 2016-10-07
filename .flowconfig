@@ -1,0 +1,17 @@
+[ignore]
+.*/node_modules/conventional-changelog-core/test/fixtures/.*
+.*/node_modules/npm/node_modules/config-chain/test/.*
+.*/node_modules/npm/test/fixtures/config/.*
+
+[include]
+
+[libs]
+
+[options]
+ module.name_mapper='http' -> '<PROJECT_ROOT>/src/http/'
+ module.name_mapper='datatypes/uuid' -> '<PROJECT_ROOT>/src/javascript/datatypes/uuid'
+ module.name_mapper='models/Base' -> '<PROJECT_ROOT>/src/common/models/Base'
+ module.name_mapper='models/Language' -> '<PROJECT_ROOT>/src/languages/models/Language'
+ module.name_mapper='models/Term' -> '<PROJECT_ROOT>/src/terminology/models/Term'
+ module.name_mapper='data/orm' -> '<PROJECT_ROOT>/src/data/orm'
+ module.name_mapper='exceptions' -> '<PROJECT_ROOT>/src/exceptions'
