@@ -8,3 +8,4 @@ debug
 coverage
 .tern-port
 var
+.vscode
