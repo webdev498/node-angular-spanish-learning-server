@@ -21,8 +21,8 @@
           "expose": "models/Base"
         },
         {
-          "src": "./src/users/models/User",
-          "expose": "models/User"
+          "src": "./src/users/",
+          "expose": "users"
         },
         {
           "src": "./src/users/models/Address",
@@ -65,12 +65,8 @@
           "expose": "models/Language"
         },
         {
-          "src": "./src/users/service",
-          "expose": "users/service"
-        },
-        {
-          "src": "./src/security/authorization/roles",
-          "expose": "security/authorization/roles"
+          "src": "./src/security",
+          "expose": "security"
         },
         {
           "src": "./src/data/orm",
@@ -85,19 +81,7 @@
           "expose": "datatypes/uuid"
         },
         {
-          "src": "./src/security/authorization/middleware",
-          "expose": "authorization/middleware"
-        },
-        {
-          "src": "./src/exceptions/requests/Unauthenticated",
-          "expose": "exceptions/requests/Unauthenticated"
-        },
-        {
-          "src": "./src/exceptions/requests/Unauthorized",
-          "expose": "exceptions/requests/Unauthorized"
-        },
-        {
-          "src": "./src/exceptions",
+          "src": "./src/exceptions/",
           "expose": "exceptions"
         },
         {

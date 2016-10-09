@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { spy, stub } from 'sinon';
-import * as UserService from './../../service';
-import * as ServiceErrorFactory from './../../../exceptions/Factory';
-import * as Controller from './../';
+import UserService from 'users/service/UserService';
+import TokenProvider from 'security/authentication/TokenProvider';
+import UsersController from 'users/controllers/UsersController';
 
 
 describe('User controller', () => {
@@ -13,36 +13,37 @@ describe('User controller', () => {
       let users = [{}, {}];
       reply = spy();
 
-      beforeEach(() => {
-        stub(UserService, 'all').returns(Promise.resolve(users));
-        return Controller.list(request, reply);
-      });
-      afterEach(() => {
-        UserService.all.restore();
+      const service = new UserService();
+      const tokenProvider = new TokenProvider();
+      const controller = new UsersController(service, tokenProvider);
+
+      before(async () => {
+        stub(service, 'all').returns(Promise.resolve(users));
+        await controller.list(request, reply);
       });
 
-      it('replies with the collection of users', () => expect(reply).to.have.been.calledWith(users));
+      it('replies with the collection of users', () => {
+        expect(reply).to.have.been.calledWith(users);
+      });
     });
 
     describe('when the database operation was not successful', () => {
-      let serviceError = { statusCode: 401 };
-      let runtimeError = {};
-      let response = {};
-      reply = stub().returns(response);
+      const runtimeError = {};
+      const response = {};
+      const reply = stub().returns(response);
 
-      beforeEach(() => {
-        stub(UserService, 'all').returns(Promise.reject(runtimeError));
-        stub(ServiceErrorFactory, 'create').returns(serviceError);
-        return Controller.list(request, reply);
-      });
-      afterEach(() => {
-        UserService.all.restore();
-        ServiceErrorFactory.create.restore();
+      const service = new UserService();
+      const tokenProvider = new TokenProvider();
+      const controller = new UsersController(service, tokenProvider);
+
+      before(() => {
+        stub(service, 'all').returns(Promise.reject(runtimeError));
+        return controller.list(request, reply);
       });
 
-      it('replies with the error', () => expect(reply).to.have.been.calledWith(serviceError));
-      it('sets the status code on the response to the status code of the error', () => expect(response.statusCode).to.equal(serviceError.statusCode));
-      it('creates a service error from the error returned from the Users Service', () => expect(ServiceErrorFactory.create).to.have.been.calledWith(request, runtimeError));
+      it('replies with the error', () => {
+        expect(reply).to.have.been.calledWith(runtimeError);
+      });
     });
   });
 });

@@ -1,50 +1,36 @@
-import { expect } from 'chai';
 import { stub } from 'sinon';
-import * as UserService from './../../service';
-import * as TokenProvider from './../../../security/authentication/tokenProvider';
-import * as ServiceErrorFactory from './../../../exceptions/Factory';
-import * as Controller from './../';
+import UserService from 'users/service/UserService';
+import TokenProvider from 'security/authentication/TokenProvider';
+import UsersController from 'users/controllers/UsersController';
 import * as EmailMessage from 'email';
 
 describe('User controller', () => {
-  let reply, request, userDouble, sanitizedUser, signupStub, tokenProviderStub, error, token = '123abc';
-
-  before(() => {
-    reply = stub().returns({});
-    request = { payload: {firstName: 'fn', lastName: 'ln', password:'pwd', confirmPassword: 'cpwd', email:'abc@abc.com'} };
-    userDouble = {sanitize: () => {}};
-    sanitizedUser = {};
-    tokenProviderStub = stub(TokenProvider, 'sign');
-    signupStub = stub(UserService, 'signup');
-  });
-
-  after(() => {
-    TokenProvider.sign.restore();
-    UserService.signup.restore();
-  });
+  const token = '123abc';
+  const request = { payload: {firstName: 'fn', lastName: 'ln', password:'pwd', confirmPassword: 'cpwd', email:'abc@abc.com'} };
+  const userDouble = {sanitize: () => {}};
 
   describe('signing up a new user', () => {
     describe('when signup is successful', () => {
+      const reply = stub().returns({});
+      const sanitizedUser = {};
+      const tokenProvider = new TokenProvider();
+      const service = new UserService();
+      const controller = new UsersController(service, tokenProvider);
 
       before(async () => {
+        stub(service, 'signup').returns(Promise.resolve(userDouble));
         stub(userDouble, 'sanitize').returns(sanitizedUser);
-        signupStub.returns(Promise.resolve(userDouble));
-        tokenProviderStub.returns(Promise.resolve(token));
+        stub(tokenProvider, 'sign').returns(Promise.resolve(token));
         stub(EmailMessage, 'signupConfirmation').returns(Promise.resolve());
-        await Controller.create(request, reply);
-      });
-
-      after(() => {
-        UserService.signup.reset();
-        TokenProvider.sign.reset();
+        await controller.create(request, reply);
       });
 
       it('delegates to the signup action of the UserService', () => {
-        expect(UserService.signup).to.have.been.called;
+        expect(service.signup).to.have.been.called;
       });
 
       it('passes the user to the token service to be signed', () => {
-        expect(TokenProvider.sign).to.have.been.calledWith(sanitizedUser);
+        expect(tokenProvider.sign).to.have.been.calledWith(sanitizedUser);
       });
 
       it('invokes the reply method provided by the route with a JWT token representing the user', () => {
@@ -53,27 +39,27 @@ describe('User controller', () => {
     });
 
     describe('when the signup is not successful', () => {
-      before(() => {
-        error = new Error();
-        stub(ServiceErrorFactory, 'create').returns(error);
-        signupStub.returns(Promise.reject(error));
-        return Controller.create(request, reply);
+      const tokenProvider = new TokenProvider();
+      const service = new UserService();
+      const controller = new UsersController(service, tokenProvider);
+      const error = new Error();
+      const reply = stub().returns({});
+
+      before(async () => {
+        stub(tokenProvider, 'sign');
+        stub(service, 'signup').returns(Promise.reject(error));
+        await controller.create(request, reply);
       });
 
-      after(() => {
-          UserService.signup.reset();
-          TokenProvider.sign.reset();
-          ServiceErrorFactory.create.restore();
-      });
 
       it('does not delegate to the token provider', () => {
-        expect(TokenProvider.sign).not.to.have.been.called;
+        expect(tokenProvider.sign).not.to.have.been.called;
       });
 
       it('invokes the reply method provided by the router with the error', () => {
         expect(reply).to.have.been.calledWith(error);
       });
-
     });
+
   });
 });
