@@ -1,41 +1,51 @@
-import { expect } from 'chai';
 import { stub } from 'sinon';
-import User from './../../models/User';
-import * as UserService from './../';
-import * as LoggingService from './../../../logging';
+import User from 'users/models/User';
+import UserService from 'users/service/UserService';
+import * as logger from 'logging';
 
 describe('Users service getByEmail', () => {
   let userModelDouble = {};
   let user = { id: 1, email: 'test@test.com'};
+  const service = new UserService();
 
-  beforeEach(() => {
+  before(() => {
     userModelDouble = {};
-
-    stub(LoggingService, 'logInfo');
-    stub(LoggingService, 'logError');
+    stub(logger, 'logInfo');
+    stub(logger, 'logError');
     stub(User, 'where').returns(userModelDouble);
   });
 
-  afterEach(() => {
+  after(() => {
     User.where.restore();
-    LoggingService.logError.restore();
-    LoggingService.logInfo.restore();
+    logger.logInfo.restore();
+    logger.logError.restore();
   });
 
   describe('when record exists in database', () => {
-    beforeEach(() => {
+    let result;
+    before(async () => {
       userModelDouble.fetch = stub().returns(Promise.resolve(user));
+      result = await service.getByEmail(user.email);
     });
 
-    it('fetching user by email', () => UserService.getByEmail(user.email).then((result) => expect(result).to.equal(user)));
+    it('fetching user by email', () => {
+      expect(result).to.equal(user);
+    });
   });
 
   describe('when there is a database error', () => {
     let error = new Error();
 
-    beforeEach(() => {
+    before(() => {
       userModelDouble.fetch = stub().returns(Promise.reject(error));
     });
-    it('fetching a user by email error', () => UserService.getByEmail(user.email).catch((errorResult) => expect(errorResult).to.equal(error)));
+
+    it('fetching a user by email error', async () => {
+      try {
+        await service.getByEmail(user.email);
+      } catch (err) {
+        expect(err).to.equal(error);
+      }
+    });
   });
 });

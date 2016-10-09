@@ -10,14 +10,14 @@ const accessOptions = {
   redirect_uri: `${redirectUri}/`
 };
 
-class FacebookProvider {
+export default class FacebookProvider {
   constructor(client) {
     this.client = client;
   }
   getProfile(code) {
     return new Promise((resolve, reject) => {
       accessOptions.code = code;
-      
+
       this.client.napi('oauth/access_token', accessOptions, (accessError, { access_token }) => {
         if(accessError) {
           logError(accessError);
@@ -46,5 +46,3 @@ class FacebookProvider {
     return new FacebookProvider(clientImpl);
   }
 }
-
-export default FacebookProvider;

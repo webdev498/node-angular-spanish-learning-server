@@ -1,10 +1,11 @@
 import googleapi from 'googleapis';
 import { logError } from './../../logging';
 import { GoogleOptions } from './oauthConfig';
+import type OAuthProvider from './interfaces/OAuthProvider';
 
 const {clientId, clientSecret, redirectUri} = GoogleOptions;
 
-class GoogleProvider {
+export default class GoogleProvider implements OAuthProvider{
   constructor(client) {
     this.client = client;
   }
@@ -36,5 +37,3 @@ class GoogleProvider {
     return new GoogleProvider(clientImpl);
   }
 }
-
-export default GoogleProvider;

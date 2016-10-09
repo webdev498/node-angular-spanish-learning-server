@@ -1,34 +1,34 @@
-import { expect } from 'chai';
 import { stub } from 'sinon';
-import User from './../../models/User';
-import * as UserService from './../';
-import * as LoggingService from './../../../logging';
+import User from 'users/models/User';
+import UserService from 'users/service/UserService';
+import * as logger from 'logging';
 
 describe('Users service FetchAll', () => {
-  let userModelDouble = {},
-    users = [];
+  const service = new UserService();
+  const userModelDouble = {};
+  const users = [];
 
-  beforeEach(() => {
-    userModelDouble = {};
-
-    stub(LoggingService, 'logInfo');
-    stub(LoggingService, 'logError');
+  before(() => {
     stub(User, 'forge').returns(userModelDouble);
-
+    stub(logger, 'logInfo');
   });
 
-  afterEach(() => {
+  after(() => {
     User.forge.restore();
-    LoggingService.logError.restore();
-    LoggingService.logInfo.restore();
+    logger.logInfo.restore();
   });
 
   describe('when there are records in the database', () => {
-    beforeEach(() => {
+    let result;
+
+    beforeEach(async () => {
       userModelDouble.fetchAll = stub().returns(Promise.resolve(users));
+      result = await service.all();
     });
 
-    it('fetching all users', () => UserService.all().then((result) => expect(result).to.equal(users)));
+    it('fetching all users', () => {
+      expect(result).to.equal(users);
+    });
   });
 
   describe('when there is a database error', () => {
@@ -37,6 +37,13 @@ describe('Users service FetchAll', () => {
     beforeEach(() => {
       userModelDouble.fetchAll = stub().returns(Promise.reject(error));
     });
-    it('fetching all users error', () => UserService.all().catch((errorResult) => expect(errorResult).to.equal(error)));
+
+    it('fetching all users error', async () => {
+      try {
+        await service.all();
+      } catch (err) {
+        expect(err).to.equal(error);
+      }
+    });
   });
 });

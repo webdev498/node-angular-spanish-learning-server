@@ -1,4 +1,6 @@
 import UnprocessableEntity from './requests/UnprocessableEntity';
+import NotFoundError from './requests/NotFoundError';
+import MissingRecordError from './runtime/MissingRecordError';
 
 import {
   PasswordMatchError,
@@ -11,7 +13,8 @@ const mapping = {
   [PasswordMatchError] : UnprocessableEntity,
   [PasswordComplexityError] : UnprocessableEntity,
   [InvalidEmailError]: UnprocessableEntity,
-  [UserPasswordMismatchError]: UnprocessableEntity
+  [UserPasswordMismatchError]: UnprocessableEntity,
+  [MissingRecordError]: NotFoundError
 };
 
 export const create = (request, error) => {

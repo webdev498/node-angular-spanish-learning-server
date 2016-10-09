@@ -9,6 +9,12 @@
 
 [options]
  module.name_mapper='http' -> '<PROJECT_ROOT>/src/http/'
+ module.name_mapper='logging' -> '<PROJECT_ROOT>/src/logging/index'
+ module.name_mapper='email' -> '<PROJECT_ROOT>/src/email'
+ module.name_mapper='security' -> '<PROJECT_ROOT>/src/security/'
+ module.name_mapper='users' -> '<PROJECT_ROOT>/src/users/'
+ module.name_mapper='exceptions' -> '<PROJECT_ROOT>/src/exceptions/'
+
  module.name_mapper='datatypes/uuid' -> '<PROJECT_ROOT>/src/javascript/datatypes/uuid'
  module.name_mapper='models/Base' -> '<PROJECT_ROOT>/src/common/models/Base'
  module.name_mapper='models/Language' -> '<PROJECT_ROOT>/src/languages/models/Language'
