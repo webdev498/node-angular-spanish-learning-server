@@ -23,7 +23,7 @@ describe('User controller', () => {
         stub(userDouble, 'sanitize').returns(sanitizedUser);
         stub(tokenProvider, 'sign').returns(Promise.resolve(token));
         stub(EmailMessage, 'signupConfirmation').returns(Promise.resolve());
-        stub(CRMService, 'syncWithCRM');
+        stub(CRMService, 'syncWithCRM').returns(null);
         await controller.create(request, reply);
       });
 
