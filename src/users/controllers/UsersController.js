@@ -1,6 +1,7 @@
 //@flow
 import { CREATED } from 'http/statusCodes';
 import * as EmailMessage from 'email';
+import CRMService from './../service/CRMService';
 import type { Request } from 'http/index';
 import type TokenProvider from 'security/authentication/TokenProvider';
 import type UserService from '../service/UserService';
@@ -19,6 +20,7 @@ export default class UsersController {
       const user = await this.service.signup(request.payload);
       const token = await this.tokenProvider.sign(user.sanitize());
       await EmailMessage.signupConfirmation(user);
+      CRMService.syncWithCRM(user);
       return reply({ token }).statusCode = CREATED;
     } catch (error) {
       reply(error);

@@ -63,13 +63,13 @@
     "stream-transform": "^0.1.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.6.3",
+    "aws-sdk": "^2.6.7",
     "bcrypt": "^0.8.7",
     "bookends": "^0.14.0",
     "bookshelf": "^0.9.5",
     "bucker": "^1.1.1",
     "fb": "^1.1.1",
-    "googleapis": "^8.0.0",
+    "googleapis": "^14.0.0",
     "hapi": "^13.5.3",
     "hapi-auth-jwt2": "^6.0.0",
     "jsonwebtoken": "^5.7.0",
