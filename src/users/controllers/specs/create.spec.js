@@ -17,14 +17,14 @@ describe('User controller', () => {
       const tokenProvider = new TokenProvider();
       const service = new UserService();
       const controller = new UsersController(service, tokenProvider);
+      let crmService = new CRMService({firstName: '', lastName: '', email: ''});
 
       before(async () => {
         stub(service, 'signup').returns(Promise.resolve(userDouble));
         stub(userDouble, 'sanitize').returns(sanitizedUser);
         stub(tokenProvider, 'sign').returns(Promise.resolve(token));
         stub(EmailMessage, 'signupConfirmation').returns(Promise.resolve());
-        var crmService = new CRMService();
-        stub(CRMService, 'syncWithCRM').returns(null);
+        stub(crmService, 'syncWithCRM').returns(null);
         await controller.create(request, reply);
       });
 

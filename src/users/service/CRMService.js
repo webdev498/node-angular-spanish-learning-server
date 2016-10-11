@@ -1,4 +1,4 @@
-var http = require('http');
+var http =  require('http');
 import type User from './../models/User';
 import { logInfo, logError } from 'logging';
 
@@ -14,8 +14,8 @@ export default class CRMService {
         'api_action' : 'contact_add',
         'api_key' : '5d108c2b1412ff154aeb08e5a8505bcc1d2d7a53e9d422d7ad12262371187060a9be2350',
         'email' : this.user.email,
-        'first_name' : this.user.first_name,
-        'last_name' : this.user.last_name,
+        'first_name' : this.user.firstName,
+        'last_name' : this.user.lastName,
         'p[21]' : '21'
     };
     
