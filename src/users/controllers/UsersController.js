@@ -20,7 +20,7 @@ export default class UsersController {
       const user = await this.service.signup(request.payload);
       const token = await this.tokenProvider.sign(user.sanitize());
       await EmailMessage.signupConfirmation(user);
-      CRMService.syncWithCRM(user);
+      new CRMService().syncWithCRM(user);
       return reply({ token }).statusCode = CREATED;
     } catch (error) {
       reply(error);

@@ -1,6 +1,6 @@
 var http = require('http');
 import type User from './../models/User';
-import { logInfo } from 'logging';
+import { logInfo, logError } from 'logging';
 
 export default class CRMService {
   user: User;
@@ -40,7 +40,7 @@ export default class CRMService {
         });
 
     req.on('error', function(e) {
-        logInfo(`problem with request CRM sync request: ${e.message}`);
+        logError(`problem with request CRM sync request: ${e.message}`);
     });
 
     req.end();
