@@ -3,6 +3,7 @@ import GoogleProvider from 'security/authentication/googleProvider';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import UserService from 'users/service/UserService';
+import CRMService from 'users/service/CRMService';
 
 describe('Login service', () => {
   describe('when logging in through Google', () => {
@@ -32,13 +33,15 @@ describe('Login service', () => {
     describe('when the user does not already exist', () => {
       const userService = new UserService();
       const tokenProvider = new TokenProvider();
-      const service = new LoginService(userService, tokenProvider);
+      const crmService = new CRMService();
+      const service = new LoginService(userService, tokenProvider, crmService);
       let result;
 
       before(async () => {
         stub(tokenProvider, 'sign').returns(Promise.resolve(token));
         stub(userService, 'getByEmail').returns(Promise.resolve(null));
         stub(userService, 'signup').returns(Promise.resolve(user));
+        stub(crmService, 'syncUserWithCRM').returns(null);
         result = await service.googleLogin(code);
       });
 
@@ -54,7 +57,8 @@ describe('Login service', () => {
     describe('when user already exists', () => {
       const userService = new UserService();
       const tokenProvider = new TokenProvider();
-      const service = new LoginService(userService, tokenProvider);
+      const crmService = new CRMService();
+      const service = new LoginService(userService, tokenProvider, crmService);
       let result;
 
       before(async () => {

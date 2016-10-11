@@ -1,10 +1,12 @@
 var aws = require('aws-sdk');
-import { logInfo } from './../../logging';
+import { logInfo, logError } from './../../logging';
+import type Message from './../models/Message';
 
-export const send = (message) => {
+export const send = (message: Message) => {
     aws.config.update({
         accessKeyId: process.env.SES_KEY,
-        secretAccessKey: process.env.SES_SECRET
+        secretAccessKey: process.env.SES_SECRET,
+        region: 'us-east-1'
     });
 
     let ses = new aws.SES();
@@ -13,7 +15,7 @@ export const send = (message) => {
         Destination: { 
             BccAddresses: [],
             CcAddresses: [],
-            ToAddresses: [message.recipient.email]
+            ToAddresses: [message.recipient.get('email')]
         },
         Message: { 
             Body: { 
@@ -27,11 +29,12 @@ export const send = (message) => {
         ReplyToAddresses: [message.from]
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         logInfo('sending email');
         ses.sendEmail(params, function(err, data) {
             if (err) {
-                reject(err);
+                logError(err);
+                resolve();
             }
             else     {
                 logInfo('email sent successfully');

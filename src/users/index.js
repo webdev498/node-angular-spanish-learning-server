@@ -6,6 +6,7 @@ import TelephonesController from './controllers/TelephonesController';
 import TelephonesService from './service/TelephoneService';
 import UsersController from './controllers/UsersController';
 import UserService from './service/UserService';
+import CRMService from './service/CRMService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import UnauthorizedError from 'exceptions/requests/Unauthorized';
 import { logError, logInfo } from 'logging';
@@ -48,10 +49,11 @@ export async function authorizeRequest(request: Request, reply: Function) {
 
 export const register = (server: Server, options: Object, next: Function) => {
   const userService = new UserService();
+  const crmService = new CRMService();
   const telephonesController = new TelephonesController(new TelephonesService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
-  const usersController = new UsersController(userService, tokenProvider);
-  const loginController = new LoginController(new LoginService(userService, tokenProvider));
+  const usersController = new UsersController(userService, tokenProvider, crmService);
+  const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
   const router = new Router(server);
 
   server.register(HapiJwtAuth2, (err) => {

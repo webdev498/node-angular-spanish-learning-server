@@ -1,5 +1,6 @@
 import { stub } from 'sinon';
 import UserService from 'users/service/UserService';
+import CRMService from 'users/service/CRMService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import AuthenticationError from '../../exceptions/AuthenticationError';
@@ -20,7 +21,8 @@ describe('Login Service', () => {
 
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
-        const service = new LoginService(userService, tokenProvider);
+        const crmService = new CRMService();
+        const service = new LoginService(userService, tokenProvider, crmService);
 
         before(() => {
           userDouble.validatePassword = stub().returns(true);
@@ -36,7 +38,8 @@ describe('Login Service', () => {
       describe('and the user is not found by email', () => {
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
-        const service = new LoginService(userService, tokenProvider);
+        const crmService = new CRMService();
+        const service = new LoginService(userService, tokenProvider, crmService);
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(null));

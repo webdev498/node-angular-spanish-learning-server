@@ -63,6 +63,7 @@ export DEFAULT_FROM_ADDRESS='notifications@certififedspanish.com'
 export CONFIRMATION_CALLBACK_URL='http://localhost:4000/#/registerconfirm'
 export SES_KEY='Look in drobox',
 export SES_SECRET='Look in dropbox'
+export ACTIVE_CAMPAIGN_KEY='Look in dropbox'
 
 ./bin/server
 

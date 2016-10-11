@@ -9,10 +9,12 @@ import type UserService from '../service/UserService';
 export default class UsersController {
   service: UserService
   tokenProvider: TokenProvider
+  crmService: CRMService
 
-  constructor(service: UserService, tokenProvider: TokenProvider) {
+  constructor(service: UserService, tokenProvider: TokenProvider, crmService: CRMService) {
     this.service = service;
     this.tokenProvider = tokenProvider;
+    this.crmService = crmService;
   }
 
   async create(request: Request, reply: Function) {
@@ -20,7 +22,7 @@ export default class UsersController {
       const user = await this.service.signup(request.payload);
       const token = await this.tokenProvider.sign(user.sanitize());
       await EmailMessage.signupConfirmation(user);
-      CRMService.syncWithCRM(user);
+      this.crmService.syncUserWithCRM(user);
       return reply({ token }).statusCode = CREATED;
     } catch (error) {
       reply(error);
