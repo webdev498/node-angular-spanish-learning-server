@@ -10,15 +10,22 @@ export default class CRMService {
   }
 
   syncWithCRM() {
-    let data = {};
+    let data = {
+        'api_action' : 'contact_add',
+        'api_key' : '5d108c2b1412ff154aeb08e5a8505bcc1d2d7a53e9d422d7ad12262371187060a9be2350',
+        'email' : this.user.email,
+        'first_name' : this.user.first_name,
+        'last_name' : this.user.last_name,
+        'p[21]' : '21'
+    };
     
     let options = {
-        hostname: 'www.postcatcher.in',
+        hostname: 'https://commongroundinternational.api-us1.com',
         port: 80,
-        path: '/catchers/544b09b4599c1d0200000289',
+        path: '/admin/api.php?api_action=contact_add',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
         form: data
 
