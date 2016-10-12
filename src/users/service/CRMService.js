@@ -39,7 +39,7 @@ export default class CRMService {
         });
 
     req.on('error', function(e) {
-        logError(`problem with request CRM sync request: ${e.message}`);
+        logError(e);
     });
 
     req.end();
