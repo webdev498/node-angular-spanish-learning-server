@@ -1,6 +1,6 @@
 import TerminologyService from '../../service/TerminologyService';
 import TerminologyController from '../TerminologyController';
-import { NO_CONTENT } from 'http/statusCodes';
+import { NO_CONTENT } from 'cgihttp/statusCodes';
 import { mock, stub, spy } from 'sinon';
 import { expect } from 'chai';
 

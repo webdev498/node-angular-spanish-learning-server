@@ -10,7 +10,7 @@
       [
         {
           "src": "./src/http",
-          "expose": "http"
+          "expose": "cgihttp"
         },
         {
           "src": "./src/logging",

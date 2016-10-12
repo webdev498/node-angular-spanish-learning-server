@@ -1,5 +1,5 @@
 import Router, { Route } from '../Router';
-import { GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS } from 'http/methods';
+import { GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS } from 'cgihttp/methods';
 import Server from '../../Server';
 import { expect } from 'chai';
 

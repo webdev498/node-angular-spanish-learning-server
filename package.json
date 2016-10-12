@@ -63,7 +63,7 @@
     "stream-transform": "^0.1.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.6.7",
+    "aws-sdk": "~2.6.7",
     "bcrypt": "^0.8.7",
     "bookends": "^0.14.0",
     "bookshelf": "^0.9.5",

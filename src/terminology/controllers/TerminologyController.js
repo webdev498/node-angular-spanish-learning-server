@@ -1,7 +1,7 @@
 /* @flow */
-import { NO_CONTENT } from 'http/statusCodes';
+import { NO_CONTENT } from 'cgihttp/statusCodes';
 import type TerminologyService from '../service/TerminologyService';
-import type { Request } from 'http/index';
+import type { Request } from 'cgihttp/index';
 
 export default class TerminologyController {
   service: TerminologyService

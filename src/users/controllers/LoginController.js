@@ -1,7 +1,7 @@
 //@flow
 import type LoginService from '../service/LoginService';
-import type { Request } from 'http/index';
-import { UNAUTHORIZED } from 'http/statusCodes';
+import type { Request } from 'cgihttp/index';
+import { UNAUTHORIZED } from 'cgihttp/statusCodes';
 
 
 export default class LoginController {

@@ -1,5 +1,5 @@
 import RequestError from '.';
-import { UNPROCESSABLE_ENTITY } from 'http/statusCodes';
+import { UNPROCESSABLE_ENTITY } from 'cgihttp/statusCodes';
 
 const DEFAULT_BAD_REQUEST_MESSAGE = 'The request was formatted correctly but cannot be processed in its current form.';
 
