@@ -1,19 +1,16 @@
+//@flow
+
 import { createLogger } from 'bucker';
 import { inspect } from 'util';
+import type { Server } from 'http/index';
 
 const options = {};
-const noopLogger = {
+let loggerSingleton = {
   error: () => {},
   warn: () => {},
   info: () => {},
   debug: () => {}
 };
-
-let loggerSingleton;
-
-const name = 'Logging service';
-const version = '0.0.1';
-
 
 if (process.env.NODE_ENV === 'production') {
 
@@ -43,8 +40,8 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
-export const register = (server, options, next) => {
-  loggerSingleton = process.env.NODE_ENV === 'test' ? noopLogger : createLogger(options);
+export const register = (server: Server, options: Object, next: Function) => {
+  loggerSingleton = createLogger(options);
 
   server.on('response', (request) => {
     const { id, info, method, path, paramsArray, payload } = request;
@@ -69,10 +66,9 @@ export const register = (server, options, next) => {
 };
 
 register.attributes = {
-  name,
-  version
+  name: 'Logging service',
+  version: '0.0.1'
 };
-
 
 export const logger = () => loggerSingleton;
 export function logError() { loggerSingleton.error(...arguments); }
