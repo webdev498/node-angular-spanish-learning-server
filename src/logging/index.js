@@ -2,7 +2,7 @@
 
 import { createLogger } from 'bucker';
 import { inspect } from 'util';
-import type { Server } from 'http/index';
+import type { Server } from 'cgihttp/index';
 
 const options = {};
 let loggerSingleton = {
