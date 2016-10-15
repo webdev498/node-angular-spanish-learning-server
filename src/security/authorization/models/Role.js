@@ -1,6 +1,6 @@
 import Orm from 'data/orm';
 import Base from 'models/Base';
-import Permission from 'models/Permission';
+import Permission from 'security/authorization/models/Permission';
 import User from 'users/models/User';
 
 const tableName = 'roles';

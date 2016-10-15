@@ -1,5 +1,5 @@
 /* @flow */
-import { NO_CONTENT } from 'http/statusCodes';
+import { NO_CONTENT } from 'http/status-codes';
 import type TerminologyService from '../service/TerminologyService';
 import type { Request } from 'http/index';
 

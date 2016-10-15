@@ -2,7 +2,7 @@
 
 import Orm from 'data/orm';
 import Base from 'models/Base';
-import 'models/Language';
+import 'languages/models/Language';
 
 const tableName = 'terms';
 const persistenceWhitelist = [
@@ -21,6 +21,10 @@ const Term = Base.extend({
     return this.belongsTo('Language');
   },
 
+  categories () {
+    return this.belongsToMany('Category');
+  },
+
   serialize() {
     const { id, value, lexicalCategory, active, language, createdAt, updatedAt } = this.attributes;
     const { relations } = this;
@@ -37,7 +41,6 @@ const Term = Base.extend({
   },
 
   validate() {}
-
 });
 
 export default Orm.model('Term', Term);

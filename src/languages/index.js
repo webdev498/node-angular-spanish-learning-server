@@ -9,11 +9,10 @@ const version = '0.0.1';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const controller = new LanguagesController(new LanguageService());
-  const router = new Router(server);
+  const router = new Router({server, resource: 'languages'});
 
   router
-    .get()
-    .to('/languages')
+    .get('/')
     .authorize('urn:cgi:permission:languages::list')
     .bind(controller, 'list');
 

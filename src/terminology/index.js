@@ -5,28 +5,22 @@ import TerminologyController from './controllers/TerminologyController';
 import TerminologyService from './service/TerminologyService';
 import type { Server } from 'http/index';
 
-const name = 'Terminology resource service';
-const version = '0.0.1';
-
 export const register = (server: Server, options: Object, next: Function) => {
   const controller = new TerminologyController(new TerminologyService());
-  const router = new Router(server);
+  const router = new Router({server, resource: 'terms'});
 
   router
-    .post()
-    .to('/terms/exclusions')
+    .post('/exclusions')
     .authorize('urn:cgi:permission:term-exclusions::create')
     .bind(controller, 'exclude');
 
   router
-    .get()
-    .to('/terms')
+    .get('/')
     .authorize('urn:cgi:permission:terms::list')
     .bind(controller, 'list');
 
   router
-    .get()
-    .to('/terms/{languageName}')
+    .get('/{languageName}')
     .authorize('urn:cgi:permission:terms::list')
     .bind(controller, 'listByName');
 
@@ -34,6 +28,6 @@ export const register = (server: Server, options: Object, next: Function) => {
 };
 
 register.attributes = {
-  name,
-  version
+  name: 'Terminology resource service',
+  version: '0.0.1'
 };

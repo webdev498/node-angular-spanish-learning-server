@@ -2,7 +2,7 @@ import { spy, stub } from 'sinon';
 import LoginService from '../../service/LoginService';
 import LoginController from '../LoginController';
 import AuthenticationError from './../../exceptions/AuthenticationError';
-import { UNAUTHORIZED } from 'http/statusCodes';
+import { UNAUTHORIZED } from 'http/status-codes';
 
 describe('Login controller', () => {
   let response;

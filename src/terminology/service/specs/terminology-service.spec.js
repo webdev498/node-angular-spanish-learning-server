@@ -1,6 +1,6 @@
-import TerminologyService from '../TerminologyService';
-import TermExclusion from '../../models/TermExclusion';
-import Term from '../../models/Term';
+import TerminologyService from 'terminology/service/TerminologyService';
+import TermExclusion from 'terminology/models/TermExclusion';
+import Term from 'terminology/models/Term';
 import { stub, spy } from 'testing/sandbox';
 import { expect } from 'chai';
 

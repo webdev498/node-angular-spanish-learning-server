@@ -1,8 +1,9 @@
+//@flow
 import Orm from 'data/orm';
 import Base from 'models/Base';
-import 'models/Role';
-import 'models/Operation';
-import 'models/Resource';
+import 'security/authorization/models/Role';
+import 'security/authorization/models/Operation';
+import 'security/authorization/models/Resource';
 
 const tableName = 'permissions';
 const persistenceWhitelist = ['id', 'operation_id', 'resource_id'];
