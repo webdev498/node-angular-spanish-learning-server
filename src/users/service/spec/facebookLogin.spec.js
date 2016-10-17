@@ -3,6 +3,8 @@ import FacebookProvider from 'security/authentication/facebookProvider';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import UserService from 'users/service/UserService';
+import CRMService from 'users/service/CRMService';
+import * as EmailMessage from 'email';
 
 describe('Login service', () => {
   describe('when logging in through Facebook', () => {
@@ -31,13 +33,15 @@ describe('Login service', () => {
     describe('when the user does not already exist', () => {
       const tokenProvier = new TokenProvider();
       const userService = new UserService();
-      const service = new LoginService(userService, tokenProvier);
+      const crmService = new CRMService();
+      const service = new LoginService(userService, tokenProvier, crmService);
       let result;
 
       before(async () => {
         stub(tokenProvier, 'sign').returns(Promise.resolve(token));
         stub(userService, 'getByEmail').returns(Promise.resolve(null));
         stub(userService, 'signup').returns(Promise.resolve(user));
+        stub(crmService, 'syncUserWithCRM').returns(null);
         result = await service.facebookLogin(code);
       });
 
@@ -53,7 +57,8 @@ describe('Login service', () => {
     describe('when user already exists', () => {
       const tokenProvier = new TokenProvider();
       const userService = new UserService();
-      const service = new LoginService(userService, tokenProvier);
+      const crmService = new CRMService();
+      const service = new LoginService(userService, tokenProvier, crmService);
       let result;
 
       before(async () => {
