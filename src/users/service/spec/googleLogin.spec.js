@@ -4,7 +4,6 @@ import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import UserService from 'users/service/UserService';
 import CRMService from 'users/service/CRMService';
-import * as EmailMessage from 'email';
 
 describe('Login service', () => {
   describe('when logging in through Google', () => {

@@ -28,7 +28,7 @@ export const send = (message) => {
         ReplyToAddresses: [message.from]
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         logInfo('sending email');
         ses.sendEmail(params, function(err, data) {
             if (err) {
