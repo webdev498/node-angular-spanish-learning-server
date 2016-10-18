@@ -1,7 +1,8 @@
  import Message from '../Message';
+ import type User from './../../users/models/User';
 
   export default class Welcome extends Message {
-    constructor(recipient) {
+    constructor(recipient: User) {
       super(recipient);
       this.subject = 'Welcome to CertifiedSpanish.com';
     }
