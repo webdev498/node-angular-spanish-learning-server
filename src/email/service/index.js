@@ -1,7 +1,8 @@
 var aws = require('aws-sdk');
 import { logInfo, logError } from './../../logging';
+import type Message from './../models/Message';
 
-export const send = (message) => {
+export const send = (message: Message) => {
     aws.config.update({
         accessKeyId: process.env.SES_KEY,
         secretAccessKey: process.env.SES_SECRET,
