@@ -1,5 +1,5 @@
 //@flow
-import Router from 'cgihttp/Router';
+import Router from 'http/Router';
 import LoginController from './controllers/LoginController';
 import LoginService from './service/LoginService';
 import TelephonesController from './controllers/TelephonesController';
@@ -11,7 +11,7 @@ import TokenProvider from 'security/authentication/TokenProvider';
 import UnauthorizedError from 'exceptions/requests/Unauthorized';
 import { logError, logInfo } from 'logging';
 import HapiJwtAuth2 from 'hapi-auth-jwt2';
-import type { Server, Request } from 'cgihttp/index';
+import type { Server, Request } from 'http/index';
 
 const { TOKEN_EXPIRATION, SECRET } = process.env;
 

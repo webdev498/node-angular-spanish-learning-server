@@ -8,7 +8,7 @@
 [libs]
 
 [options]
- module.name_mapper='cgihttp' -> '<PROJECT_ROOT>/src/http/'
+ module.name_mapper='http' -> '<PROJECT_ROOT>/src/http/'
  module.name_mapper='logging' -> '<PROJECT_ROOT>/src/logging/index'
  module.name_mapper='email' -> '<PROJECT_ROOT>/src/email'
  module.name_mapper='security' -> '<PROJECT_ROOT>/src/security/'

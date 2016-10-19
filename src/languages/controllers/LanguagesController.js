@@ -1,6 +1,6 @@
 //@flow
 
-import type { Request } from 'cgihttp/index';
+import type { Request } from 'http/index';
 import LanguageService from '../service/LanguageService';
 
 export default class LanguagesController {

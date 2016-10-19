@@ -1,8 +1,8 @@
 //@flow
-import { CREATED } from 'cgihttp/statusCodes';
+import { CREATED } from 'http/statusCodes';
 import * as EmailMessage from 'email';
 import CRMService from './../service/CRMService';
-import type { Request } from 'cgihttp/index';
+import type { Request } from 'http/index';
 import type TokenProvider from 'security/authentication/TokenProvider';
 import type UserService from '../service/UserService';
 

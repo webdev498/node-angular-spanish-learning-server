@@ -1,7 +1,7 @@
 //@flow
 import type UserService from './UserService';
 import MissingRecordError from 'exceptions/runtime/MissingRecordError';
-import { Request } from 'cgihttp/index';
+import { Request } from 'http/index';
 
 export default class TelephonesService {
   userService: UserService;

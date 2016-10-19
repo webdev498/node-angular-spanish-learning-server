@@ -1,9 +1,9 @@
 /* @flow */
 
-import Router from 'cgihttp/Router';
+import Router from 'http/Router';
 import TerminologyController from './controllers/TerminologyController';
 import TerminologyService from './service/TerminologyService';
-import type { Server } from 'cgihttp/index';
+import type { Server } from 'http/index';
 
 const name = 'Terminology resource service';
 const version = '0.0.1';

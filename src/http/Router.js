@@ -1,5 +1,5 @@
 /* @flow */
-import { GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS } from 'cgihttp/methods';
+import { GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS } from 'http/methods';
 import Server from '../Server';
 
 export class Route {

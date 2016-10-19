@@ -2,7 +2,7 @@ import { spy, stub } from 'sinon';
 import LoginService from '../../service/LoginService';
 import LoginController from '../LoginController';
 import AuthenticationError from './../../exceptions/AuthenticationError';
-import { UNAUTHORIZED } from 'cgihttp/statusCodes';
+import { UNAUTHORIZED } from 'http/statusCodes';
 
 describe('Login Controller', () => {
   const request = { payload: { code: 'oauthlogincode' } };

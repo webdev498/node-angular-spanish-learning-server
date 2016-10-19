@@ -1,5 +1,5 @@
 import RequestError from '.';
-import { FORBIDDEN } from 'cgihttp/statusCodes';
+import { FORBIDDEN } from 'http/statusCodes';
 
 const DEFAULT_UNAUTHENTICATED_MSG = 'You are not authorized to perform actions on this resource';
 
