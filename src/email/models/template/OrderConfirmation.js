@@ -1,9 +1,7 @@
- //@flow
  import Message from '../Message';
- import type User from './../../users/models/User';
 
   export default class OrderConfirmation extends Message {
-    constructor(recipient: User) {
+    constructor(recipient) {
       super(recipient);
       this.subject = 'Your Order has been processed with CertifiedSpanish.com';
     }
