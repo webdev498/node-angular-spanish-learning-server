@@ -1,3 +1,4 @@
+//@flow
 var ActiveCampaign = require('activecampaign');
 import type User from './../models/User';
 import { logInfo, logError } from 'logging';

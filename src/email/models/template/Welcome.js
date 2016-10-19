@@ -1,3 +1,4 @@
+ //@flow
  import Message from '../Message';
  import type User from './../../users/models/User';
 

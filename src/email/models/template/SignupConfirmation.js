@@ -1,7 +1,9 @@
+ //@flow
  import Message from '../Message';
+ import type User from './../../users/models/User';
 
   export default class SignupConfirmation extends Message {
-    constructor(recipient) {
+    constructor(recipient: User) {
       super(recipient);
       this.subject = 'Please Confirm Your Email Address with CertifiedSpanish.com';
     }

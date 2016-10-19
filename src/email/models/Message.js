@@ -1,3 +1,4 @@
+//@flow
 import type User from './../users/models/User';
 
 export default class Message {
