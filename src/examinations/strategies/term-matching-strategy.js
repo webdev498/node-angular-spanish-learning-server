@@ -6,7 +6,7 @@ import * as UUID from 'javascript/datatypes/uuid';
 const questionOperations = [
   () => ({id: UUID.v4()}),
   ({ section }) => ({type: section.type}),
-  () => ({text: ""}),
+  () => ({text: ''}),
   ({ group }) => ({correctResponses: group.map((translation) => ({candidateId: translation.relations.source.get('id'), termId: translation.relations.target.get('id')}))}),
   ({ group }) => ({ candidates: group.map((translation) => ({id: translation.relations.source.get('id'), text: translation.relations.source.get('value')}))}),
   ({ group }) => ({ terms: group.map((translation) => ({id: translation.relations.target.get('id'), text: translation.relations.target.get('value')}))})

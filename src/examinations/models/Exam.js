@@ -12,11 +12,6 @@ const Term = Base.extend({
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist });
   },
 
-  addSection(section) {
-    const content = this.get('content');
-    content.sections.push(section);
-  },
-
   addSections(sections) {
     const content = this.get('content');
     Array.prototype.push.apply(content.sections, sections);

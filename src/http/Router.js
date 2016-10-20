@@ -8,7 +8,6 @@ export class Route {
   path: string;
   handler: Function;
   config: Object;
-  isAuthenticated: boolean;
 
   constructor(method: string) {
     this.method = method;

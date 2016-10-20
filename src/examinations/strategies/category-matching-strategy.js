@@ -41,6 +41,5 @@ export default async (section: ExamSection) => {
     return buildQuestion({section, group});
   });
 
-
   return { id, type, instructions, questions };
 };

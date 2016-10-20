@@ -1,6 +1,4 @@
 import * as ServiceErrorFactory from 'exceptions/Factory';
-const name = 'CGI Global Exception Handler';
-const version = '0.0.1';
 
 export const register = (server, options, next) => {
   server.ext('onPreResponse', (request, reply) => {
@@ -14,4 +12,4 @@ export const register = (server, options, next) => {
   next();
 };
 
-register.attributes = { name, version };
+register.attributes = { name: 'CGI Global Exception Handler', version: '0.0.1' };
