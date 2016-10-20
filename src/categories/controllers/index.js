@@ -1,4 +1,4 @@
-import { CREATED, OK, NO_CONTENT } from './../../http/statusCodes';
+import { CREATED, OK, NO_CONTENT } from 'http/status-codes';
 import * as ServiceErrorFactory from './../../exceptions/Factory';
 import * as CategoriesService from './../service';
 

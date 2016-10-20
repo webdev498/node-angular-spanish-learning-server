@@ -1,5 +1,5 @@
-import Nationality from '../models/Nationality';
-import { logError, logInfo } from './../../logging';
+import Nationality from 'nationalities/models/Nationality';
+import { logError, logInfo } from 'logging';
 
 export const all = () => {
   logInfo('Fetching all users');

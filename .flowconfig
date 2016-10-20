@@ -6,6 +6,7 @@
 [include]
 
 [libs]
+etc/testing/interfaces
 
 [options]
  module.name_mapper='http' -> '<PROJECT_ROOT>/src/http/'
@@ -13,11 +14,13 @@
  module.name_mapper='email' -> '<PROJECT_ROOT>/src/email'
  module.name_mapper='security' -> '<PROJECT_ROOT>/src/security/'
  module.name_mapper='users' -> '<PROJECT_ROOT>/src/users/'
+ module.name_mapper='examinations' -> '<PROJECT_ROOT>/src/examinations/'
+ module.name_mapper='terminology' -> '<PROJECT_ROOT>/src/terminology/'
+ module.name_mapper='nationalities' -> '<PROJECT_ROOT>/src/nationalities/'
+ module.name_mapper='categories' -> '<PROJECT_ROOT>/src/categories/'
+ module.name_mapper='languages' -> '<PROJECT_ROOT>/src/languages/'
  module.name_mapper='exceptions' -> '<PROJECT_ROOT>/src/exceptions/'
-
- module.name_mapper='datatypes/uuid' -> '<PROJECT_ROOT>/src/javascript/datatypes/uuid'
+ module.name_mapper='javascript' -> '<PROJECT_ROOT>/src/javascript/'
  module.name_mapper='models/Base' -> '<PROJECT_ROOT>/src/common/models/Base'
- module.name_mapper='models/Language' -> '<PROJECT_ROOT>/src/languages/models/Language'
- module.name_mapper='models/Term' -> '<PROJECT_ROOT>/src/terminology/models/Term'
  module.name_mapper='data/orm' -> '<PROJECT_ROOT>/src/data/orm'
  module.name_mapper='exceptions' -> '<PROJECT_ROOT>/src/exceptions'

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import * as Controller from './../';
 import * as CategoryService from './../../service';
 import * as ServiceErrorFactory from './../../../exceptions/Factory';
-import { OK } from './../../../http/statusCodes';
+import { OK } from 'http/status-codes';
 
 describe('creating a new category', () => {
   let response = {};

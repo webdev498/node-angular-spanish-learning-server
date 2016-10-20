@@ -1,4 +1,5 @@
 /* @flow */
+import { join } from 'path';
 import { GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS } from 'http/methods';
 import Server from '../Server';
 
@@ -7,7 +8,6 @@ export class Route {
   path: string;
   handler: Function;
   config: Object;
-  isAuthenticated: boolean;
 
   constructor(method: string) {
     this.method = method;
@@ -47,18 +47,25 @@ export class Route {
   }
 }
 
-const addRoute = (method: string, router: Router) => {
+const addRoute = (method: string, path: string, router: Router) => {
   const route = new Route(method);
+  route.to(join('/', router.resource, path));
   router.routes.push(route);
   return route;
+};
+
+type RouterConfiguration = {
+  server: Server;
+  resource: string;
 };
 
 export default class Router {
   server: Server;
   routes: Array<Route>;
+  resource: string;
 
-  constructor(server: Server) {
-    this.server = server;
+  constructor(config: RouterConfiguration) {
+    Object.assign(this, config);
     this.routes = [];
   }
 
@@ -67,32 +74,32 @@ export default class Router {
     callback();
   }
 
-  get(): Route {
-    return addRoute(GET, this);
+  get(path: string): Route {
+    return addRoute(GET, path, this);
   }
 
-  put(): Route {
-    return addRoute(PUT, this);
+  put(path: string): Route {
+    return addRoute(PUT, path, this);
   }
 
-  patch(): Route {
-    return addRoute(PATCH, this);
+  patch(path: string): Route {
+    return addRoute(PATCH, path, this);
   }
 
-  post(): Route {
-    return addRoute(POST, this);
+  post(path: string): Route {
+    return addRoute(POST, path, this);
   }
 
-  delete(): Route {
-    return addRoute(DELETE, this);
+  delete(path: string): Route {
+    return addRoute(DELETE, path, this);
   }
 
-  head(): Route {
-    return addRoute(HEAD, this);
+  head(path: string): Route {
+    return addRoute(HEAD, path, this);
   }
 
-  options(): Route {
-   return addRoute(OPTIONS, this);
+  options(path: string): Route {
+   return addRoute(OPTIONS, path, this);
   }
 
   route(route: Route) {

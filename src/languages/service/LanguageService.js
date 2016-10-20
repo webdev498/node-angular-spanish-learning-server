@@ -1,5 +1,5 @@
 //@flow
-import Language from 'models/Language';
+import Language from 'languages/models/Language';
 
 export default class LanguageService {
   async all() {

@@ -2,7 +2,7 @@
 
 import Orm from 'data/orm';
 import Base from 'models/Base';
-import 'models/Term';
+import 'terminology/models/Term';
 
 const tableName = 'languages';
 const persistenceWhitelist = ['name', 'updated_at'];

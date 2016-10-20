@@ -1,11 +1,12 @@
+//@flow
 import bcrypt from 'bcrypt';
 import Orm from 'data/orm';
 import Base from 'models/Base';
 import { EmailAddress, PasswordComplexity, PasswordsMatch } from './../validations';
-import 'models/Address';
-import 'models/Telephone';
-import 'models/Nationality';
-import 'models/Role';
+import 'users/models/Address';
+import 'users/models/Telephone';
+import 'nationalities/models/Nationality';
+import 'security/authorization/models/Role';
 
 const tableName = 'users';
 

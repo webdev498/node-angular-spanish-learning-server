@@ -1,6 +1,6 @@
 //@flow
 import TelephonesService from '../service/TelephoneService';
-import { NO_CONTENT } from 'http/statusCodes';
+import { NO_CONTENT } from 'http/status-codes';
 import type { Request } from 'http/index';
 
 export default class TelephoneController {

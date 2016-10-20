@@ -1,10 +1,10 @@
 /* @flow */
-import { NO_CONTENT } from 'http/statusCodes';
+import { NO_CONTENT } from 'http/status-codes';
 import type TerminologyService from '../service/TerminologyService';
 import type { Request } from 'http/index';
 
 export default class TerminologyController {
-  service: TerminologyService
+  service: TerminologyService;
 
   constructor(service: TerminologyService) {
     this.service = service;

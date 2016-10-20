@@ -9,6 +9,7 @@ import * as TerminologyService from './terminology';
 import * as CategoriesService from './categories';
 import * as UserService from './users';
 import * as NationalityService from './nationalities';
+import * as ExamService from './examinations';
 
 const server = new Server({
   connections: {
@@ -27,7 +28,6 @@ const server = new Server({
   }
 });
 
-
 const noop = (error) => { if (error) { logging.logError(error); }};
 
 server.connection({ port: process.env.PORT || 3000 });
@@ -39,5 +39,6 @@ server.register(CategoriesService, noop);
 server.register(LanguageService, noop);
 server.register(TerminologyService, noop);
 server.register(NationalityService, noop);
+server.register(ExamService, noop);
 
 server.start(noop);
