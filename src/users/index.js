@@ -9,7 +9,6 @@ import UserService from './service/UserService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import UnauthorizedError from 'exceptions/requests/Unauthorized';
 import { logError, logInfo } from 'logging';
-import HapiJwtAuth2 from 'hapi-auth-jwt2';
 import type { Server, Request } from 'http/index';
 
 const { TOKEN_EXPIRATION, SECRET } = process.env;
@@ -54,13 +53,16 @@ export const register = (server: Server, options: Object, next: Function) => {
   const loginController = new LoginController(new LoginService(userService, tokenProvider));
   const router = new Router({server, resource: ''});
 
-  server.register(HapiJwtAuth2, (err) => {
+  server.register(require('hapi-auth-jwt2'), (err) => {
     if (err) { logError(err); }
     server.auth.strategy('jwt', 'jwt', {
       key: SECRET,
-      validateFunc: async (principle: Object, request: Request, callback: Function) => {
-        const user = await userService.get(principle);
-        callback(null, (user && user.get('active')));
+      validateFunc(principle: Object, request: Request, callback: Function) {
+        userService.get(principle).then((user) => {
+          callback(null, (user && user.get('active')), user);
+        }, (error) => {
+          callback(error, false);
+        });
       },
       verifyOptions: {
         algorithms: ['HS256']

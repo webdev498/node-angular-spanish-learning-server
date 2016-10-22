@@ -2,11 +2,34 @@
 import Orm from 'data/orm';
 import Base from 'models/Base';
 
-const tableName = 'exams';
+export type ExamResponse = {
+  sectionId: string;
+  questionId: string;
+  responses: Array<Object>
+}
+
+export type ExamSubmission = {
+  id: string;
+  responses: Array<ExamResponse>;
+}
+
+export type ExamSection = {
+  id: string;
+  type: string;
+  instructions: string;
+  questions: Array<Object>;
+};
+
 const persistenceWhitelist = ['content', 'created_at', 'updated_at'];
 
-const Term = Base.extend({
-  tableName,
+const Examination = Base.extend({
+  tableName: 'exams',
+
+  virtuals: {
+    sections() {
+      return this.get('content').sections;
+    }
+  },
 
   initialize(attributes) {
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist });
@@ -36,4 +59,4 @@ const Term = Base.extend({
   validate() {}
 });
 
-export default Orm.model('Exam', Term);
+export default Orm.model('Examination', Examination);

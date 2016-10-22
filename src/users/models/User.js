@@ -8,6 +8,14 @@ import 'users/models/Telephone';
 import 'nationalities/models/Nationality';
 import 'security/authorization/models/Role';
 
+export type UserPrinciple = {
+  id: string;
+  roleId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
 const tableName = 'users';
 
 const persistenceWhitelist = [

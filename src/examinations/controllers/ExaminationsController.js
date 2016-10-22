@@ -18,4 +18,19 @@ export default class ExaminationsController {
       reply(error);
     }
   }
+  async submit(request: Request, reply: Function) {
+    try {
+      const { params, payload } = request;
+      const { credentials } = request.auth;
+
+      if(credentials.get('id') !== params.userId) {
+        throw Error();
+      }
+
+      const result = await this.service.submit(params.id, credentials, payload);
+      reply(result);
+    } catch (error) {
+      reply(error);
+    }
+  }
 }
