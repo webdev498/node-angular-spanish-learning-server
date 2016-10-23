@@ -9,8 +9,8 @@ type jwtOptions = {
 };
 
 export default class TokenProvider {
-  options: jwtOptions
-  secret: ?string
+  options: jwtOptions;
+  secret: ?string;
 
   constructor(options: jwtOptions, secret: ?string) {
     this.options = options;

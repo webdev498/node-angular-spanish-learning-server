@@ -1,8 +1,8 @@
 export type AccountDetails = {
   email: string;
-  firstName: stirng;
+  firstName: string;
   lastName: string;
-}
+};
 
 export interface OAuthProvider {
   getProfile(code: string): AccountDetails

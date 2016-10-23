@@ -1,5 +1,5 @@
 //@flow
-import { CREATED } from 'http/statusCodes';
+import { CREATED } from 'http/status-codes';
 import * as EmailMessage from 'email';
 import CRMService from './../service/CRMService';
 import type { Request } from 'http/index';

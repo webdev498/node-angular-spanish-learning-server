@@ -1,6 +1,6 @@
-import Orm from '../../data/orm';
+import Orm from 'data/orm';
 import { Name } from './../validations';
-import Base from './../../common/models/Base';
+import Base from 'models/Base';
 
 const tableName = 'categories';
 const persistenceWhitelist = ['name', 'active'];
@@ -13,13 +13,16 @@ const Category = Base.extend({
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist, versionableAttributes });
   },
 
+  terms() {
+    this.belongsToMany('Term');
+  },
+
   serialize() {
-    const { id, name, parentId, createdAt, updatedAt } = this.attributes;
+    const { id, name, createdAt, updatedAt } = this.attributes;
 
     return {
       id,
       name,
-      parentId,
       createdAt,
       updatedAt
     };

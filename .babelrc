@@ -25,44 +25,24 @@
           "expose": "users"
         },
         {
-          "src": "./src/users/models/Address",
-          "expose": "models/Address"
+          "src": "./src/nationalities/",
+          "expose": "nationalities"
         },
         {
-          "src": "./src/users/models/Telephone",
-          "expose": "models/Telephone"
+          "src": "./src/examinations/",
+          "expose": "examinations"
         },
         {
-          "src": "./src/nationalities/models/Nationality",
-          "expose": "models/Nationality"
+          "src": "./src/terminology/",
+          "expose": "terminology"
         },
         {
-          "src": "./src/categories/models/Category",
-          "expose": "models/Category"
+          "src": "./src/categories/",
+          "expose": "categories"
         },
         {
-          "src": "./src/security/authorization/models/Role",
-          "expose": "models/Role"
-        },
-        {
-          "src": "./src/security/authorization/models/Permission",
-          "expose": "models/Permission"
-        },
-        {
-          "src": "./src/security/authorization/models/Operation",
-          "expose": "models/Operation"
-        },
-        {
-          "src": "./src/security/authorization/models/Resource",
-          "expose": "models/Resource"
-        },
-        {
-          "src": "./src/terminology/models/Term",
-          "expose": "models/Term"
-        },
-        {
-          "src": "./src/languages/models/Language",
-          "expose": "models/Language"
+          "src": "./src/languages/",
+          "expose": "languages"
         },
         {
           "src": "./src/security",
@@ -73,12 +53,8 @@
           "expose": "data/orm"
         },
         {
-          "src": "./src/javascript/datatypes/string",
-          "expose": "datatypes/string"
-        },
-        {
-          "src": "./src/javascript/datatypes/uuid",
-          "expose": "datatypes/uuid"
+          "src": "./src/javascript/",
+          "expose": "javascript"
         },
         {
           "src": "./src/exceptions/",

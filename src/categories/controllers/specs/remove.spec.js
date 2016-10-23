@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import * as Controller from './../';
 import * as CategoryService from './../../service';
 import * as ServiceErrorFactory from './../../../exceptions/Factory';
-import { NO_CONTENT } from './../../../http/statusCodes';
+import { NO_CONTENT } from 'http/status-codes';
 
 describe('Removing an existing category', () => {
   let response = {};

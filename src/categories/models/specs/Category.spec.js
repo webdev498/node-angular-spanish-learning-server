@@ -16,9 +16,9 @@ describe('Category data model', () => {
       result = new Category(attributes).serialize();
     });
 
-    it('returns back and object containing only the id, name, and parentId', () => {
-      const { id, name, parentId, createdAt, updatedAt } = attributes;
-      expect(result).to.eql({ id, name, parentId, createdAt, updatedAt });
+    it('returns back and object containing only the id, and name', () => {
+      const { id, name, createdAt, updatedAt } = attributes;
+      expect(result).to.eql({ id, name, createdAt, updatedAt });
     });
   });
 

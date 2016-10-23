@@ -1,7 +1,7 @@
 /* @flow */
-import TermExclusion from '../models/TermExclusion';
-import Term from '../models/Term';
-import Language from 'models/Language';
+import TermExclusion from 'terminology/models/TermExclusion';
+import Term from 'terminology/models/Term';
+import Language from 'languages/models/Language';
 
 type excludeParams = {
   language: Language;

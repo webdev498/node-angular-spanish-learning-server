@@ -52,9 +52,9 @@ export const register = (server: Server, options: Object, next: Function) => {
   const crmService = new CRMService();
   const telephonesController = new TelephonesController(new TelephonesService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
-  const usersController = new UsersController(userService, tokenProvider, crmService);
-  const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
-  const router = new Router(server);
+  const usersController = new UsersController(userService, tokenProvider);
+  const loginController = new LoginController(new LoginService(userService, tokenProvider));
+  const router = new Router({server, resource: ''});
 
   server.register(HapiJwtAuth2, (err) => {
     if (err) { logError(err); }
@@ -74,48 +74,40 @@ export const register = (server: Server, options: Object, next: Function) => {
   server.ext('onPostAuth', authorizeRequest);
 
   router
-    .post()
-    .to('/users')
+    .post('/users')
     .authorize('urn:cgi:permission:users::create')
     .bind(usersController, 'create');
 
   router
-    .get()
-    .to('/users')
+    .get('/users')
     .authorize('urn:cgi:permission:users::list')
     .bind(usersController, 'list');
 
   router
-    .get()
-    .to('/users/{id}')
+    .get('/users/{id}')
     .authorize('urn:cgi:permission:users::view')
     .bind(usersController, 'get');
 
   router
-    .put()
-    .to('/users/{id}')
+    .put('/users/{id}')
     .authorize('urn:cgi:permission:users::update')
     .bind(usersController, 'update');
 
   router
-    .put()
-    .to('/users/{userId}/telephones/{telephoneId}')
+    .put('/users/{userId}/telephones/{telephoneId}')
     .authorize('urn:cgi:permission:telephones::update')
     .bind(telephonesController, 'update');
 
   router
-    .post()
-    .to('/login')
+    .post('/login')
     .bind(loginController, 'login');
 
   router
-    .post()
-    .to('/login/facebook')
+    .post('/login/facebook')
     .bind(loginController, 'facebookAuthLogin');
 
   router
-    .post()
-    .to('/login/google')
+    .post('/login/google')
     .bind(loginController, 'googleAuthLogin');
 
 

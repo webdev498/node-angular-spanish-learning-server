@@ -14,6 +14,12 @@ types:
   TermExclusion: !include types/term-exclusion.raml
   Language: !include types/language.raml
   Telephone: !include types/telephone.raml
+  Examination: !include types/examination.raml
+  ExaminationSection: !include types/examination-section.raml
+  ExaminationQuestion: !include types/examination-question.raml
+  MultipleChoiceQuestion: !include types/multiple-choice-question.raml
+  CategoryMatchingQuestion: !include types/category-matching-question.raml
+  TermMatchingQuestion: !include types/term-matching-question.raml
 traits:
   secured: !include traits/secured.raml
 version: v1.0
@@ -22,3 +28,4 @@ version: v1.0
 /choices: !include resources/choices.raml
 /categories: !include resources/categories.raml
 /terms: !include resources/terms.raml
+/examinations: !include resources/examinations.raml

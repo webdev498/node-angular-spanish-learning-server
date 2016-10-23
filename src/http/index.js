@@ -1,6 +1,6 @@
 export type Request = {
   payload: Object;
-  params: Obect;
+  params: Object;
   query: Object;
   auth: Object;
   routes: {
