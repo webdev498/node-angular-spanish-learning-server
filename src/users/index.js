@@ -53,7 +53,7 @@ export const register = (server: Server, options: Object, next: Function) => {
   const telephonesController = new TelephonesController(new TelephonesService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
   const usersController = new UsersController(userService, tokenProvider, crmService);
-  const loginController = new LoginController(new LoginService(userService, tokenProvider));
+  const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
   const router = new Router({server, resource: ''});
 
   server.register(HapiJwtAuth2, (err) => {
