@@ -7,6 +7,6 @@
     }
 
     get body() {
-      return `Thank you for your order ${this.recipient.firstName}`;
+      return `Thank you for your order ${this.recipient.get('firstName')}`;
     }
   }

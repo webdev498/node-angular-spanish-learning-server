@@ -3,6 +3,7 @@ import UserService from 'users/service/UserService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import UsersController from 'users/controllers/UsersController';
 import * as EmailMessage from 'email';
+import CRMService from 'users/service/CRMService';
 
 describe('User controller', () => {
   const token = '123abc';
@@ -15,13 +16,15 @@ describe('User controller', () => {
       const sanitizedUser = {};
       const tokenProvider = new TokenProvider();
       const service = new UserService();
-      const controller = new UsersController(service, tokenProvider);
+      const crmService = new CRMService();
+      const controller = new UsersController(service, tokenProvider, crmService);
 
       before(async () => {
         stub(service, 'signup').returns(Promise.resolve(userDouble));
         stub(userDouble, 'sanitize').returns(sanitizedUser);
         stub(tokenProvider, 'sign').returns(Promise.resolve(token));
         stub(EmailMessage, 'signupConfirmation').returns(Promise.resolve());
+        stub(crmService, 'syncUserWithCRM').returns(null);
         await controller.create(request, reply);
       });
 

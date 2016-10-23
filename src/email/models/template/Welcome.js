@@ -7,6 +7,6 @@
     }
 
     get body() {
-      return `Welcome ${this.recipient.firstName}, <p>Thank you for registering.  You can now have full access to the exam portion of CertifiedSpanish.com</p>`;
+      return `Welcome ${this.recipient.get('firstName')}, <p>Thank you for registering.  You can now have full access to the exam portion of CertifiedSpanish.com</p>`;
     }
   }

@@ -5,14 +5,17 @@ import GoogleProvider from 'security/authentication/googleProvider';
 import FacebookProvider from 'security/authentication/facebookProvider';
 import type UserService from 'users/service/UserService';
 import type OAuthProvider from 'security/authentication/interfaces/OAuthProvider';
+import CRMService from './CRMService';
 
 export default class LoginService {
-  userService: UserService
-  tokenProvider: TokenProvider
+  userService: UserService;
+  tokenProvider: TokenProvider;
+  crmService: CRMService;
 
-  constructor(userService: UserService, tokenProvider: TokenProvider) {
+  constructor(userService: UserService, tokenProvider: TokenProvider, crmService: CRMService) {
     this.userService = userService;
     this.tokenProvider = tokenProvider;
+    this.crmService = crmService;
   }
 
   async login(email: string, password: string) {
@@ -37,6 +40,7 @@ export default class LoginService {
     let user = await this.userService.getByEmail(email);
     if (!user) {
       user = await this.userService.signup({ firstName, lastName, email });
+      this.crmService.syncUserWithCRM(user);
     }
     return await this.tokenProvider.sign(user.sanitize());
   }
