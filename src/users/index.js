@@ -52,7 +52,7 @@ export const register = (server: Server, options: Object, next: Function) => {
   const crmService = new CRMService();
   const telephonesController = new TelephonesController(new TelephonesService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
-  const usersController = new UsersController(userService, tokenProvider);
+  const usersController = new UsersController(userService, tokenProvider, crmService);
   const loginController = new LoginController(new LoginService(userService, tokenProvider));
   const router = new Router({server, resource: ''});
 
