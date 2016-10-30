@@ -3,8 +3,13 @@ import Term from 'terminology/models/Term';
 import TermExclusion from 'terminology/models/TermExclusion';
 import Translation from 'terminology/models/Translation';
 import type { ExamSection } from 'examinations/templates/exam-template';
-
 import * as UUID from 'javascript/datatypes/uuid';
+
+const noneOfTheAbove = {
+  id: '35fe100c-2e9b-42cf-bddc-a5ba3ad950ec',
+  value: 'None of the above'
+}
+
 const questionOperations = [
   () => ({id: UUID.v4()}),
   ({ section }) => ({type: section.type}),
@@ -33,10 +38,11 @@ export default async (section: ExamSection) => {
       qb.join('languages', 'terms.language_id', 'languages.id');
       qb.where('languages.name', '=', 'Spanish');
       qb.orderByRaw('random()');
-      qb.limit(3);
+      qb.limit(2);
     }).fetchAll();
     const candidates = terms.serialize().map(({id, value}) => ({id, value}));
     candidates.push({id: relations.target.get('id'), value: relations.target.get('value')});
+    candidates.push(noneOfTheAbove);
     return buildQuestion({section, source: relations.source, target: relations.target, candidates});
   }));
 
