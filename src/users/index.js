@@ -59,7 +59,7 @@ export const register = (server: Server, options: Object, next: Function) => {
     if (err) { logError(err); }
     server.auth.strategy('jwt', 'jwt', {
       key: SECRET,
-      validateFunc(principle: Object, request: Request, callback: Function) {
+      verifyFunc(principle: Object, request: Request, callback: Function) {
         userService.get(principle).then((user) => {
           callback(null, (user && user.get('active')), user);
         }, (error) => {
