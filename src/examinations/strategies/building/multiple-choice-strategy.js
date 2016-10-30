@@ -13,7 +13,7 @@ const noneOfTheAbove = {
 const questionOperations = [
   () => ({id: UUID.v4()}),
   ({ section }) => ({type: section.type}),
-  ({ source }) => ({text: `What is the Spanish term for ${source.get('value')}`}),
+  ({ source }) => ({text: `What is the possible term for ${source.get('value')} in Spanish?`}),
   ({ target }) => ({correctResponses: [{id: target.get('id')}]}),
   ({ candidates }) => ({ terms: candidates.map(({id, value}) => ({ id, text: value }))})
 ];
