@@ -13,6 +13,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .authorize('urn:cgi:permission:examinations::create')
     .bind(controller, 'create');
 
+  router
+    .post('{id}/users/{userId}/submissions')
+    .authorize('urn:cgi:permission:examination-submissions::create')
+    .bind(controller, 'submit');
+
   router.register(next);
 };
 
