@@ -8,7 +8,7 @@ import * as UUID from 'javascript/datatypes/uuid';
 const noneOfTheAbove = {
   id: '35fe100c-2e9b-42cf-bddc-a5ba3ad950ec',
   value: 'None of the above'
-}
+};
 
 const questionOperations = [
   () => ({id: UUID.v4()}),
@@ -30,16 +30,22 @@ export default async (section: ExamSection) => {
   translations = translations.serialize();
   const questions = await Promise.all(translations.map(async ({source, relations}) => {
     const exclusions = await TermExclusion.where('source_id', '=', source).fetchAll();
+    const categories = await relations.source.related('categories').fetch();
+    const category = categories.first();
     const excludedIds = exclusions.pluck('targetId');
-    const terms = await Term.query((qb) => {
+
+    const terms = await Term.query(builder => {
       if (excludedIds.length) {
-        qb.where('id', 'not in', excludedIds);
+        builder.where('id', 'not in', excludedIds);
       }
-      qb.join('languages', 'terms.language_id', 'languages.id');
-      qb.where('languages.name', '=', 'Spanish');
-      qb.orderByRaw('random()');
-      qb.limit(2);
+      builder.join('languages', 'terms.language_id', 'languages.id');
+      builder.where('languages.name', '=', 'Spanish');
+      builder.join('categories_terms', 'terms.id', 'categories_terms.term_id');
+      builder.where('categories_terms.category_id', '=', category.get('id'));
+      builder.orderByRaw('random()');
+      builder.limit(3);
     }).fetchAll();
+
     const candidates = terms.serialize().map(({id, value}) => ({id, value}));
     candidates.push({id: relations.target.get('id'), value: relations.target.get('value')});
     candidates.push(noneOfTheAbove);
