@@ -35,4 +35,13 @@ export default class TerminologyController {
     }
   }
 
+  async update(request: Request, reply: Function) {
+    try {
+      await this.service.update(request.params, request.payload);
+      reply().statusCode = NO_CONTENT;
+    } catch (error) {
+      reply(error);
+    }
+  }
+
 }
