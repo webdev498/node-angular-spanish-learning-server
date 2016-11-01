@@ -5,6 +5,10 @@ import Translation from 'terminology/models/Translation';
 import type { ExamSection } from 'examinations/templates/exam-template';
 import * as UUID from 'javascript/datatypes/uuid';
 
+function generatePseudoradomNumberBetween(start, end) {
+  return Math.floor(Math.random() * end) + start;
+}
+
 const noneOfTheAbove = {
   id: '35fe100c-2e9b-42cf-bddc-a5ba3ad950ec',
   value: 'None of the above'
@@ -47,7 +51,7 @@ export default async (section: ExamSection) => {
     }).fetchAll();
 
     const candidates = terms.serialize().map(({id, value}) => ({id, value}));
-    candidates.push({id: relations.target.get('id'), value: relations.target.get('value')});
+    candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.target.get('id'), value: relations.target.get('value')});
     candidates.push(noneOfTheAbove);
     return buildQuestion({section, source: relations.source, target: relations.target, candidates});
   }));
