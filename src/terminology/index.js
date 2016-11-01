@@ -29,6 +29,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .authorize('urn:cgi:permission:terms::update')
     .bind(controller, 'update');
 
+router
+    .get('/{id}')
+    .authorize('urn:cgi:permission:terms::view')
+    .bind(controller, 'fetch');
+
   router.register(next);
 };
 
