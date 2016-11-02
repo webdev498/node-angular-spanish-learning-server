@@ -34,4 +34,8 @@ export default class TerminologyService {
       return await Term.forge().orderBy('value', 'ASC').fetchAll({withRelated: ['language']});
     }
   }
+
+  async update({ id }: Object, {value, lexicalCategory, active}: Object) {
+    return await Term.forge({id}).save({ value, lexicalCategory, active }, {patch: true});
+  }
 }

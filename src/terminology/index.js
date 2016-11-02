@@ -20,9 +20,14 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(controller, 'list');
 
   router
-    .get('/{languageName}')
+    .get('/languages/{languageName}')
     .authorize('urn:cgi:permission:terms::list')
     .bind(controller, 'listByName');
+
+  router
+    .put('/{id}')
+    .authorize('urn:cgi:permission:terms::update')
+    .bind(controller, 'update');
 
   router.register(next);
 };
