@@ -38,4 +38,8 @@ export default class TerminologyService {
   async update({ id }: Object, {value, lexicalCategory, active}: Object) {
     return await Term.forge({id}).save({ value, lexicalCategory, active }, {patch: true});
   }
+
+  async fetch({ id }: Object) {
+    return Term.where({ id }).fetch();
+  }
 }

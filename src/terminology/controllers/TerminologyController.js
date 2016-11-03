@@ -44,4 +44,12 @@ export default class TerminologyController {
     }
   }
 
+  async fetch(request: Request, reply: Function) {
+    try {
+      reply(await this.service.fetch(request.params));
+    } catch (error) {
+      reply(error);
+    }
+  }
+
 }
