@@ -14,7 +14,8 @@ const mapping = {
   [PasswordComplexityError] : UnprocessableEntity,
   [InvalidEmailError]: UnprocessableEntity,
   [UserPasswordMismatchError]: UnprocessableEntity,
-  [MissingRecordError]: NotFoundError
+  [MissingRecordError]: NotFoundError,
+  [TypeError]: UnprocessableEntity
 };
 
 export const create = (request, error) => {

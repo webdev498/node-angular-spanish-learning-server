@@ -18,9 +18,9 @@ function buildQuestion(params) {
   }, {});
 }
 
-export default async (section: ExamSection) => {
-  const {id, type, instructions } = section;
-  const translations = await Translation.random(section.itemCount);
+export default async (section: ExamSection, type: string) => {
+  const {id, instructions } = section;
+  const translations = await Translation.random(section.itemCount(type) * 5);
 
   const groups = translations.reduce((accumulator, term, index, array) => {
     let position = index + 1;
@@ -34,5 +34,5 @@ export default async (section: ExamSection) => {
     return buildQuestion({section, group});
   });
 
-  return { id, type, instructions, questions };
+  return { id, type: section.type, instructions, questions };
 };

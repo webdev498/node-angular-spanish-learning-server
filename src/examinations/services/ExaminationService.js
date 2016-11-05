@@ -9,13 +9,18 @@ import MissingRecordError from 'exceptions/runtime/MissingRecordError';
 
 
 export default class ExaminationService {
-  async create() {
-    const exam = await buildExam();
+  async create({ payload }: Object) {
+    if (!['short', 'normal', 'long'].includes(payload.type)) {
+      throw new TypeError(`${payload.type} is not a valid Exam type. Must be 'short', 'normal', or 'long'`);
+    }
+
+    const exam = await buildExam(payload);
     return await exam.save();
   }
 
   async submit(id: string, principle: UserPrinciple, submission: ExamSubmission) {
-    const exam = await Examination.where({id}).fetch();
+    const exam = await Examination.where({ id }).fetch();
+    
     if (!exam) {
       throw new MissingRecordError(`Unable to find Exam with id: ${id}`);
     }

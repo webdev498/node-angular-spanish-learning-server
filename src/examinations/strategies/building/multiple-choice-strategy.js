@@ -28,10 +28,11 @@ function buildQuestion(params) {
   }, {});
 }
 
-export default async (section: ExamSection) => {
-  const {id, type, instructions } = section;
-  let translations = await Translation.random(section.itemCount);
+export default async (section: ExamSection, type: string) => {
+  const {id, instructions } = section;
+  let translations = await Translation.random(section.itemCount(type));
   translations = translations.serialize();
+
   const questions = await Promise.all(translations.map(async ({source, relations}) => {
     const exclusions = await TermExclusion.where('source_id', '=', source).fetchAll();
     const categories = await relations.source.related('categories').fetch();
@@ -56,5 +57,5 @@ export default async (section: ExamSection) => {
     return buildQuestion({section, source: relations.source, target: relations.target, candidates});
   }));
 
-  return { id, type, instructions, questions };
+  return { id, type: section.type, instructions, questions };
 };
