@@ -52,4 +52,13 @@ export default class TerminologyController {
     }
   }
 
+  async getTranslations(request: Request, reply: Function) {
+    try {
+      const translations = this.service.findTranslations(request.params);
+      reply(translations);
+    } catch (error) {
+      reply(error);
+    }
+  }
+
 }

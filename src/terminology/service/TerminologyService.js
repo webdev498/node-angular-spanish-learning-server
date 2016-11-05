@@ -42,4 +42,15 @@ export default class TerminologyService {
   async fetch({ id }: Object) {
     return Term.where({ id }).fetch();
   }
+
+  async  findTranslations({ id, language }: Object) {
+    language = language.toLowerCase();
+    const joinClause = ['translations', 'terms.id', `translations.${language === 'spanish' ? 'target' : 'source'}`];
+    const whereClause = [`translations.${language === 'spanish' ? 'source' : 'target'}`, '=', id];
+    return await Term.query(builder => {
+      builder.join(...joinClause);
+      builder.where(...whereClause);
+      builder.limit(1);
+    }).fetchAll();
+  }
 }

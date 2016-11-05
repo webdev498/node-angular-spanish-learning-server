@@ -34,6 +34,11 @@ router
     .authorize('urn:cgi:permission:terms::view')
     .bind(controller, 'fetch');
 
+router
+    .get('/{id}/translations/{language}')
+    .authorize('urn:cgi:permission:terms::view')
+    .bind(controller, 'getTranslations');
+
   router.register(next);
 };
 
