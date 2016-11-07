@@ -18,14 +18,14 @@ function buildQuestion(params) {
   }, {});
 }
 
-export default async (section: ExamSection) => {
-  const {id, type, instructions } = section;
+export default async (section: ExamSection, type: string) => {
+  const {id, instructions } = section;
 
-  let terms = await Term.query((qb) => {
+  const terms = await Term.query((qb) => {
     qb.join('languages', 'terms.language_id', 'languages.id');
     qb.where('languages.name', '=', 'Spanish');
     qb.orderByRaw('random()');
-    qb.limit(section.itemCount);
+    qb.limit(section.itemCount(type) * 5);
   })
   .fetchAll({withRelated: ['categories']});
 
@@ -41,5 +41,5 @@ export default async (section: ExamSection) => {
     return buildQuestion({section, group});
   });
 
-  return { id, type, instructions, questions };
+  return { id, type: section.type, instructions, questions };
 };
