@@ -15,7 +15,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .post('feedback')
-    .authorize('urn:cgi:permission:examinations::feedback')
+    .authorize('urn:cgi:permission:examfeedback::create')
     .bind(controller,'feedback')
 
   router
