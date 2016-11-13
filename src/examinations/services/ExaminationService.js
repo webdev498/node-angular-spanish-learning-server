@@ -22,7 +22,7 @@ export default class ExaminationService {
 
   async feedback(principle: UserPrinciple, { payload }: Object) {
     const user = await User.where({ principle.id }).fetch();
-    await questionFeedback(user,payload.ext, payload.question);
+    return await questionFeedback(user,payload.ext, payload.question);
   }
 
   async submit(id: string, principle: UserPrinciple, submission: ExamSubmission) {
