@@ -3,9 +3,11 @@ import Examination from 'examinations/models/Examination';
 import type { ExamSubmission } from 'examinations/models/Examination';
 import ExaminationResult from 'examinations/models/ExaminationResult';
 import type UserPrinciple from 'users/models/User';
+import type User from 'users/models/User';
 import buildExam from '../jobs/exam-builder';
 import gradeExam from '../jobs/exam-grader';
 import MissingRecordError from 'exceptions/runtime/MissingRecordError';
+import questionFeedback from './../email';
 
 
 export default class ExaminationService {
@@ -16,6 +18,11 @@ export default class ExaminationService {
 
     const exam = await buildExam(payload);
     return await exam.save();
+  }
+
+  async feedback(principle: UserPrinciple, { payload }: Object) {
+    const user = await User.where({ principle.id }).fetch();
+    await questionFeedback(user,payload.ext, payload.question);
   }
 
   async submit(id: string, principle: UserPrinciple, submission: ExamSubmission) {
