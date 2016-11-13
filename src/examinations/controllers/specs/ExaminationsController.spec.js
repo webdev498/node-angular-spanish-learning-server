@@ -2,13 +2,14 @@ import { stub } from 'sinon';
 import { CREATED } from 'http/status-codes';
 import ExaminationService from '../../services/ExaminationService';
 import ExaminationsController from '../ExaminationsController';
+import UserService from 'users/service/UserService';
 
 describe('ExaminationsController', () => {
   const request = {query:{}, params:{}};
 
-  describe('creating examindations', () => {
+  describe('creating examinations', () => {
     describe('when the creation was successful', () => {
-      const service = new ExaminationService();
+      const service = new ExaminationService(new UserService());
       const controller = new ExaminationsController(service);
       const exam = {};
       const response = {};
@@ -32,7 +33,7 @@ describe('ExaminationsController', () => {
   describe('when the creation was successful', () => {
     const response = {};
     const error = new Error();
-    const service = new ExaminationService();
+    const service = new ExaminationService(new UserService());
     const controller = new ExaminationsController(service);
     const reply = stub().returns(response);
 

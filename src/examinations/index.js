@@ -2,11 +2,12 @@
 import Router from 'http/Router';
 import ExaminationsController from './controllers/ExaminationsController';
 import ExaminationService from './services/ExaminationService';
+import UserService from 'users/service/UserService';
 import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const router = new Router({server, resource: 'exams'});
-  const controller = new ExaminationsController(new ExaminationService());
+  const controller = new ExaminationsController(new ExaminationService(new UserService()));
 
   router
     .post('')

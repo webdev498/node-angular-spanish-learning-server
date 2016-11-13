@@ -18,6 +18,19 @@ export default class ExaminationsController {
       reply(error);
     }
   }
+
+  async feedback(request: Request, reply: Function) {
+    try {
+      const { payload } = request;
+      const { credentials } = request.auth;
+
+      const result = await this.service.feedback(credentials, payload);
+      reply(result);
+    } catch (error) {
+      reply(error);
+    }
+  }
+
   async submit(request: Request, reply: Function) {
     try {
       const { params, payload } = request;
