@@ -13,7 +13,7 @@ export const send = (message) => {
     let params = {
         Destination: { 
             BccAddresses: [],
-            CcAddresses: [],
+            CcAddresses: [message.cc],
             ToAddresses: [message.to]
         },
         Message: { 

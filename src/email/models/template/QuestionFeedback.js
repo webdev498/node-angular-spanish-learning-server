@@ -7,7 +7,9 @@
       this.feedbackText = feedbackText;
       this.question = question;
       this.fromUser = fromUser;
-      this.to = 'admin@commongroundinternational.com';
+      this.to = 'consulting@surfdew.com';
+      //this.cc = fromUser.get('email');
+      //this.to = 'admin@commongroundinternational.com';
     }
 
     get body() {
