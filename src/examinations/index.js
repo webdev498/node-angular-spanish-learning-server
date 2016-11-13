@@ -14,6 +14,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(controller, 'create');
 
   router
+    .post('{id}/feedback')
+    .authorize('urn:cgi:permission:examinations::feedback')
+    .bind(controller,'feedback')
+
+  router
     .post('{id}/users/{userId}/submissions')
     .authorize('urn:cgi:permission:examination-submissions::create')
     .bind(controller, 'submit');
