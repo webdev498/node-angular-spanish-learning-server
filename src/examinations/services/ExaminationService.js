@@ -11,6 +11,7 @@ import * as EmailMessage from 'email';
 
 
 export default class ExaminationService {
+  userService: UserService;
 
   constructor(userService: UserService) {
     this.userService = userService;
