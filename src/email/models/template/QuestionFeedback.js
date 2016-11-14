@@ -40,6 +40,6 @@
           break;
       }
 
-      return termBody += `<p>${fomattedQuestion}</p>`;
+      return termBody += `<p>${formattedQuestion}</p>`;
   }
 }
