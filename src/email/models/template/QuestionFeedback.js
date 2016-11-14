@@ -40,6 +40,6 @@
           break;
       }
 
-      return termBody += `<p>${formattedQuestion}</p>`;
+      return termBody += `<p style='margin-top: 25px'>${formattedQuestion}</p>`;
   }
 }
