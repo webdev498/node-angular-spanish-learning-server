@@ -19,23 +19,23 @@
       switch (this.question.type) {
         case 'Multiple Choice':
           for (let i = 0; i < this.question.choices.length; i++) {
-              termBody += `${this.question.choices[i].text}<br>`
+              termBody += `${this.question.choices[i].text}<br>`;
           }
           break;
         case 'Category Matching':
           for (let i = 0; i < this.question.categories.length; i++) {
-              termBody += `${this.question.categories[i].text}<br>`
+              termBody += `${this.question.categories[i].text}<br>`;
           }
 
           termBody += '<p></p>';
 
           for (let i = 0; i < this.question.choices.length; i++) {
-              termBody += `${this.question.choices[i].text}<br>`
+              termBody += `${this.question.choices[i].text}<br>`;
           }
           break;
         case 'Term Matching':
           for (let i = 0; i < this.question.terms.length; i++) {
-              termBody += `${this.question.terms[i].text}<br>`
+              termBody += `${this.question.terms[i].text}<br>`;
           }
           break;
       }

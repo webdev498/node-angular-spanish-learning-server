@@ -9,7 +9,8 @@ describe('ExaminationsController', () => {
 
   describe('creating examinations', () => {
     describe('when the creation was successful', () => {
-      const service = new ExaminationService(new UserService());
+      const userService = new UserService();
+      const service = new ExaminationService(userService);
       const controller = new ExaminationsController(service);
       const exam = {};
       const response = {};
@@ -33,7 +34,8 @@ describe('ExaminationsController', () => {
   describe('when the creation was successful', () => {
     const response = {};
     const error = new Error();
-    const service = new ExaminationService(new UserService());
+    const userService = new UserService();
+    const service = new ExaminationService(userService);
     const controller = new ExaminationsController(service);
     const reply = stub().returns(response);
 
