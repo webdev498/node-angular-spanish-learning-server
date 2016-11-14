@@ -40,6 +40,6 @@
           break;
       }
 
-      return termBody;
+      return termBody += `<p>${fomattedQuestion}</p>`;
   }
 }
