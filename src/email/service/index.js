@@ -1,8 +1,7 @@
 var aws = require('aws-sdk');
 import { logInfo, logError } from './../../logging';
-import type Message from './../models/Message';
 
-export const send = (message: Message) => {
+export const send = (message) => {
     aws.config.update({
         accessKeyId: process.env.SES_KEY,
         secretAccessKey: process.env.SES_SECRET,
@@ -14,8 +13,8 @@ export const send = (message: Message) => {
     let params = {
         Destination: { 
             BccAddresses: [],
-            CcAddresses: [],
-            ToAddresses: [message.recipient.get('email')]
+            CcAddresses: [message.cc],
+            ToAddresses: [message.to]
         },
         Message: { 
             Body: { 

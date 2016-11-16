@@ -4,6 +4,7 @@
     constructor(recipient) {
       super(recipient);
       this.subject = 'Please Confirm Your Email Address with CertifiedSpanish.com';
+      this.to = this.recipient.get('email');
     }
 
     get body() {
