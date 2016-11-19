@@ -5,8 +5,10 @@ import LoginService from './service/LoginService';
 import TelephonesController from './controllers/TelephonesController';
 import TelephonesService from './service/TelephoneService';
 import UsersController from './controllers/UsersController';
+import ExaminationResultsController from 'examinations/controllers/ExaminationResultsController';
 import UserService from './service/UserService';
 import CRMService from './service/CRMService';
+import ExaminationResultService from 'examinations/services/ExaminationResultService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import UnauthorizedError from 'exceptions/requests/Unauthorized';
 import { logError, logInfo } from 'logging';
@@ -53,6 +55,7 @@ export const register = (server: Server, options: Object, next: Function) => {
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
   const usersController = new UsersController(userService, tokenProvider, crmService);
   const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
+  const resultsController = new ExaminationResultsController(new ExaminationResultService());
   const router = new Router({server, resource: ''});
 
   server.register(require('hapi-auth-jwt2'), (err) => {
@@ -111,6 +114,11 @@ export const register = (server: Server, options: Object, next: Function) => {
   router
     .post('/login/google')
     .bind(loginController, 'googleAuthLogin');
+
+  router
+    .get('/users/{id}/examination-results/latest')
+    .authorize('urn:cgi:permission:examination-results::view')
+    .bind(resultsController, 'latestForUser');
 
 
   router.register(next);
