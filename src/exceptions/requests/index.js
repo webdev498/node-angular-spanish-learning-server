@@ -4,5 +4,6 @@ export default class RequestError {
     this.uri = `${ request.method.toUpperCase() } ${ request.path }`;
     this.request = request.orig;
     this.sourceError = originalError;
+    this.isError = true;
   }
 }

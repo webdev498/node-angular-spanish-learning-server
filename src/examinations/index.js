@@ -7,22 +7,23 @@ import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const router = new Router({server, resource: 'exams'});
-  const controller = new ExaminationsController(new ExaminationService(new UserService()));
+  const examsController = new ExaminationsController(new ExaminationService(new UserService()));
+
 
   router
     .post('')
     .authorize('urn:cgi:permission:examinations::create')
-    .bind(controller, 'create');
+    .bind(examsController, 'create');
 
   router
     .post('feedback')
     .authorize('urn:cgi:permission:examfeedback::create')
-    .bind(controller,'feedback');
+    .bind(examsController,'feedback');
 
   router
     .post('{id}/users/{userId}/submissions')
     .authorize('urn:cgi:permission:examination-submissions::create')
-    .bind(controller, 'submit');
+    .bind(examsController, 'submit');
 
   router.register(next);
 };
