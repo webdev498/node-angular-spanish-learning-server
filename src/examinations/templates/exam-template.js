@@ -23,13 +23,13 @@ export const sections = [
   {
     id: "ca4d8b1b-a554-4170-9ee2-99fe454d7061",
     type: "Term Matching",
-    instructions: "For the following questions, match the term on the with left with the correct term on the right",
+    instructions: "Match each English and Spanish term together by dragging the term to the correct match",
     itemCount: (type: string) => Math.floor(itemCounts[type] * .25)
   },
   {
     id: "fe01927e-4f06-43ee-96f3-a9e52ab70e91",
     type: "Category Matching",
-    instructions: "Group the terms on the left under the most appropriate category on the right",
+    instructions: "Group each term into a category by dragging the term from the top to category on the bottom",
     itemCount: (type: string) => Math.floor(itemCounts[type] * .25)
   }
 ];
