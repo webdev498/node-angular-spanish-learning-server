@@ -1,11 +1,18 @@
 import type UserPrinciple from 'users/model/User';
 import ExaminationResult from 'examinations/models/ExaminationResult';
+import MissingRecordError from 'exceptions/runtime/MissingRecordError';
 
 export default class ExaminationResultService {
   async getResultsForUser(user: UserPrinciple): ExaminationResult {
-    return await ExaminationResult.query(query => {
+    const examResult = await ExaminationResult.query(query => {
       query.where({user_id: user.get('id')});
       query.orderBy('created_at', 'DESC');
     }).fetch();
+
+    if (examResult) {
+      return examResult;
+    } else {
+      throw new MissingRecordError(`There are no examination results for user with id: ${user.get('id')}`);
+    }
   }
 }
