@@ -17,7 +17,9 @@
       let termBody = `${intro}<p>Terms:</p>`;
 
       switch (this.question.type) {
-        case 'Multiple Choice':
+      case 'Multiple Choice':
+      case 'Multiple Choice English':
+      case 'Multiple Choice Spanish':
           for (let i = 0; i < this.question.choices.length; i++) {
               termBody += `${this.question.choices[i].text}<br>`;
           }
