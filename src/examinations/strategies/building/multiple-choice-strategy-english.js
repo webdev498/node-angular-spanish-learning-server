@@ -17,8 +17,8 @@ const noneOfTheAbove = {
 const questionOperations = [
   () => ({id: UUID.v4()}),
   ({ section }) => ({type: section.type}),
-  ({ source }) => ({text: `What is the possible term for "${source.get('value')}" in English?`}),
-  ({ target }) => ({correctResponses: [{id: target.get('id')}]}),
+  ({ target }) => ({text: `What is the possible term for "${target.get('value')}" in English?`}),
+  ({ source }) => ({correctResponses: [{id: source.get('id')}]}),
   ({ candidates }) => ({ terms: candidates.map(({id, value}) => ({ id, text: value }))})
 ];
 
@@ -52,7 +52,7 @@ export default async (section: ExamSection, type: string) => {
     }).fetchAll();
 
     const candidates = terms.serialize().map(({id, value}) => ({id, value}));
-    candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.target.get('id'), value: relations.target.get('value')});
+    candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.source.get('id'), value: relations.source.get('value')});
     candidates.push(noneOfTheAbove);
     return buildQuestion({section, source: relations.source, target: relations.target, candidates});
   }));
