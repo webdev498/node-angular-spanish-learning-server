@@ -50,15 +50,6 @@ const Translation = Base.extend({
         .limit(limit);
       }).fetchAll({withRelated: ['source', 'target']});
 
-  },
-    random_target_source(limit: number = 30) {
-    return Translation.query((queryBuilder) => {
-      queryBuilder
-        .select()
-        .orderByRaw('random()')
-        .limit(limit);
-      }).fetchAll({withRelated: ['target', 'source']});
-
   }
 });
 
