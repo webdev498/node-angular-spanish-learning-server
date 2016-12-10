@@ -11,7 +11,10 @@ function generatePseudoradomNumberBetween(start, end) {
 
 const noneOfTheAbove = {
   id: '35fe100c-2e9b-42cf-bddc-a5ba3ad950ec',
-  value: 'None of the above'
+  value: 'None of the above',
+  get: function(key) {
+    return this.id;
+  }
 };
 
 const questionOperations = [
@@ -28,6 +31,12 @@ function buildQuestion(params) {
   }, {});
 }
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 export default async (section: ExamSection, type: string) => {
   const {id, instructions } = section;
   let translations = await Translation.random(section.itemCount(type));
@@ -38,6 +47,10 @@ export default async (section: ExamSection, type: string) => {
     const categories = await relations.source.related('categories').fetch();
     const category = categories.first();
     const excludedIds = exclusions.pluck('targetId');
+    const standardLimit = 3;
+    const noneOfTheAboveLimit = 4;
+    
+    let choiceLimit = getRandomInt(1,10) === 1 ? noneOfTheAboveLimit : standardLimit;
 
     const terms = await Term.query(builder => {
       if (excludedIds.length) {
@@ -48,13 +61,21 @@ export default async (section: ExamSection, type: string) => {
       builder.join('categories_terms', 'terms.id', 'categories_terms.term_id');
       builder.where('categories_terms.category_id', '=', category.get('id'));
       builder.orderByRaw('random()');
-      builder.limit(3);
+      builder.limit(choiceLimit);
     }).fetchAll();
 
     const candidates = terms.serialize().map(({id, value}) => ({id, value}));
-    candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.target.get('id'), value: relations.target.get('value')});
-    candidates.push(noneOfTheAbove);
-    return buildQuestion({section, source: relations.source, target: relations.target, candidates});
+
+    if (choiceLimit === standardLimit) {
+      candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.target.get('id'), value: relations.target.get('value')});
+      candidates.push(noneOfTheAbove);
+      return buildQuestion({section, source: relations.source, target: relations.target, candidates});
+    }
+
+    if (choiceLimit === noneOfTheAboveLimit) {
+      candidates.push(noneOfTheAbove);
+      return buildQuestion({section, source: relations.source, target: noneOfTheAbove, candidates});
+    }
   }));
 
   return { id, type: section.type, instructions, questions };
