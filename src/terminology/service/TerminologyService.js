@@ -45,7 +45,7 @@ export default class TerminologyService {
     return Term.where({ id }).fetch();
   }
 
-  async  findTranslations({ id, language }: Object) {
+  async findTranslations({ id, language }: Object) {
     language = language.toLowerCase();
     const joinClause = ['translations', 'terms.id', `translations.${language === 'spanish' ? 'target' : 'source'}`];
     const whereClause = [`translations.${language === 'spanish' ? 'source' : 'target'}`, '=', id];
@@ -54,6 +54,41 @@ export default class TerminologyService {
       builder.where(...whereClause);
       builder.limit(1);
     }).fetchAll();
+  }
+
+  async categoryMatchingTerms(total: number) {
+    let terms = [];
+    
+    let otherCategory = await CategoryService.other().first();
+    const otherTerms = await Term.query((qb) => {
+      qb.join('languages', 'terms.language_id', 'languages.id');
+      qb.where('languages.name', '=', 'Spanish');
+      qb.join('categories_terms', 'terms.id', 'categories_terms.term_id');
+      qb.where('categories_terms.category_id', '=', otherCategory.get('id'));
+      qb.orderByRaw('random()');
+      qb.limit((number * 5) * .4);
+    })
+    .fetchAll({withRelated: ['categories']});
+
+    terms.push(otherTerms);
+
+    //remaining random categories
+    let remainingCategories = await CategoryService.random(3);
+    for (let i = 0; i < remainingCategories.length; i++) {
+      const remainingTerms = await Term.query((qb) => {
+        qb.join('languages', 'terms.language_id', 'languages.id');
+        qb.where('languages.name', '=', 'Spanish');
+        qb.join('categories_terms', 'terms.id', 'categories_terms.term_id');
+        qb.where('categories_terms.category_id', '=', remainingCategories[i].get('id'));
+        qb.orderByRaw('random()');
+        qb.limit((number * 5) * .2);
+      })
+      .fetchAll({withRelated: ['categories']});
+
+      terms.push(remainingTerms);
+    }
+
+    return terms;
   }
 
   async translationsByCategoryCount(total: number) {

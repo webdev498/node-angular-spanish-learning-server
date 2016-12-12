@@ -9,7 +9,7 @@ const questionOperations = [
   ({ section }) => ({type: section.type}),
   () => ({text: ""}),
   ({ group }) => ({correctResponses: group.map((term) => ({termId: term.get('id'), categoryId: term.relations.categories.first().get('id')}))}),
-  ({ group }) => ({categories: group.map((term) => ({id: term.relations.categories.first().get('id'), text: term.relations.categories.first().get('name')}))}),
+  ({ group }) => ({ categories: group.map((term) => ({id: term.relations.categories.first().get('id'), text: term.relations.categories.first().get('name')}))}),
   ({ group }) => ({terms: group.map((term) => ({id: term.get('id'), text: term.get('value')}))})
 ];
 
@@ -22,13 +22,7 @@ function buildQuestion(params) {
 export default async (section: ExamSection, type: string, termService: TerminologyService) => {
   const {id, instructions } = section;
 
-  const terms = await Term.query((qb) => {
-    qb.join('languages', 'terms.language_id', 'languages.id');
-    qb.where('languages.name', '=', 'Spanish');
-    qb.orderByRaw('random()');
-    qb.limit(section.itemCount(type) * 5);
-  })
-  .fetchAll({withRelated: ['categories']});
+  const terms = await termService.categoryMatchingTerms(section.itemCount(type));
 
   const groups = terms.reduce((accumulator, term, index, array) => {
     let position = index + 1;
