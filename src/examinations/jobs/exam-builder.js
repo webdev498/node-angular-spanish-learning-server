@@ -1,7 +1,7 @@
 //@flow
 import Exam from 'examinations/models/Examination';
 import buildStrategies from '../strategies/building';
-import CategoryService from './categories/service';'
+import CategoryService from './categories/service';
 import { sections } from '../templates/exam-template';
 import TerminologyService from '/terminology/TerminologyService';
 
