@@ -12,7 +12,11 @@ type excludeParams = {
 };
 
 export default class TerminologyService {
-  constructor() {}
+  remainingCategories : any = null;
+
+  constructor(categories: any) {
+    this.remainingCategories = categories;
+  }
 
   async exclude({ language, source, targets }: excludeParams) {
     const deferred = targets.map((target) => {
@@ -73,8 +77,7 @@ export default class TerminologyService {
     terms.push(otherTerms);
 
     //remaining random categories
-    let remainingCategories = await CategoryService.random(3);
-    for (let i = 0; i < remainingCategories.length; i++) {
+    for (let i = 0; i < this.remainingCategories.length; i++) {
       const remainingTerms = await Term.query((qb) => {
         qb.join('languages', 'terms.language_id', 'languages.id');
         qb.where('languages.name', '=', 'Spanish');
@@ -102,8 +105,7 @@ export default class TerminologyService {
     translations.push(otherTranslations);
 
     //remaining random categories
-    let remainingCategories = await CategoryService.random(3);
-    for (let i = 0; i < remainingCategories.length; i++) {
+    for (let i = 0; i < this.remainingCategories.length; i++) {
       let translationCategory = await Translation.randomByCategory(total * .2, 
       remainingCategories[i].get('id'));
       translationCategory = translationCategory.serialize();
