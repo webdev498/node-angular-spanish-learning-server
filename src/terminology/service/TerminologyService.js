@@ -12,7 +12,7 @@ type excludeParams = {
 };
 
 export default class TerminologyService {
-  remainingCategories : any = null;
+  remainingCategories : Object;
 
   constructor(categories: any) {
     this.remainingCategories = categories;
