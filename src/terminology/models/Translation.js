@@ -49,7 +49,17 @@ const Translation = Base.extend({
         .orderByRaw('random()')
         .limit(limit);
       }).fetchAll({withRelated: ['source', 'target']});
-
+  }
+}, {
+  randomByCategory(limit: number = 30, categoryId: string) {
+    return Translation.query((queryBuilder) => {
+      queryBuilder
+        .join('terms', 'translations.source', 'terms.id')
+        .join('categories_terms', 'terms.id', 'categories_terms.term_id')
+        .where('categories_terms.category_id', '=', categoryId)
+        .orderByRaw('random()')
+        .limit(limit)
+      }).fetchAll({withRelated: ['source', 'target']});
   }
 });
 

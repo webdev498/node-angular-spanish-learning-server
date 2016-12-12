@@ -1,6 +1,8 @@
 /* @flow */
+import CategoryService from 'categories/service';
 import TermExclusion from 'terminology/models/TermExclusion';
 import Term from 'terminology/models/Term';
+import Translation from 'terminology/models/Translation';
 import Language from 'languages/models/Language';
 
 type excludeParams = {
@@ -52,5 +54,27 @@ export default class TerminologyService {
       builder.where(...whereClause);
       builder.limit(1);
     }).fetchAll();
+  }
+
+  async translationsByCategoryCount(total: number) {
+    let translations = [];
+    //40% of questions to use 'Other' category.  Remaining 3 categories are random
+    //translations by other category
+    let otherCategory = await CategoryService.other().first();
+    let otherTranslations = await Translation.randomByCategory(total * .4, 
+      otherCategory.get('id'));
+    otherTranslations = otherTranslations.serialize();
+    translations.push(otherTranslations);
+
+    //remaining random categories
+    let remainingCategories = await CategoryService.random(3);
+    for (let i = 0; i < remainingCategories.length; i++) {
+      let translationCategory = await Translation.randomByCategory(total * .2, 
+      remainingCategories[i].get('id'));
+      translationCategory = translationCategory.serialize();
+      translations.push(translationCategory);
+    }
+
+    return translations;
   }
 }

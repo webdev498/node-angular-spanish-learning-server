@@ -1,6 +1,7 @@
 //@flow
 import Term from 'terminology/models/Term';
 import TermExclusion from 'terminology/models/TermExclusion';
+import TerminologyService from '/terminology/TerminologyService';
 import Translation from 'terminology/models/Translation';
 import type { ExamSection } from 'examinations/templates/exam-template';
 import * as UUID from 'javascript/datatypes/uuid';
@@ -22,7 +23,7 @@ const questionOperations = [
   ({ section }) => ({type: section.type}),
   ({ source }) => ({text: `What is the possible term for "${source.get('value')}" in Spanish?`}),
   ({ target }) => ({correctResponses: [{id: target.get('id')}]}),
-  ({ candidates }) => ({ terms: candidates.map(({id, value}) => ({ id, text: value }))})
+  ({ candidates }) => ({terms: candidates.map(({id, value}) => ({ id, text: value }))})
 ];
 
 function buildQuestion(params) {
@@ -37,10 +38,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export default async (section: ExamSection, type: string) => {
+export default async (section: ExamSection, type: string, termService: TerminologyService) => {
   const {id, instructions } = section;
-  let translations = await Translation.random(section.itemCount(type));
-  translations = translations.serialize();
+  let translations = await termService.translationsByCategoryCount(section.itemCount(type));
 
   const questions = await Promise.all(translations.map(async ({source, relations}) => {
     const exclusions = await TermExclusion.where('source_id', '=', source).fetchAll();
