@@ -60,10 +60,14 @@ export GOOGLE_SECRET='Look in drop box'
 export PORT=8001
 export NODE_ENV='development'
 export DEFAULT_FROM_ADDRESS='notifications@certififedspanish.com'
-export CONFIRMATION_CALLBACK_URL='http://localhost:4000/#/registerconfirm'
+export CONFIRMATION_CALLBACK_URL='http://localhost:3001/#/registerconfirm'
 export SES_KEY='Look in drobox',
 export SES_SECRET='Look in dropbox'
 export ACTIVE_CAMPAIGN_KEY='Look in dropbox'
+export PP_KEY='Look in dropbox'
+export PP_SECRET='Look in dropbox'
+export PP_CANCEL_URL='http://localhost:3001/#/account'
+export PP_AGREEMENT_URL='http://localhost:3001/#/studyagreement'
 
 ./bin/server
 
