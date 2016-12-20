@@ -10,21 +10,10 @@ export default class PaymentController {
     this.service = service;
   }
 
-  async createBillingPlan(request: Request, reply: Function) {
-    try {
-      const planId = await this.service.create();
-      reply(planId).statusCode = CREATED;
-    } catch (error) {
-      reply(error);
-    }
-  }
-
   async processBillingPlan(request: Request, reply: Function) {
     try {
-      const { payload } = request;
-      const { credentials } = request.auth;
-
-      const result = await this.service.process(credentials, payload);
+      const planId = await this.service.create();
+      const result = await this.service.process(planId);
       reply(result);
     } catch (error) {
       reply(error);

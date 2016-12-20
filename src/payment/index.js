@@ -9,14 +9,9 @@ export const register = (server: Server, options: Object, next: Function) => {
   const paymentController = new PaymentController(new BillingPlanService());
 
   router
-    .post('study')
-    .authorize('urn:cgi:permission:paymentsstudybilling::create')
-    .bind(examsController, 'createBillingPlan');
-
-  router
     .post('study/process')
     .authorize('urn:cgi:permission:paymentsstudyprocess::create')
-    .bind(examsController,'processBillingPlan');
+    .bind(paymentController,'processBillingPlan');
 
   router.register(next);
 };

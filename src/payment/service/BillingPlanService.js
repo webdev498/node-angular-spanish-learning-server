@@ -38,7 +38,7 @@ export default class BillingPlanService {
         }
     }
 
-    process() {
+    process(planId) {
         
     }
 }
