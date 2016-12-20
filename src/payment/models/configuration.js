@@ -1,4 +1,4 @@
-export default class configuration {
+export default class Configuration {
     constructor() {}
 
     get config() {

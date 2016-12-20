@@ -1,4 +1,4 @@
-export default class StudyBilling {
+export default class StudyBillingPlan {
     constructor() {}
 
     get billingPlanAttribs() {
