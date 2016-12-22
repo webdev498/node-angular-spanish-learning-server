@@ -15,7 +15,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
    router
     .post('study/finalize')
-    .authorize('urn:cgi:permission:examfeedback::create')
+    .authorize('urn:cgi:permission:paymentstudyfinalize::create')
     .bind(paymentController,'finalize');
 
   router.register(next);
