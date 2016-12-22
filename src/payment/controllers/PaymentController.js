@@ -19,4 +19,8 @@ export default class PaymentController {
       reply(error);
     }
   }
+
+  async finalize(request: Request, reply: Function) {
+
+  }
 }

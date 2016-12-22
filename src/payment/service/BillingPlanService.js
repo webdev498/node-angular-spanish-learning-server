@@ -39,6 +39,33 @@ export default class BillingPlanService {
     }
 
     process(planId) {
-        
+        let studyBillingPlan = new StudyBillingPlan();
+        // Use activated billing plan to create agreement
+
+        return new Promise((resolve, reject) => {
+            paypal.billingAgreement.create(studyBillingPlan.billingAgreementAttributes(planId), function (
+                error, billingAgreement){
+                if (error) {
+                    logError(error);
+                    reject(error);
+                } else {
+                    //capture HATEOAS links
+                    var links = {};
+                    billingAgreement.links.forEach(function(linkObj){
+                        links[linkObj.rel] = {
+                            'href': linkObj.href,
+                            'method': linkObj.method
+                        };
+                    })
+
+                    //if redirect url present, return user url
+                    if (links.hasOwnProperty('approval_url')){
+                        resolve({redirectUrl: links['approval_url'].href});
+                    } else {
+                        logError('no redirect URI present');
+                    }
+                }
+            });
+        }
     }
 }

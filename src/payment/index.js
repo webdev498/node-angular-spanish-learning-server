@@ -13,6 +13,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .authorize('urn:cgi:permission:paymentsstudyprocess::create')
     .bind(paymentController,'processBillingPlan');
 
+   router
+    .post('study/finalize')
+    .authorize('urn:cgi:permission:examfeedback::create')
+    .bind(paymentController,'finalize');
+
   router.register(next);
 };
 

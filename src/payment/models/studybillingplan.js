@@ -1,5 +1,25 @@
 export default class StudyBillingPlan {
-    constructor() {}
+    constructor() {
+        this.isoDate = new Date();
+        isoDate.setSeconds(isoDate.getSeconds() + 4);
+        isoDate.toISOString().slice(0, 19) + 'Z';
+    }
+
+    this.isoDate = null;
+
+    get billingAgreementAttributes(planId) {
+        return {
+            "name": "Premium Study Guide Membership",
+            "description": "Premium CGI Unrestricted test and study guide access",
+            "start_date": this.isoDate,
+            "plan": {
+                "id": planId
+            },
+            "payer": {
+                "payment_method": "paypal"
+            }
+        };
+    }
 
     get billingPlanAttribs() {
         return {
