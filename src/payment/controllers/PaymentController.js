@@ -21,6 +21,6 @@ export default class PaymentController {
   }
 
   async finalize(request: Request, reply: Function) {
-
+      
   }
 }

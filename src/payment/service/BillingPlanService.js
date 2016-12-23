@@ -68,4 +68,18 @@ export default class BillingPlanService {
             });
         }
     }
+
+    finalize(magicTicket) {
+        return new Promise((resolve, reject) => {
+            paypal.billingAgreement.execute(magicTicket, {}, function (error, 
+                billingAgreement) {
+                if (error) {
+                    reject(error);
+                } else {
+                    //save to user object
+                    logInfo(JSON.stringify(billingAgreement));
+                }
+            });
+        }
+    }
 }
