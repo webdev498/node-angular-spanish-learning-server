@@ -10,7 +10,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .post('study/process')
-    .authorize('urn:cgi:permission:paymentsstudyprocess::create')
+    .authorize('urn:cgi:permission:paymentstudyprocess::create')
     .bind(paymentController,'processStudyBillingPlan');
 
    router
@@ -20,7 +20,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
    router
     .post('study/cancel')
-    .authorize('urn:cgi:permission:paymentsstudycancel::create')
+    .authorize('urn:cgi:permission:paymentstudycancel::create')
     .bind(paymentController,'cancelStudyBillingPlan');
 
   router.register(next);
