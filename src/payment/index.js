@@ -11,12 +11,17 @@ export const register = (server: Server, options: Object, next: Function) => {
   router
     .post('study/process')
     .authorize('urn:cgi:permission:paymentsstudyprocess::create')
-    .bind(paymentController,'processBillingPlan');
+    .bind(paymentController,'processStudyBillingPlan');
 
    router
     .post('study/finalize')
     .authorize('urn:cgi:permission:paymentstudyfinalize::create')
-    .bind(paymentController,'finalize');
+    .bind(paymentController,'finalizeStudy');
+
+   router
+    .post('study/cancel')
+    .authorize('urn:cgi:permission:paymentsstudycancel::create')
+    .bind(paymentController,'cancelStudyBillingPlan');
 
   router.register(next);
 };

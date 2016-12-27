@@ -10,7 +10,7 @@ export default class PaymentController {
     this.service = service;
   }
 
-  async processBillingPlan(request: Request, reply: Function) {
+  async processStudyBillingPlan(request: Request, reply: Function) {
     try {
       const planId = await this.service.create();
       const result = await this.service.process(planId);
@@ -20,7 +20,11 @@ export default class PaymentController {
     }
   }
 
-  async finalize(request: Request, reply: Function) {
-      
+  async finalizeStudy(request: Request, reply: Function) {
+
+  }
+
+  async cancelStudyBillingPlan(request: Request, reply: Function) {
+
   }
 }
