@@ -1,12 +1,12 @@
 //@flow
 import Router from 'http/Router';
 import ExaminationsController from './controllers/PaymentController';
-import BillingPlanService from './service/BillingPlanService';
+import StudyBillingPlanService from './service/StudyBillingPlanService';
 import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const router = new Router({server, resource: 'payments'});
-  const paymentController = new PaymentController(new BillingPlanService());
+  const paymentController = new PaymentController(new StudyBillingPlanService());
 
   router
     .post('study/process')

@@ -2,9 +2,10 @@
 import { logInfo, logError } from 'logging';
 import type Configuration from './../models/Configuration';
 import type StudyBillingPlan from './../models/StudyBillingPlan';
+import type UserPrinciple from 'users/models/User';
 var paypal = require('paypal-rest-sdk');
 
-export default class BillingPlanService {
+export default class StudyBillingPlanService {
     constructor() {}
 
     configure() {
@@ -39,6 +40,7 @@ export default class BillingPlanService {
     }
 
     process(planId) {
+        this.configure();
         let studyBillingPlan = new StudyBillingPlan();
         // Use activated billing plan to create agreement
 
@@ -69,15 +71,40 @@ export default class BillingPlanService {
         }
     }
 
-    finalize(magicTicket) {
+    finalize(principle: UserPrinciple, magicTicket) {
+        this.configure();
+        const userId = principle.id;
+
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.execute(magicTicket, {}, function (error, 
+            paypal.billingAgreement.execute(magicTicket.token, {}, function (error, 
                 billingAgreement) {
                 if (error) {
                     reject(error);
                 } else {
                     //save to user object
                     logInfo(JSON.stringify(billingAgreement));
+                }
+            });
+        }
+    }
+
+    cancel(principle: UserPrinciple) {
+        this.configure();
+        const userId = principle.id;
+        let billingAgreementId = "I-08413VDRU6DE"; //obtain from user profile
+
+        let cancel_note = {
+            "note": "Canceling the agreement"
+        };
+
+        return new Promise((resolve, reject) => {
+            paypal.billingAgreement.cancel(billingAgreementId, cancel_note, function (error, response) {
+                if (error) {
+                    logError(error);
+                    reject(error);
+                } else {
+                    logInfo(JSON.stringify(response));
+                    resolve(response);
                 }
             });
         }
