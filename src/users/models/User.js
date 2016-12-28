@@ -7,6 +7,7 @@ import 'users/models/Address';
 import 'users/models/Telephone';
 import 'nationalities/models/Nationality';
 import 'security/authorization/models/Role';
+import 'subscriptions/models/Subscription';
 
 export type UserPrinciple = {
   id: string;
@@ -56,6 +57,10 @@ const User = Base.extend({
 
   role() {
     return this.belongsTo('Role');
+  },
+
+  subscription() {
+    return this.hasOne('Subscription');
   },
 
   hasPermission(permission) {
