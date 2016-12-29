@@ -28,6 +28,11 @@ const Subscription = Base.extend({
     };
   },
 
+  async cancel() {
+    await this.destroy();
+    this.set('expirationDate', null);
+  },
+
   validate() {
     if(subscriptionLevels.contains(this.attributes.level)) {
       throw new TypeError(`Subscription level must be one of ${subscriptionLevels.join(',')}`);
