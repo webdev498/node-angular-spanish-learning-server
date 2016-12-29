@@ -14,7 +14,7 @@ const Base = Orm.model('Base', {
   initialize(attributes, { persistenceWhitelist = [], versionableAttributes = [], foreignKeys = [] }) {
     this.on('saving', this.beforeSave.bind(this));
     this.on('updating', this.beforeUpdate.bind(this));
-    this.persistenceWhitelist = persistenceWhitelist.concat(['id']);
+    this.persistenceWhitelist = persistenceWhitelist.concat([idAttribute]);
     this.versionableAttributes = versionableAttributes;
     this.foreignKeys = foreignKeys;
   },

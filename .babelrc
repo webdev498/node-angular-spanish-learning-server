@@ -67,6 +67,10 @@
         {
           "src": "./src/email",
           "expose": "email"
+        },
+        {
+          "src": "./src/subscriptions",
+          "expose": "subscriptions"
         }
       ]
     ]
