@@ -41,4 +41,10 @@ export default class UserService {
     const user = await this.get(params);
     return await user.save(payload, {patch: true});
   }
+
+ async changeRole(userId: string, role: Role) {
+   const user = await User.where({ id: userId }).fetch({withRelated: 'role'});
+   user.set('role_id', role.get('id'));
+   return await user.save();
+ }
 }
