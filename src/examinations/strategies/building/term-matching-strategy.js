@@ -1,4 +1,5 @@
 //@flow
+import TerminologyService from '/terminology/TerminologyService';
 import Translation from 'terminology/models/Translation';
 import type { ExamSection } from 'examinations/templates/exam-template';
 
@@ -8,8 +9,8 @@ const questionOperations = [
   ({ section }) => ({type: section.type}),
   () => ({text: ''}),
   ({ group }) => ({correctResponses: group.map((translation) => ({candidateId: translation.relations.source.get('id'), termId: translation.relations.target.get('id')}))}),
-  ({ group }) => ({ candidates: group.map((translation) => ({id: translation.relations.source.get('id'), text: translation.relations.source.get('value')}))}),
-  ({ group }) => ({ terms: group.map((translation) => ({id: translation.relations.target.get('id'), text: translation.relations.target.get('value')}))})
+  ({ group }) => ({candidates: group.map((translation) => ({id: translation.relations.source.get('id'), text: translation.relations.source.get('value')}))}),
+  ({ group }) => ({terms: group.map((translation) => ({id: translation.relations.target.get('id'), text: translation.relations.target.get('value')}))})
 ];
 
 function buildQuestion(params) {
@@ -18,9 +19,9 @@ function buildQuestion(params) {
   }, {});
 }
 
-export default async (section: ExamSection, type: string) => {
+export default async (section: ExamSection, type: string, termService: TerminologyService) => {
   const {id, instructions } = section;
-  const translations = await Translation.random(section.itemCount(type) * 5);
+  const translations = await termService.translationsByCategoryCount(section.itemCount(type) * 5);
 
   const groups = translations.reduce((accumulator, term, index, array) => {
     let position = index + 1;
