@@ -1,12 +1,17 @@
 //@flow
 import { logInfo, logError } from 'logging';
-import type Configuration from './../models/Configuration';
-import type StudyBillingPlan from './../models/StudyBillingPlan';
+import type Configuration from 'payment/models/Configuration';
+import type StudyBillingPlan from 'payment/models/StudyBillingPlan';
 import type UserPrinciple from 'users/models/User';
+import type UserService from 'users/service/UserService';
 var paypal = require('paypal-rest-sdk');
 
 export default class StudyBillingPlanService {
-    constructor() {}
+    userService: UserService
+
+    constructor(service: UserService) {
+        this.userService = service;
+    }
 
     configure() {
         let configuration = new Configuration();

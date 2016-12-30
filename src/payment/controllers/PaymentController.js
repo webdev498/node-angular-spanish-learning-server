@@ -1,5 +1,5 @@
 //@flow
-import type StudyBillingPlanService from '../service/StudyBillingPlanService';
+import type StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import type { Request } from 'http/index';
 import { CREATED } from 'http/status-codes';
 
