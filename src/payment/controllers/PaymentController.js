@@ -1,13 +1,16 @@
 //@flow
 import type StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
+import type UserService from 'users/service/UserService';
 import type { Request } from 'http/index';
 import { CREATED } from 'http/status-codes';
 
 export default class PaymentController {
   service: StudyBillingPlanService;
+  userService: UserService;
 
-  constructor(service: StudyBillingPlanService) {
+  constructor(service: StudyBillingPlanService, userService: UserService) {
     this.service = service;
+    this.userService = userService;
   }
 
   async processStudyBillingPlan(request: Request, reply: Function) {

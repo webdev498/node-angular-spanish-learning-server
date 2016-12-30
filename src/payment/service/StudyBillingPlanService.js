@@ -3,15 +3,11 @@ import { logInfo, logError } from 'logging';
 import type Configuration from 'payment/models/Configuration';
 import type StudyBillingPlan from 'payment/models/StudyBillingPlan';
 import type UserPrinciple from 'users/models/User';
-import type UserService from 'users/service/UserService';
 var paypal = require('paypal-rest-sdk');
 
 export default class StudyBillingPlanService {
-    userService: UserService
 
-    constructor(service: UserService) {
-        this.userService = service;
-    }
+    constructor() {}
 
     configure() {
         let configuration = new Configuration();
@@ -86,8 +82,8 @@ export default class StudyBillingPlanService {
                 if (error) {
                     reject(error);
                 } else {
-                    //save to user object
                     logInfo(JSON.stringify(billingAgreement));
+                    resolve({userId: userId, agreement: JSON.stringify(billingAgreement));
                 }
             });
         }
@@ -109,7 +105,7 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    resolve(response);
+                    resolve({userId: userId, agreement: JSON.stringify(response)});
                 }
             });
         }
