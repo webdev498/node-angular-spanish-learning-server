@@ -58,7 +58,7 @@ const Translation = Base.extend({
         .join('categories_terms', 'terms.id', 'categories_terms.term_id')
         .where('categories_terms.category_id', '=', categoryId)
         .orderByRaw('random()')
-        .limit(limit)
+        .limit(limit);
       }).fetchAll({withRelated: ['source', 'target']});
   }
 });
