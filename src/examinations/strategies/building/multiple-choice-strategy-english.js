@@ -1,7 +1,6 @@
 //@flow
 import Term from 'terminology/models/Term';
 import TermExclusion from 'terminology/models/TermExclusion';
-import TerminologyService from '/terminology/TerminologyService';
 import Translation from 'terminology/models/Translation';
 import type { ExamSection } from 'examinations/templates/exam-template';
 import * as UUID from 'javascript/datatypes/uuid';
@@ -12,10 +11,7 @@ function generatePseudoradomNumberBetween(start, end) {
 
 const noneOfTheAbove = {
   id: '35fe100c-2e9b-42cf-bddc-a5ba3ad950ec',
-  value: 'None of the above',
-    get: function(key) {
-    return this.id;
-  }
+  value: 'None of the above'
 };
 
 const questionOperations = [
@@ -23,7 +19,7 @@ const questionOperations = [
   ({ section }) => ({type: section.type}),
   ({ target }) => ({text: `What is the possible term for "${target.get('value')}" in English?`}),
   ({ source }) => ({correctResponses: [{id: source.get('id')}]}),
-  ({ candidates }) => ({terms: candidates.map(({id, value}) => ({ id, text: value }))})
+  ({ candidates }) => ({ terms: candidates.map(({id, value}) => ({ id, text: value }))})
 ];
 
 function buildQuestion(params) {
@@ -32,26 +28,16 @@ function buildQuestion(params) {
   }, {});
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-export default async (section: ExamSection, type: string, termService: TerminologyService) => {
+export default async (section: ExamSection, type: string) => {
   const {id, instructions } = section;
-  let translations = await termService.translationsByCategoryCount(section.itemCount(type));
+  let translations = await Translation.random(section.itemCount(type));
+  translations = translations.serialize();
 
   const questions = await Promise.all(translations.map(async ({source, relations}) => {
     const exclusions = await TermExclusion.where('source_id', '=', source).fetchAll();
     const categories = await relations.source.related('categories').fetch();
     const category = categories.first();
     const excludedIds = exclusions.pluck('targetId');
-    const standardLimit = 3;
-    const noneOfTheAboveLimit = 4;
-    
-    let choiceLimit = getRandomInt(1,10) === 1 ? noneOfTheAboveLimit : standardLimit;
- 
 
     const terms = await Term.query(builder => {
       if (excludedIds.length) {
@@ -62,20 +48,13 @@ export default async (section: ExamSection, type: string, termService: Terminolo
       builder.join('categories_terms', 'terms.id', 'categories_terms.term_id');
       builder.where('categories_terms.category_id', '=', category.get('id'));
       builder.orderByRaw('random()');
-      builder.limit(choiceLimit);
+      builder.limit(3);
     }).fetchAll();
 
-    if (choiceLimit === standardLimit) {
-      const candidates = terms.serialize().map(({id, value}) => ({id, value}));
-      candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.source.get('id'), value: relations.source.get('value')});
-      candidates.push(noneOfTheAbove);
-      return buildQuestion({section, source: relations.source, target: relations.target, candidates});
-    }
-
-    if (choiceLimit === noneOfTheAboveLimit) {
-      candidates.push(noneOfTheAbove);
-      return buildQuestion({section, source: relations.source, target: noneOfTheAbove, candidates});
-    }
+    const candidates = terms.serialize().map(({id, value}) => ({id, value}));
+    candidates.splice(generatePseudoradomNumberBetween(0, candidates.length), 0, {id: relations.source.get('id'), value: relations.source.get('value')});
+    candidates.push(noneOfTheAbove);
+    return buildQuestion({section, source: relations.source, target: relations.target, candidates});
   }));
 
   return { id, type: section.type, instructions, questions };

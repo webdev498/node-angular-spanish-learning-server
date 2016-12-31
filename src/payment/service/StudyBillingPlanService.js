@@ -1,48 +1,44 @@
-//@flow
 import { logInfo, logError } from 'logging';
-import type Configuration from 'payment/models/Configuration';
-import type StudyBillingPlan from 'payment/models/StudyBillingPlan';
-import type UserPrinciple from 'users/models/User';
-var paypal = require('paypal-rest-sdk');
+import EnvironmentConfiguration from 'payment/models/EnvironmentConfiguration';
+import StudyBillingAgreement from 'payment/models/StudyBillingAgreement';
+import UserPrinciple from 'users/models/User';
+import * as paypal from 'paypal-rest-sdk';
 
 export default class StudyBillingPlanService {
 
-    constructor() {}
-
     configure() {
-        let configuration = new Configuration();
+        let configuration = new EnvironmentConfiguration();
         paypal.configure(configuration.config);
     }
 
     create() {
         this.configure();
-        let studyBillingPlan = new StudyBillingPlan();
-        
+        let studyBillingPlan = new StudyBillingAgreement();
         return new Promise((resolve, reject) => {
-            paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlan){
+            paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlanResponse){
                 if (error){
                     logError(error);
                     reject(error);
                 } else {
                     // Activate the plan by changing status to Active
-                    paypal.billingPlan.update(billingPlan.id, studyBillingPlan.billingPlanUpdateAttributes, 
+                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttribs,
                         function(error, response){
                         if (error) {
                             logError(error);
                             reject(error);
                         } else {
-                            logInfo(`BillingPlanId Created${billingPlan.id}`);
-                            resolve(billingplan.id);
+                            logInfo(`BillingPlanId Created${billingPlanResponse.id} Response:${JSON.stringify(response)}`);
+                            resolve(billingPlanResponse.id);
                         }
                     });
                 }
             });
-        }
+        });
     }
 
-    process(planId) {
+    process(planId: string) {
         this.configure();
-        let studyBillingPlan = new StudyBillingPlan();
+        let studyBillingPlan = new StudyBillingAgreement();
         // Use activated billing plan to create agreement
 
         return new Promise((resolve, reject) => {
@@ -69,45 +65,52 @@ export default class StudyBillingPlanService {
                     }
                 }
             });
-        }
+        });
     }
 
-    finalize(principle: UserPrinciple, magicTicket) {
+    finalizeStudy(principle: UserPrinciple, magicTicket: Object) {
         this.configure();
         const userId = principle.id;
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.execute(magicTicket.token, {}, function (error, 
+            paypal.billingAgreement.execute(magicTicket.token, {}, function (error,
                 billingAgreement) {
                 if (error) {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(billingAgreement));
-                    resolve({userId: userId, agreement: JSON.stringify(billingAgreement));
+                    let finalizeResponse = {
+                        userId,
+                        'agreement': billingAgreement
+                    };
+                    resolve(finalizeResponse);
                 }
             });
-        }
+        });
     }
 
-    cancel(principle: UserPrinciple) {
+    cancelStudyBillingPlan(principle: UserPrinciple, billingAgreement: Object) {
         this.configure();
         const userId = principle.id;
-        let billingAgreementId = "I-08413VDRU6DE"; //obtain from user profile
 
         let cancel_note = {
-            "note": "Canceling the agreement"
+            'note': 'Canceling the agreement'
         };
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.cancel(billingAgreementId, cancel_note, function (error, response) {
+            paypal.billingAgreement.cancel(billingAgreement.id, cancel_note, function (error, response) {
                 if (error) {
                     logError(error);
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    resolve({userId: userId, agreement: JSON.stringify(response)});
+                    let cancelResponse = { 
+                        userId,
+                        'agreement': response 
+                    };
+                    resolve(cancelResponse);
                 }
             });
-        }
+        });
     }
 }
