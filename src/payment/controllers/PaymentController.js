@@ -11,7 +11,7 @@ export default class PaymentController {
   subscriptionService: SubscriptionService;
   userService: UserService;
 
-  const studyLevel: '2';
+  studyLevel: '2';
 
   constructor(studyBillingService: StudyBillingPlanService, 
               userService: UserService,

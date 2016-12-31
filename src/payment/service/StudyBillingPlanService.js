@@ -37,7 +37,7 @@ export default class StudyBillingPlanService {
                     });
                 }
             });
-        }
+        });
     }
 
     process(planId) {
@@ -69,7 +69,7 @@ export default class StudyBillingPlanService {
                     }
                 }
             });
-        }
+        });
     }
 
     finalize(principle: UserPrinciple, magicTicket) {
@@ -83,10 +83,10 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(billingAgreement));
-                    resolve({userId: userId, agreement: billingAgreement);
+                    resolve({userId: userId, agreement: billingAgreement});
                 }
             });
-        }
+        });
     }
 
     cancel(principle: UserPrinciple) {
@@ -108,6 +108,6 @@ export default class StudyBillingPlanService {
                     resolve({userId: userId, agreement: response});
                 }
             });
-        }
+        });
     }
 }

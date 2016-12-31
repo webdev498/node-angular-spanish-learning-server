@@ -5,7 +5,7 @@ export default class StudyBillingPlan {
         isoDate.toISOString().slice(0, 19) + 'Z';
     }
 
-    this.isoDate = null;
+    isoDate = null;
 
     get billingAgreementAttributes(planId) {
         return {
