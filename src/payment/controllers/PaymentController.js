@@ -38,7 +38,7 @@ export default class PaymentController {
 
       const result = await this.studyBillingService.finalizeStudy(credentials, payload.token);
       //update user to study role
-      const role = await Role.where({name: 'Study User').fetch();
+      const role = await Role.where({name: 'Study User'}).fetch();
       this.userService.changeRole(result.userId, role);
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
@@ -55,7 +55,7 @@ export default class PaymentController {
 
       const result = await this.studyBillingService.cancelStudyBillingPlan(credentials);
       //update user to exam role
-      const role = await Role.where({name: 'General User').fetch();
+      const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(result.userId, role);
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
