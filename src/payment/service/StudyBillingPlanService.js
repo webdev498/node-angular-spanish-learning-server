@@ -19,20 +19,20 @@ export default class StudyBillingPlanService {
         let studyBillingPlan = new StudyBillingPlan();
         
         return new Promise((resolve, reject) => {
-            paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlan){
+            paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlanResponse){
                 if (error){
                     logError(error);
                     reject(error);
                 } else {
                     // Activate the plan by changing status to Active
-                    paypal.billingPlan.update(billingPlan.id, studyBillingPlan.billingPlanUpdateAttributes, 
+                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttributes, 
                         function(error, response){
                         if (error) {
                             logError(error);
                             reject(error);
                         } else {
-                            logInfo(`BillingPlanId Created${billingPlan.id}`);
-                            resolve(billingplan.id);
+                            logInfo(`BillingPlanId Created${billingPlanResponse.id} Response:${JSON.stringify(response)}`);
+                            resolve(billingPlanResponse.id);
                         }
                     });
                 }
@@ -59,7 +59,7 @@ export default class StudyBillingPlanService {
                             'href': linkObj.href,
                             'method': linkObj.method
                         };
-                    })
+                    });
 
                     //if redirect url present, return user url
                     if (links.hasOwnProperty('approval_url')){
@@ -83,7 +83,11 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(billingAgreement));
-                    resolve({userId: userId, agreement: billingAgreement});
+                    let finalizeResponse = {
+                        'userId': userId, 
+                        'agreement': billingAgreement
+                    };
+                    resolve(finalizeResponse);
                 }
             });
         });
@@ -105,7 +109,11 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    resolve({userId: userId, agreement: response});
+                    let cancelResponse = {
+                        'userId': userId, 
+                        'agreement': response
+                    }
+                    resolve(cancelResponse);
                 }
             });
         });

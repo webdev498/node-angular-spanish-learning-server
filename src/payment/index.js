@@ -1,6 +1,6 @@
 //@flow
 import Router from 'http/Router';
-import ExaminationsController from 'payment/controllers/PaymentController';
+import PaymentController from 'payment/controllers/PaymentController';
 import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import type SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type UserService from 'users/service/UserService';

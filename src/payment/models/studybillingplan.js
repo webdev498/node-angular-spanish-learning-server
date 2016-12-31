@@ -1,7 +1,7 @@
 export default class StudyBillingPlan {
     constructor() {
         this._isoDate = new Date();
-        this._isoDate.setSeconds(isoDate.getSeconds() + 4);
+        this._isoDate.setSeconds(this._isoDate.getSeconds() + 4);
         this._isoDate.toISOString().slice(0, 19) + 'Z';
     }
 
@@ -46,7 +46,7 @@ export default class StudyBillingPlan {
                 "auto_bill_amount": "YES",
                 "initial_fail_amount_action": "CONTINUE"
             }
-        }
+        };
     }
 
     get billingPlanUpdateAttribs() {
