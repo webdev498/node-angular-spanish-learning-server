@@ -83,7 +83,7 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(billingAgreement));
-                    resolve({userId: userId, agreement: JSON.stringify(billingAgreement));
+                    resolve({userId: userId, agreement: billingAgreement);
                 }
             });
         }
@@ -105,7 +105,7 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    resolve({userId: userId, agreement: JSON.stringify(response)});
+                    resolve({userId: userId, agreement: response});
                 }
             });
         }

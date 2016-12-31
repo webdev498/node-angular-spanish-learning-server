@@ -2,12 +2,14 @@
 import Router from 'http/Router';
 import ExaminationsController from 'payment/controllers/PaymentController';
 import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
+import type SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type UserService from 'users/service/UserService';
 import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const router = new Router({server, resource: 'payments'});
-  const paymentController = new PaymentController(new StudyBillingPlanService(new UserService()));
+  const paymentController = new PaymentController(new StudyBillingPlanService(),
+    new UserService(), new SubscriptionService());
 
   router
     .post('study/process')
