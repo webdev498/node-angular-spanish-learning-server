@@ -1,8 +1,8 @@
 //@flow
 import type StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import type UserService from 'users/service/UserService';
-import type { Role } from 'security/authorization/models/Role';
-import type SubscriptionService from 'subscriptions/services/SubscriptionService';
+import { Role } from 'security/authorization/models/Role';
+import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
 import { CREATED } from 'http/status-codes';
 
@@ -11,7 +11,7 @@ export default class PaymentController {
   subscriptionService: SubscriptionService;
   userService: UserService;
 
-  studyLevel: '2';
+  studyLevel: 'study';
 
   constructor(studyBillingService: StudyBillingPlanService, 
               userService: UserService,
@@ -54,10 +54,11 @@ export default class PaymentController {
       const { credentials } = request.auth;
 
       //update paypal credentials
-      const user = await this.userService.get({id: result.userId});
+      const user = await this.userService.get({id: credentials.userId});
       let subscription = this.subscriptionService.cancel(user);
+      const billingAgreement = subscription.get('billing_agreement').id;
 
-      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, subscription.id);
+      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
       //update user to exam role
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(result.userId, role);

@@ -1,8 +1,8 @@
 //@flow
 import { logInfo, logError } from 'logging';
-import type Configuration from 'payment/models/Configuration';
-import type StudyBillingPlan from 'payment/models/StudyBillingPlan';
-import type UserPrinciple from 'users/models/User';
+import Configuration from 'payment/models/Configuration';
+import StudyBillingPlan from 'payment/models/StudyBillingPlan';
+import UserPrinciple from 'users/models/User';
 var paypal = require('paypal-rest-sdk');
 
 export default class StudyBillingPlanService {
@@ -40,7 +40,7 @@ export default class StudyBillingPlanService {
         });
     }
 
-    process(planId) {
+    process(planId: string) {
         this.configure();
         let studyBillingPlan = new StudyBillingPlan();
         // Use activated billing plan to create agreement
@@ -72,7 +72,7 @@ export default class StudyBillingPlanService {
         });
     }
 
-    finalize(principle: UserPrinciple, magicTicket) {
+    finalizeStudy(principle: UserPrinciple, magicTicket: Object) {
         this.configure();
         const userId = principle.id;
 
@@ -93,7 +93,7 @@ export default class StudyBillingPlanService {
         });
     }
 
-    cancel(principle: UserPrinciple, billingAgreementId: string) {
+    cancelStudyBillingPlan(principle: UserPrinciple, billingAgreementId: string) {
         this.configure();
         const userId = principle.id;
 

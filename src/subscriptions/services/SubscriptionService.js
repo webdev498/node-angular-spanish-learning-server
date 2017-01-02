@@ -27,18 +27,18 @@ function calculateExpiryForSubscription(level: string) {
 }
 
 export default class SubscriptionService {
-  static async create(user: User, level: string, billingAggreement: Object) {
+  async create(user: User, level: string, billingAgreement: Object) {
     const expirationDate = calculateExpiryForSubscription(level);
     const subscription = new Subscription({
       userId: user.get('id'),
       level,
       expirationDate,
-      billingAggreement
+      billingAgreement
     });
     return await subscription.save();
   }
 
-static async cancel(user: User) {
+async cancel(user: User) {
   const subscription = Subscription.where({userId: user.get('id')}).fetch();
   if (subscription) {
     await subscription.cancel();
@@ -46,7 +46,7 @@ static async cancel(user: User) {
   return subscription;
 }
 
-static async renew(user: User) {
+async renew(user: User) {
   const subscription = Subscription.where({userId: user.get('id')}).fetch();
   const expirationDate = calculateExpiryForSubscription(subscription.get('level'));
   await subscription.save({expirationDate}, {patch: true});

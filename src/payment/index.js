@@ -2,8 +2,8 @@
 import Router from 'http/Router';
 import PaymentController from 'payment/controllers/PaymentController';
 import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
-import type SubscriptionService from 'subscriptions/services/SubscriptionService';
-import type UserService from 'users/service/UserService';
+import SubscriptionService from 'subscriptions/services/SubscriptionService';
+import UserService from 'users/service/UserService';
 import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {

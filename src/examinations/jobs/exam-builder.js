@@ -3,7 +3,7 @@ import Exam from 'examinations/models/Examination';
 import buildStrategies from '../strategies/building';
 import CategoryService from './categories/service';
 import { sections } from '../templates/exam-template';
-import TerminologyService from '/terminology/TerminologyService';
+import TerminologyService from 'terminology/service/TerminologyService';
 
 export default async ({ type }: Object) => {
   const exam = Exam.forge({content: {sections: []}});
