@@ -43,7 +43,7 @@ static async cancel(user: User) {
   if (subscription) {
     await subscription.cancel();
   }
-  return subscription();
+  return subscription;
 }
 
 static async renew(user: User) {

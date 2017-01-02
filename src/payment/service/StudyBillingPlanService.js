@@ -93,13 +93,12 @@ export default class StudyBillingPlanService {
         });
     }
 
-    cancel(principle: UserPrinciple) {
+    cancel(principle: UserPrinciple, billingAgreementId: string) {
         this.configure();
         const userId = principle.id;
-        let billingAgreementId = "I-08413VDRU6DE"; //obtain from user profile
 
         let cancel_note = {
-            "note": "Canceling the agreement"
+            'note': 'Canceling the agreement'
         };
 
         return new Promise((resolve, reject) => {

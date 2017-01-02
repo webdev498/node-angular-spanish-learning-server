@@ -53,13 +53,14 @@ export default class PaymentController {
     try {
       const { credentials } = request.auth;
 
-      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials);
+      //update paypal credentials
+      const user = await this.userService.get({id: result.userId});
+      let subscription = this.subscriptionService.cancel(user);
+
+      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, subscription.id);
       //update user to exam role
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(result.userId, role);
-      //save paypal credentials
-      const user = await this.userService.get({id: result.userId});
-      this.subscriptionService.cancel(user);
       reply({result: CREATED});
     } catch (error) {
       reply(error);

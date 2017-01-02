@@ -1,6 +1,5 @@
 //@flow
 import Term from 'terminology/models/Term';
-import TerminologyService from '/terminology/TerminologyService';
 import type { ExamSection } from 'examinations/templates/exam-template';
 
 import * as UUID from 'javascript/datatypes/uuid';
@@ -19,10 +18,16 @@ function buildQuestion(params) {
   }, {});
 }
 
-export default async (section: ExamSection, type: string, termService: TerminologyService) => {
+export default async (section: ExamSection, type: string) => {
   const {id, instructions } = section;
 
-  const terms = await termService.categoryMatchingTerms(section.itemCount(type));
+  const terms = await Term.query((qb) => {
+    qb.join('languages', 'terms.language_id', 'languages.id');
+    qb.where('languages.name', '=', 'Spanish');
+    qb.orderByRaw('random()');
+    qb.limit(section.itemCount(type) * 5);
+  })
+  .fetchAll({withRelated: ['categories']});
 
   const groups = terms.reduce((accumulator, term, index, array) => {
     let position = index + 1;
