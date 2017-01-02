@@ -1,10 +1,10 @@
 //@flow
 import type StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import type UserService from 'users/service/UserService';
-import { Role } from 'security/authorization/models/Role';
+import Role from 'security/authorization/models/Role';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
-import { CREATED } from 'http/status-codes';
+import { CREATED, NO_CONTENT } from 'http/status-codes';
 
 export default class PaymentController {
   studyBillingService: StudyBillingPlanService;
@@ -13,7 +13,7 @@ export default class PaymentController {
 
   studyLevel: 'study';
 
-  constructor(studyBillingService: StudyBillingPlanService, 
+  constructor(studyBillingService: StudyBillingPlanService,
               userService: UserService,
               subscriptionService: SubscriptionService) {
     this.studyBillingService = studyBillingService;
@@ -55,14 +55,15 @@ export default class PaymentController {
 
       //update paypal credentials
       const user = await this.userService.get({id: credentials.userId});
-      let subscription = this.subscriptionService.cancel(user);
-      const billingAgreement = subscription.get('billing_agreement').id;
+      const subscription = user.related('subscription');
+      const billingAgreement = subscription.get('billingAgreement');
+
+      await this.subscriptionService.cancel(user);
 
       const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
-      //update user to exam role
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(result.userId, role);
-      reply({result: CREATED});
+      reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
     }
