@@ -3,7 +3,7 @@ import { logInfo, logError } from 'logging';
 import Configuration from 'payment/models/Configuration';
 import StudyBillingPlan from 'payment/models/StudyBillingPlan';
 import UserPrinciple from 'users/models/User';
-var paypal = require('paypal-rest-sdk');
+import * as paypal from 'paypal-rest-sdk';
 
 export default class StudyBillingPlanService {
 
@@ -17,7 +17,6 @@ export default class StudyBillingPlanService {
     create() {
         this.configure();
         let studyBillingPlan = new StudyBillingPlan();
-        
         return new Promise((resolve, reject) => {
             paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlanResponse){
                 if (error){
@@ -25,7 +24,7 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     // Activate the plan by changing status to Active
-                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttributes, 
+                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttributes,
                         function(error, response){
                         if (error) {
                             logError(error);
@@ -77,14 +76,14 @@ export default class StudyBillingPlanService {
         const userId = principle.id;
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.execute(magicTicket.token, {}, function (error, 
+            paypal.billingAgreement.execute(magicTicket.token, {}, function (error,
                 billingAgreement) {
                 if (error) {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(billingAgreement));
                     let finalizeResponse = {
-                        'userId': userId, 
+                        userId,
                         'agreement': billingAgreement
                     };
                     resolve(finalizeResponse);
@@ -93,7 +92,7 @@ export default class StudyBillingPlanService {
         });
     }
 
-    cancelStudyBillingPlan(principle: UserPrinciple, billingAgreementId: string) {
+    cancelStudyBillingPlan(principle: UserPrinciple, billingAgreement: Object) {
         this.configure();
         const userId = principle.id;
 
@@ -102,17 +101,13 @@ export default class StudyBillingPlanService {
         };
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.cancel(billingAgreementId, cancel_note, function (error, response) {
+            paypal.billingAgreement.cancel(billingAgreement, cancel_note, function (error, response) {
                 if (error) {
                     logError(error);
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    let cancelResponse = {
-                        'userId': userId, 
-                        'agreement': response
-                    }
-                    resolve(cancelResponse);
+                    resolve({ userId,'agreement': response });
                 }
             });
         });
