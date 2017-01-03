@@ -101,13 +101,17 @@ export default class StudyBillingPlanService {
         };
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.cancel(billingAgreement, cancel_note, function (error, response) {
+            paypal.billingAgreement.cancel(billingAgreement.id, cancel_note, function (error, response) {
                 if (error) {
                     logError(error);
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    resolve({ userId,'agreement': response });
+                    let cancelResponse = { 
+                        userId,
+                        'agreement': response 
+                    };
+                    resolve(cancelResponse);
                 }
             });
         });

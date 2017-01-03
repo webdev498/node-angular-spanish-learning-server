@@ -39,7 +39,7 @@ export const other = () => {
 export const random = (limit: number) => {
   logInfo("Fetching random categories");
   return new Promise((resolve, reject) => {
-    Category.where({name: 'Other'}).orderByRaw('random()').limit(limit).fetchAll().then(resolve, reject);
+    Category.select().orderByRaw('random()').limit(limit).fetchAll().then(resolve, reject);
   });
 }
 
