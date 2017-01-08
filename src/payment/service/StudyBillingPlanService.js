@@ -1,4 +1,3 @@
-//@flow
 import { logInfo, logError } from 'logging';
 import Configuration from 'payment/models/Configuration';
 import StudyBillingPlan from 'payment/models/StudyBillingPlan';
