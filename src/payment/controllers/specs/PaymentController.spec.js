@@ -1,10 +1,8 @@
-//@flow
-/*import { stub } from 'sinon';
+import { stub } from 'sinon';
+import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
+import UserService from 'users/service/UserService';
+import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import PaymentController from 'payment/controllers/PaymentController';
-import type StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
-import type UserService from 'users/service/UserService';
-import type { Role } from 'security/authorization/models/Role';
-import type SubscriptionService from 'subscriptions/services/SubscriptionService';
 import { CREATED } from 'http/status-codes';
 
 describe('PaymentController', () => {
@@ -21,14 +19,18 @@ describe('PaymentController', () => {
       const reply = stub().returns(response);
 
       before(async () => {
-        stub(service, 'processStudyBillingPlan').returns(Promise.resolve(plan));
+        stub(studyBillingService, 'process').returns(Promise.resolve(plan));
         await controller.processStudyBillingPlan(request, reply);
       });
 
       it('replies with the newly created plan model', () => {
         expect(reply).to.have.been.calledWith(plan);
       });
+
+      it('sets the status code of the reply to created', () => {
+        expect(response.statusCode).to.equal(CREATED);
+      });
     });
   });
 
-});*/
+});
