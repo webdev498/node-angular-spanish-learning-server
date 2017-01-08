@@ -16,10 +16,12 @@ describe('PaymentController', () => {
       const controller = new PaymentController(studyBillingService, userService, subscriptionService);
       const response = {};
       const plan = {};
+      const agreement = {};
       const reply = stub().returns(response);
 
       before(async () => {
-        stub(studyBillingService, 'process').returns(Promise.resolve(plan));
+        stub(studyBillingService, 'create').returns(Promise.resolve(plan));
+        stub(studyBillingService, 'process').returns(Promise.resolve(agreement));
         await controller.processStudyBillingPlan(request, reply);
       });
 
