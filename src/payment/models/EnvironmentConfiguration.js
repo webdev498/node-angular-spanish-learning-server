@@ -1,4 +1,4 @@
-export default class Configuration {
+export default class EnviromentConfiguration {
     constructor() {}
 
     get config() {

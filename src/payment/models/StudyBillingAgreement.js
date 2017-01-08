@@ -1,4 +1,4 @@
-export default class StudyBillingPlan {
+export default class StudyBillingAgreement {
     constructor() {
         this._isoDate = new Date();
         this._isoDate.setSeconds(this._isoDate.getSeconds() + 4);

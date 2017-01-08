@@ -1,6 +1,6 @@
 import { logInfo, logError } from 'logging';
-import Configuration from 'payment/models/Configuration';
-import StudyBillingPlan from 'payment/models/StudyBillingPlan';
+import EnvironmentConfiguration from 'payment/models/EnvironmentConfiguration';
+import StudyBillingAgreement from 'payment/models/StudyBillingAgreement';
 import UserPrinciple from 'users/models/User';
 import * as paypal from 'paypal-rest-sdk';
 
@@ -9,13 +9,13 @@ export default class StudyBillingPlanService {
     constructor() {}
 
     configure() {
-        let configuration = new Configuration();
+        let configuration = new EnvironmentConfiguration();
         paypal.configure(configuration.config);
     }
 
     create() {
         this.configure();
-        let studyBillingPlan = new StudyBillingPlan();
+        let studyBillingPlan = new StudyBillingAgreement();
         return new Promise((resolve, reject) => {
             paypal.billingPlan.create(studyBillingPlan.billingPlanAttribs, function (error, billingPlanResponse){
                 if (error){
@@ -40,7 +40,7 @@ export default class StudyBillingPlanService {
 
     process(planId: string) {
         this.configure();
-        let studyBillingPlan = new StudyBillingPlan();
+        let studyBillingPlan = new StudyBillingAgreement();
         // Use activated billing plan to create agreement
 
         return new Promise((resolve, reject) => {
