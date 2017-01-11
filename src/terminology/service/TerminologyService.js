@@ -53,4 +53,5 @@ export default class TerminologyService {
       builder.limit(1);
     }).fetchAll();
   }
+  
 }

@@ -29,20 +29,6 @@ export const all = () => {
   });
 };
 
-export const other = () => {
-  logInfo("Fetching other category");
-  return new Promise((resolve, reject) => {
-    Category.where({name: 'Other'}).fetchAll().then(resolve, reject);
-  });
-}
-
-export const random = (limit: number) => {
-  logInfo("Fetching random categories");
-  return new Promise((resolve, reject) => {
-    Category.select().orderByRaw('random()').limit(limit).fetchAll().then(resolve, reject);
-  });
-}
-
 export const remove = ({ id }) => {
   logInfo(`Soft deleting category with id: ${id}`);
   return new Promise((resolve, reject) => {

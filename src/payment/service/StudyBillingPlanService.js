@@ -6,8 +6,6 @@ import * as paypal from 'paypal-rest-sdk';
 
 export default class StudyBillingPlanService {
 
-    constructor() {}
-
     configure() {
         let configuration = new EnvironmentConfiguration();
         paypal.configure(configuration.config);
