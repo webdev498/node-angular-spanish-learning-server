@@ -7,7 +7,7 @@ export default class StudyBillingAgreement {
         return {
             "name": "Premium Study Guide Membership",
             "description": "Premium CGI Unrestricted test and study guide access",
-            "start_date": this._isoDate,
+            "start_date": isoDate,
             "plan": {
                 "id": planId
             },
