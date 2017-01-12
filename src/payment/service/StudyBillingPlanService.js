@@ -49,13 +49,9 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     //capture HATEOAS links
-                    var links = {};
-                    billingAgreement.links.forEach(function(linkObj){
-                        links[linkObj.rel] = {
-                            'href': linkObj.href,
-                            'method': linkObj.method
-                        };
-                    });
+                    const links = billingAgreement.links.reduce((memo, link) => {
+                        return memo[rel] = { href: link.href, method: link.method }
+                    }, {});
 
                     //if redirect url present, return user url
                     if (links.hasOwnProperty('approval_url')){
