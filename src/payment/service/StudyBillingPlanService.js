@@ -50,7 +50,8 @@ export default class StudyBillingPlanService {
                 } else {
                     //capture HATEOAS links
                     const links = billingAgreement.links.reduce((memo, link) => {
-                        return memo[rel] = { href: link.href, method: link.method }
+                    const {rel, href, method } = link;
+                    return memo[rel] = {href, method};
                     }, {});
 
                     //if redirect url present, return user url
