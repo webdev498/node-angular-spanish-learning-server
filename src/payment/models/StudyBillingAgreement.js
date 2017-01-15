@@ -1,7 +1,7 @@
 export default class StudyBillingAgreement {
     billingAgreementAttributes(planId) {
         let isoDate = new Date();
-        isoDate.setSeconds(this._isoDate.getSeconds() + 4);
+        isoDate.setSeconds(isoDate.getSeconds() + 4);
         isoDate.toISOString().slice(0, 19) + 'Z';
 
         return {

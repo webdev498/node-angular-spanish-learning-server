@@ -21,7 +21,7 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     // Activate the plan by changing status to Active
-                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttributes,
+                    paypal.billingPlan.update(billingPlanResponse.id, studyBillingPlan.billingPlanUpdateAttribs,
                         function(error, response){
                         if (error) {
                             logError(error);
@@ -49,10 +49,13 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     //capture HATEOAS links
-                    const links = billingAgreement.links.reduce((memo, link) => {
-                    const {rel, href, method } = link;
-                    return memo[rel] = {href, method};
-                    }, {});
+                    var links = {};
+                    billingAgreement.links.forEach(function(linkObj){
+                        links[linkObj.rel] = {
+                            'href': linkObj.href,
+                            'method': linkObj.method
+                        };
+                    })
 
                     //if redirect url present, return user url
                     if (links.hasOwnProperty('approval_url')){
