@@ -4,7 +4,7 @@ import type UserService from 'users/service/UserService';
 import Role from 'security/authorization/models/Role';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
-import { CREATED, NOCONTENT } from 'http/status-codes';
+import { CREATED, NO_CONTENT } from 'http/status-codes';
 
 export default class PaymentController {
   studyBillingService: StudyBillingPlanService;
@@ -43,7 +43,7 @@ export default class PaymentController {
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
       this.subscriptionService.create(user, this.studyLevel, result.agreement);
-      reply().statusCode = NOCONTENT;
+      reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
     }
@@ -63,7 +63,7 @@ export default class PaymentController {
       const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(result.userId, role);
-      reply().statusCode = NOCONTENT;
+      reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
     }
