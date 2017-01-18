@@ -15,4 +15,5 @@ export default async ({ type }: Object) => {
   exam.addSections(examSections);
 
   return exam;
+  
 };

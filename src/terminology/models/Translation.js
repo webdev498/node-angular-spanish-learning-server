@@ -49,7 +49,6 @@ const Translation = Base.extend({
         .orderByRaw('random()')
         .limit(limit);
       }).fetchAll({withRelated: ['source', 'target']});
-
   }
 });
 

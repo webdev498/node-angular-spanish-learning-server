@@ -29,13 +29,13 @@ export const sections = [
   {
     id: "ca4d8b1b-a554-4170-9ee2-99fe454d7061",
     type: "Term Matching",
-    instructions: "Match each English and Spanish term together by dragging the term to the correct match",
+    instructions: "Drag the term to the correct match, or check each term that matches in sequence",
     itemCount: (type: string) => Math.floor(itemCounts[type] * .25)
   },
   {
     id: "fe01927e-4f06-43ee-96f3-a9e52ab70e91",
     type: "Category Matching",
-    instructions: "Group each term into a category by dragging the term from the top to category on the bottom",
+    instructions: "Group each term by dragging from top to bottom, or checking each group match in sequence",
     itemCount: (type: string) => Math.floor(itemCounts[type] * .25)
   }
 ];
