@@ -2,6 +2,7 @@
 
 const itemCounts = {
   short: 30,
+  micro: 5,
   normal: 50,
   long: 100
 };

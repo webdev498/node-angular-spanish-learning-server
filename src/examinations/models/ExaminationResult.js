@@ -8,7 +8,8 @@ const persistenceWhitelist = [
   'pointsAwarded',
   'pointsPossible',
   'examId',
-  'userId'];
+  'userId',
+  'createdAt'];
 
 const ExaminationResult = Base.extend({
   tableName,
@@ -19,10 +20,11 @@ const ExaminationResult = Base.extend({
 
 
   serialize() {
-    const { id, examId, itemCount, pointsAwarded, pointsPossible, sections } = this.attributes;
+    const { id, createdAt, examId, itemCount, pointsAwarded, pointsPossible, sections } = this.attributes;
 
     return {
       id,
+      createdAt,
       examId,
       itemCount,
       pointsPossible,
