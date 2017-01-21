@@ -2,7 +2,7 @@
 
 const itemCounts = {
   short: 30,
-  short_test: 5,
+  micro: 5,
   normal: 50,
   long: 100
 };

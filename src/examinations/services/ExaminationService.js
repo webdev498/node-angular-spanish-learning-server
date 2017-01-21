@@ -18,7 +18,7 @@ export default class ExaminationService {
   }
 
   async create({ payload }: Object) {
-    if (!['short', 'normal', 'long', 'short_test'].includes(payload.type)) {
+    if (!['short', 'normal', 'long', 'micro'].includes(payload.type)) {
       throw new TypeError(`${payload.type} is not a valid Exam type. Must be 'short', 'normal', or 'long'`);
     }
 
