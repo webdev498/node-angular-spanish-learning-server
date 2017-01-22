@@ -120,6 +120,10 @@ export const register = (server: Server, options: Object, next: Function) => {
     .authorize('urn:cgi:permission:examination-results::view')
     .bind(resultsController, 'latestForUser');
 
+  router
+    .get('/users/{id}/examination-results/all')
+    .authorize('urn:cgi:permission:premieruserhistory::view')
+    .bind(resultsController, 'allForUser');
 
   router.register(next);
 };
