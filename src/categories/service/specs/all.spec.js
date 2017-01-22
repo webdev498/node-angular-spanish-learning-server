@@ -1,6 +1,5 @@
 import Category from './../../models/Category';
-import * as CategoryService from './../';
-import * as LoggingService from './../../../logging';
+import CategoryService from 'categories/service/CategoryService';
 import { stub } from 'sinon';
 import { expect } from 'chai';
 
@@ -11,19 +10,14 @@ describe('Category service', () => {
 
     beforeEach(() => {
       query.fetchAll = stub().returns(Promise.resolve(categories));
-      stub(LoggingService, 'logInfo');
-      stub(LoggingService, 'logError');
       stub(Category, 'where').returns(query);
     });
 
-    afterEach(() => {
-      LoggingService.logInfo.restore();
-      LoggingService.logError.restore();
-      Category.where.restore();
-    });
+    afterEach(() => Category.where.restore());
 
-    it('fetches all of the Categories from the ORM', () => {
-      return CategoryService.all().then(() => expect(Category.where).to.have.been.called);
+    it('fetches all of the Categories from the ORM', async () => {
+      await CategoryService.all();
+      expect(Category.where).to.have.been.called;
     });
 
     describe('if the fetch is successful', () => {
