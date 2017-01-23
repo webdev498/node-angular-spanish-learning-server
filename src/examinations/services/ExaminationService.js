@@ -32,6 +32,16 @@ export default class ExaminationService {
     return await EmailMessage.questionFeedback(user, payload.text, payload.question);
   }
 
+  async getExam(id: string) {
+    const exam = await Examination.where({ id }).fetch();
+    
+    if (!exam) {
+      throw new MissingRecordError(`Unable to find Exam with id: ${id}`);
+    }    
+
+    return exam;  
+  }
+
   async submit(id: string, principle: UserPrinciple, submission: ExamSubmission) {
     const exam = await Examination.where({ id }).fetch();
     

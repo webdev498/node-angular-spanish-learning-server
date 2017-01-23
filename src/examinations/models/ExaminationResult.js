@@ -7,6 +7,7 @@ const persistenceWhitelist = [
   'itemCount',
   'pointsAwarded',
   'pointsPossible',
+  'sections',
   'examId',
   'userId',
   'createdAt'];
