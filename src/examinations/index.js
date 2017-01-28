@@ -17,7 +17,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .get('{id}')
-    .authorize('urn:cgi:permission:examinations::list')
+    .authorize('urn:cgi:permission:examinations::view')
     .bind(examsController, 'getExam');
 
   router
