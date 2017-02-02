@@ -16,6 +16,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(examsController, 'create');
 
   router
+    .get('{id}')
+    .authorize('urn:cgi:permission:examinations::view')
+    .bind(examsController, 'getExam');
+
+  router
     .post('feedback')
     .authorize('urn:cgi:permission:examfeedback::create')
     .bind(examsController,'feedback');
@@ -30,5 +35,5 @@ export const register = (server: Server, options: Object, next: Function) => {
 
 register.attributes = {
   name: 'CGI Examination Service',
-  version: '0.0.1'
+  version: '0.0.2'
 };

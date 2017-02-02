@@ -31,6 +31,17 @@ export default class ExaminationsController {
     }
   }
 
+  async getExam(request: Request, reply: Function) {
+     try {
+      const { params } = request;
+
+      const result = await this.service.getExam(params.id);
+      reply(result);
+    } catch (error) {
+      reply(error);
+    } 
+  }
+
   async submit(request: Request, reply: Function) {
     try {
       const { params, payload } = request;
