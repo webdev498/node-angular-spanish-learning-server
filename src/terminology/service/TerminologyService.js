@@ -1,22 +1,15 @@
 /* @flow */
 import TermExclusion from 'terminology/models/TermExclusion';
 import Term from 'terminology/models/Term';
-import Language from 'languages/models/Language';
-
-type excludeParams = {
-  language: Language;
-  source: Term;
-  targets: Array<Term>
-};
 
 export default class TerminologyService {
   constructor() {}
 
-  async exclude({ language, source, targets }: excludeParams) {
+  async exclude(sourceId: string, languageId: string, targets: Array<Term>) {
     const deferred = targets.map((target) => {
       return TermExclusion.forge({
-        languageId: language.id,
-        sourceId: source.id,
+        languageId,
+        sourceId,
         targetId: target.id
       }).save();
     });
@@ -53,5 +46,5 @@ export default class TerminologyService {
       builder.limit(1);
     }).fetchAll();
   }
-  
+
 }

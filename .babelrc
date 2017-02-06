@@ -71,7 +71,7 @@
         {
           "src": "./src/subscriptions",
           "expose": "subscriptions"
-         },
+        },
         {
           "src": "./src/payment",
           "expose": "payment"

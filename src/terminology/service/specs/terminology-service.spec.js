@@ -33,13 +33,13 @@ describe('Terminology service', () => {
 
       stub(TermExclusion, 'forge', () => {
         const s = {
-          save: stub()
+          save: stub().returns(Promise.resolve())
         };
         stubs.push(s);
         return s;
       });
 
-      await service.exclude(exclusion);
+      await service.exclude(exclusion.source.id, exclusion.language.id, exclusion.targets);
     });
 
     it('creates TermExclusion model for each association that is excluded', () => {

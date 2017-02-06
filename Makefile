@@ -6,6 +6,10 @@ build-dev: clean install-deps
 	@mkdir dist
 	$(BIN)/babel --babelrc ./.babelrc -d dist ./src --source-maps --watch
 
+build-test: clean
+	@mkdir dist
+	$(BIN)/babel --babelrc ./.babelrc-test -d dist ./src --source-maps --watch
+
 build: clean install-deps
 	@echo "Building project..."
 	@mkdir dist

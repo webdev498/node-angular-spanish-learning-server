@@ -7,7 +7,9 @@
 [include]
 
 [libs]
-etc/testing/interfaces
+
+etc/testing/interfaces/
+etc/runtime/interfaces/
 
 [options]
 module.name_mapper='categories' -> '<PROJECT_ROOT>/src/categories'
