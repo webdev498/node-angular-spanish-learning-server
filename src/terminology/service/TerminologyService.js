@@ -44,7 +44,6 @@ export default class TerminologyService {
       builder.join(...joinClause);
       builder.where(...whereClause);
       builder.limit(1);
-    }).fetchAll();
+    }).fetchAll({ withRelated: ['categories']});
   }
-
 }
