@@ -55,7 +55,7 @@ export default class StudyBillingPlanService {
                             'href': linkObj.href,
                             'method': linkObj.method
                         };
-                    })
+                    });
 
                     //if redirect url present, return user url
                     if (links.hasOwnProperty('approval_url')){
@@ -104,9 +104,9 @@ export default class StudyBillingPlanService {
                     reject(error);
                 } else {
                     logInfo(JSON.stringify(response));
-                    let cancelResponse = { 
+                    let cancelResponse = {
                         userId,
-                        'agreement': response 
+                        'agreement': response
                     };
                     resolve(cancelResponse);
                 }

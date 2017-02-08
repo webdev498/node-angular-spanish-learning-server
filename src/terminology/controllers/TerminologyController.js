@@ -12,7 +12,15 @@ export default class TerminologyController {
 
   async exclude(request: Request, reply: Function) {
     try {
-      await this.service.exclude(request.payload);
+      const { sourceId, languageId } = request.params;
+
+      if (sourceId && languageId ) {
+        await this.service.exclude(sourceId, languageId, request.payload.targets);
+      } else {
+        const { source, languageId, targets } = request.payload;
+        await this.service.exclude(source.id, languageId, targets);
+      }
+
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
