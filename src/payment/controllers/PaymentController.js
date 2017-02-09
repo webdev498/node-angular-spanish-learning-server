@@ -11,8 +11,6 @@ export default class PaymentController {
   subscriptionService: SubscriptionService;
   userService: UserService;
 
-  studyLevel: 'study';
-
   constructor(studyBillingService: StudyBillingPlanService,
               userService: UserService,
               subscriptionService: SubscriptionService) {
@@ -42,7 +40,7 @@ export default class PaymentController {
       this.userService.changeRole(result.userId, role);
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
-      this.subscriptionService.create(user, this.studyLevel, result.agreement);
+      this.subscriptionService.create(user, 'study', result.agreement);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);

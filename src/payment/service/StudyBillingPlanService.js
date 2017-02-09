@@ -68,12 +68,12 @@ export default class StudyBillingPlanService {
         });
     }
 
-    finalizeStudy(principle: UserPrinciple, magicTicket: Object) {
+    finalizeStudy(principle: UserPrinciple, magicTicket: String) {
         this.configure();
         const userId = principle.id;
 
         return new Promise((resolve, reject) => {
-            paypal.billingAgreement.execute(magicTicket.token, {}, function (error,
+            paypal.billingAgreement.execute(magicTicket, {}, function (error,
                 billingAgreement) {
                 if (error) {
                     reject(error);
