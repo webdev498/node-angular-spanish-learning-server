@@ -2,8 +2,6 @@ import Orm from 'data/orm';
 import Base from 'models/Base';
 import User from 'users/models/User';
 
-
-
 const tableName = 'nationalities';
 const persistenceWhitelist = ['name'];
 

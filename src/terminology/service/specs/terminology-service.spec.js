@@ -79,4 +79,34 @@ describe('Terminology service', () => {
       });
     });
   });
+
+  describe('when finding a translation for a term', () => {
+    let query, model;
+    const termId = 123;
+    beforeEach(() => {
+      query = { join: spy(), where: spy(), limit: spy() };
+      model = { fetchAll: spy() };
+      stub(Term, 'query').yields(query).returns(model);
+    });
+    afterEach(() => { Term.query.restore(); });
+
+    it('returns the translated term\'s categories', async () => {
+      await service.findTranslations({ id: termId, language: 'English'});
+      expect(model.fetchAll).to.have.been.calledWith({ withRelated: ['categories']});
+    });
+
+    describe('when searching for a translation in English', () => {
+      it('returns the Spanish translation', async () => {
+        await service.findTranslations({ id: termId, language: 'Spanish'});
+        expect(query.where).to.have.been.calledWith('translations.source', '=', termId);
+      });
+
+    });
+    describe('when searching for a translation in English', () => {
+      it('returns the Spanish translation', async () => {
+        await service.findTranslations({ id: termId, language: 'English'});
+        expect(query.where).to.have.been.calledWith('translations.target', '=', termId);
+      });
+    });
+  });
 });
