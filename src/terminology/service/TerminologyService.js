@@ -22,9 +22,9 @@ export default class TerminologyService {
         qb.innerJoin('languages', 'terms.language_id', 'languages.id');
         qb.where('languages.name', '=', languageName);
         qb.orderBy('terms.value', 'ASC');
-      }).fetchAll({withRelated: ['language']});
+      }).fetchAll({ withRelated: ['language', 'categories'] });
     } else {
-      return await Term.forge().orderBy('value', 'ASC').fetchAll({withRelated: ['language']});
+      return await Term.forge().orderBy('value', 'ASC').fetchAll({ withRelated: ['language', 'categories'] });
     }
   }
 

@@ -20,11 +20,6 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(controller, 'exclude');
 
   router
-    .post('/{sourceId}/languages/{languageId}/exclusions')
-    .authorize('urn:cgi:permission:term-exclusions::create')
-    .bind(controller, 'exclude');
-
-  router
     .get('/')
     .authorize('urn:cgi:permission:terms::list')
     .bind(controller, 'list');
