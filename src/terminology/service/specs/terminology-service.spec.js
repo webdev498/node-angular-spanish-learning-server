@@ -2,7 +2,6 @@ import TerminologyService from 'terminology/service/TerminologyService';
 import TermExclusion from 'terminology/models/TermExclusion';
 import Term from 'terminology/models/Term';
 import { stub, spy } from 'testing/sandbox';
-import { expect } from 'chai';
 
 describe('Terminology service', () => {
   const service = new TerminologyService();
@@ -55,27 +54,38 @@ describe('Terminology service', () => {
   describe('when fetching a list of terms', () => {
 
     describe('when a language name is provided', () => {
-      const query = { where: spy(), innerJoin: spy() };
+      const query = { where: spy(), innerJoin: spy(), orderBy: spy() };
+      const term = { fetchAll: spy() };
       const languageName = 'Spanish';
       beforeEach(() => {
-        stub(Term, 'query').yields(query);
+        stub(Term, 'query').yields(query).returns(term);
         service.list({ languageName });
       });
 
       it('fetches all of the terms for that language', () => {
         expect(query.where).to.have.been.calledWith('languages.name', '=', languageName);
       });
+
+      it('includes the term\'s corresponding categories', () => {
+        expect(term.fetchAll).to.have.been.calledWith({ withRelated: ['language', 'categories'] });
+      });
     });
 
     describe('when no language name is provided', () => {
-      const term = { fetchAll: spy(), orderBy: () => term };
+      const term = { fetchAll: spy() };
+      const collection = { orderBy: () => term };
 
       beforeEach(async () => {
-        stub(Term, 'forge').returns(term);
+        stub(Term, 'forge').returns(collection);
         await service.list({});
       });
+
       it('fetches all terms', () => {
         expect(term.fetchAll).to.have.been.called;
+      });
+
+      it('includes the term\'s corresponding categories', () => {
+        expect(term.fetchAll).to.have.been.calledWith({ withRelated: ['language', 'categories'] });
       });
     });
   });
@@ -88,6 +98,7 @@ describe('Terminology service', () => {
       model = { fetchAll: spy() };
       stub(Term, 'query').yields(query).returns(model);
     });
+
     afterEach(() => { Term.query.restore(); });
 
     it('returns the translated term\'s categories', async () => {
