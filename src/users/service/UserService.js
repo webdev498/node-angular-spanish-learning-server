@@ -44,7 +44,7 @@ export default class UserService {
 
  async changeRole(userId: string, role: Role) {
    const user = await User.where({ id: userId }).fetch({withRelated: 'role'});
-   user.set('role_id', role.get('id'));
+   user.set('role_Id', role.get('id'));
    return await user.save();
  }
 }
