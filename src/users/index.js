@@ -117,7 +117,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .get('/users/{id}/examination-results/latest')
-    .authorize('urn:cgi:permission:examination-results::view')
+    .authorize('urn:cgi:permission:examination results::view')
     .bind(resultsController, 'latestForUser');
 
   router

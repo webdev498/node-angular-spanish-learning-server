@@ -9,7 +9,7 @@ import {
   UserPasswordMismatchError
 } from './../users/exceptions';
 
-const mapping = {
+const serviceErrorConstructorMappings = {
   [PasswordMatchError] : UnprocessableEntity,
   [PasswordComplexityError] : UnprocessableEntity,
   [InvalidEmailError]: UnprocessableEntity,
@@ -19,6 +19,6 @@ const mapping = {
 };
 
 export const create = (request, error) => {
-  const Ctor = mapping[error.constructor];
+  const Ctor = serviceErrorConstructorMappings[error.constructor];
   return Ctor? new Ctor(request, error) : error;
 };
