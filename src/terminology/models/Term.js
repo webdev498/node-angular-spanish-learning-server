@@ -3,6 +3,7 @@
 import Orm from 'data/orm';
 import Base from 'models/Base';
 import 'languages/models/Language';
+import 'terminology/models/Translation';
 
 const tableName = 'terms';
 const persistenceWhitelist = [
@@ -17,12 +18,23 @@ const Term = Base.extend({
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist });
   },
 
-  language () {
+  language() {
     return this.belongsTo('Language');
   },
 
-  categories () {
+  categories() {
     return this.belongsToMany('Category');
+  },
+
+
+  englishTranslations() {
+    // target
+    return this.hasMany('Translation', 'target');
+  },
+
+  spanishTranslations() {
+    // source
+    return this.hasMany('Translation', 'source');
   },
 
   serialize() {

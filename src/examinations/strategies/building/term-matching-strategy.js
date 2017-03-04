@@ -7,9 +7,9 @@ function buildQuestion(section: ExamSectionTemplate, translations: Array<Transla
   const question = new TermMatchingQuestionTemplate(section);
 
   translations.forEach(translation => {
-  question.addTerm(translation);
-  question.addCandidateResponses(translation);
-  question.addCorrectResponseForTerm(translation);
+    question.addTerm(translation);
+    question.addCandidateResponses(translation);
+    question.addCorrectResponseForTerm(translation);
   });
 
   return question;

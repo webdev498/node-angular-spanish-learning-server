@@ -1,3 +1,4 @@
+// @flow
 import Orm from 'data/orm';
 import { toPascalCase, toSnakeCase } from 'javascript/datatypes/string';
 import * as UUID from 'javascript/datatypes/uuid';

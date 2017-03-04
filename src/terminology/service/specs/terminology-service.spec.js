@@ -72,20 +72,19 @@ describe('Terminology service', () => {
     });
 
     describe('when no language name is provided', () => {
-      const term = { fetchAll: spy() };
-      const collection = { orderBy: () => term };
+      const collection = { fetchAll: spy() };
 
       beforeEach(async () => {
-        stub(Term, 'forge').returns(collection);
+        stub(Term, 'query').returns(collection);
         await service.list({});
       });
 
       it('fetches all terms', () => {
-        expect(term.fetchAll).to.have.been.called;
+        expect(collection.fetchAll).to.have.been.called;
       });
 
-      it('includes the term\'s corresponding categories', () => {
-        expect(term.fetchAll).to.have.been.calledWith({ withRelated: ['language', 'categories'] });
+      it('includes each term\'s corresponding categories and language', () => {
+        expect(collection.fetchAll).to.have.been.calledWith({ withRelated: ['language', 'categories'] });
       });
     });
   });

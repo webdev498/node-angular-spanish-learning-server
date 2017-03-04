@@ -27,7 +27,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .post('{id}/users/{userId}/submissions')
-    .authorize('urn:cgi:permission:examination-submissions::create')
+    .authorize('urn:cgi:permission:examination submissions::create')
     .bind(examsController, 'submit');
 
   router.register(next);
