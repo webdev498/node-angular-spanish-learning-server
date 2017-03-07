@@ -20,19 +20,14 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(controller, 'exclude');
 
   router
-    .get('/')
+    .get('')
     .authorize('urn:cgi:permission:terms::list')
     .bind(controller, 'list');
 
   router
-    .get('/languages/{languageName}/translations')
+    .get('/languages/{language}')
     .authorize('urn:cgi:permission:terms::list')
-    .bind(controller, 'listWithTranslations');
-
-  router
-    .get('/languages/{languageName}')
-    .authorize('urn:cgi:permission:terms::list')
-    .bind(controller, 'listByName');
+    .bind(controller, 'list');
 
   router
     .put('/{id}')

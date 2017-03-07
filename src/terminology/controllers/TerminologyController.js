@@ -29,29 +29,7 @@ export default class TerminologyController {
 
   async list(request: Request, reply: Function) {
     try {
-      reply(await this.service.list(request.query));
-    } catch (error) {
-      reply(error);
-    }
-  }
-
-  async listWithTranslations(request: Request, reply: Function) {
-    try {
-      const { categories, count }: { categories: Array<Object>; count: number } = request.query;
-      const { languageName }: { languageName: string } = request.params;
-
-      const terms = await this.service.list({languageName, categories, count, includeTranslations: true });
-      const translatedTerms = await this.service.fetchTranslations(terms);
-      const results = mapTranslationToTerm(terms, translatedTerms, languageName);
-      reply(results);
-    } catch(error) {
-      reply(error);
-    }
-  }
-
-  async listByName(request: Request, reply: Function) {
-    try {
-      reply(await this.service.list(request.params));
+      reply(await this.service.list(request));
     } catch (error) {
       reply(error);
     }
@@ -82,41 +60,5 @@ export default class TerminologyController {
       reply(error);
     }
   }
-
-}
-
-function mapTranslationToTerm(sourceTerms: BookshelfCollection, targetTerms: BookshelfCollection, languageName: string) {
-  if (sourceTerms.isEmpty() || targetTerms.isEmpty()) {
-    throw new Error('Either sourceTerms and targetTerms are empty and cannot be mapped');
-  }
-
-  const foreignKey = languageName === 'Spanish' ? 'source' : 'target';
-  const firstTerm = sourceTerms.head();
-  const translationType = Object.keys(firstTerm.relations).find(key => key.includes('Translations'));
-  if (!translationType) {
-    throw new Error('No translation associated with sourceTerms');
-  }
-
-  const results = sourceTerms.reduce((accumulator, source: BookshelfModel) => {
-    let translations = source.related(translationType);
-    if (translations == null) {
-      throw new Error(`Missing ${translationType} from source term in translation`);
-    } else if (typeof translations.pluck === 'function') {
-      const keys = translations.pluck(foreignKey);
-      targetTerms.each((target) => {
-        if (keys.includes(target.get('id'))) {
-          if (accumulator[source.get('id')]) {
-            accumulator[source.get('id')].translations.push(target);
-          } else {
-            accumulator[source.get('id')] = { term: source, translations: [target]}
-          }
-        }
-      });
-    }
-
-    return accumulator;
-  }, {});
-
-  return Object.keys(results).map(key => results[key]);
 
 }

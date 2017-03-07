@@ -1,0 +1,154 @@
+##### Examinations
+
+### Creating a Request
+
+POST http://{{host}}:{{port}}/exams
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "type": "short"
+}
+
+### Fetch an existing exam
+
+GET http://{{host}}:{{port}}/exams/6fa2fc1a-f9d8-44b2-9914-3067d155a1d9
+Authorization: {{token}}
+Content-Type: application/json
+
+
+### Submit Exam-related Feedback
+
+### Submit an exam for grading
+POST http://{{host}}:{{port}}/exams/6fa2fc1a-f9d8-44b2-9914-3067d155a1d9/users/aaa09b7b-a2a6-40b2-93e8-92f1c8de8501/submissions
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "examId": "6b21f248-7660-453b-8d9f-449df6491b08",
+  "responses": [
+    {
+      "sectionId": "65a605e4-791b-4db2-85d8-507bfe6cea20",
+      "questionId": "9a9fb906-3d50-4259-a9bf-cc961626b707",
+      "responses": [
+        {
+          "termId": "cd5961d4-b657-423a-9707-b86a95d47459"
+        }
+      ]
+    },
+    {
+      "sectionId": "65a605e4-791b-4db2-85d8-507bfe6cea20",
+      "questionId": "3a283200-b054-4d00-8762-de1c2da08085",
+      "responses": [
+        {
+          "termId": "dfab7a15-ec18-4bd3-81b0-ccdce159e353"
+        }
+      ]
+    },
+    {
+      "sectionId": "65a605e4-791b-4db2-85d8-507bfe6cea20",
+      "questionId": "15019acc-d0f7-4123-9079-21182ff279e4",
+      "responses": [
+        {
+          "termId": "a5efb528-b4ad-4816-9fd7-5bd20cc543eb"
+        }
+      ]
+    },
+    {
+      "sectionId": "ca4d8b1b-a554-4170-9ee2-99fe454d7061",
+      "questionId": "eb846546-14ef-4967-8cb4-b889529b6224",
+      "responses": [
+        {
+          "candidateId": "f4c59747-f8db-4c4e-aed5-bceb5cc653f3",
+          "termId": "51348502-b3df-465e-8635-99c06ca80c04"
+        },
+        {
+          "candidateId": "828cb9ce-8535-4e5f-bd91-73dd7e6f8922",
+          "termId": "50699d55-12f2-4172-ba86-1464bcf900f0"
+        },
+        {
+          "candidateId": "580ed725-a29f-405d-bc73-318a1dd298ef",
+          "termId": "83e9413e-77fc-4db3-bdff-91ee946b52d5"
+        },
+        {
+          "candidateId": "64bdb772-e782-44fc-9770-a1d433749897",
+          "termId": "003fdaca-9951-46c1-8cb2-78573cf285c1"
+        },
+        {
+          "candidateId": "4195a235-5cdb-4647-a1b3-67b0b1c3b59e",
+          "termId": "5c0b7bf3-db53-472d-b740-c23989a0ff1e"
+        }
+      ]
+    },
+    {
+      "sectionId": "ca4d8b1b-a554-4170-9ee2-99fe454d7061",
+      "questionId": "eb846546-14ef-4967-8cb4-b889529b6224",
+      "responses": [
+        {
+          "candidateId": "6652408a-d879-4460-af2a-2b57ddde9441",
+          "termId": "0567474a-2e92-4553-92c1-d2567b8c16b5"
+        },
+        {
+          "candidateId": "6bfe1820-36b7-4d35-8cee-a57b6a389d0f",
+          "termId": "c5ee13ca-9974-4696-9efe-5716806ba775"
+        },
+        {
+          "candidateId": "f45dff33-e0b3-4849-8937-7f82168dbc24",
+          "termId": "06d85def-2041-4ea8-9d2d-a657e00ad9ca"
+        },
+        {
+          "candidateId": "a7e8a91b-24fb-4386-a6bc-d282a444a247",
+          "termId": "39ad2c03-526c-4504-bc1c-4befcb43b828"
+        },
+        {
+          "candidateId": "485f5d3c-5f78-40fa-8ed2-bf889501ad8d",
+          "termId": "252e2b7c-a3b0-4325-a9f8-6f655895fc49"
+        }
+      ]
+    },
+    {
+      "sectionId": "ca4d8b1b-a554-4170-9ee2-99fe454d7061",
+      "questionId": "2c9f334-1779-4b0b-be47-e3bc1691b1d6",
+      "responses": [
+        {
+          "candidateId": "df7b3c8f-dda8-4d63-a414-b4abc6db05e1",
+          "termId": "bb2868f9-5510-4ff4-a7ae-7d8e666fed95"
+        },
+        {
+          "candidateId": "6f513524-a141-4408-a6b5-82badc74e791",
+          "termId": "cbc333d4-cd26-428c-8900-9b10a814c086"
+        },
+        {
+          "candidateId": "0016960f-5e0c-4cca-bb62-68e8128b59b4",
+          "termId": "8df9f467-6df8-49a5-8f9d-4acffc8e7646"
+        }
+      ]
+    },
+    {
+      "sectionId": "fe01927e-4f06-43ee-96f3-a9e52ab70e91",
+      "questionId": "725a35f4-2309-4bbc-a7ee-82fe34704a40",
+      "responses": [
+        {
+          "categoryId": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
+          "termId": "bfc01c01-715b-4b56-b044-cd2d77548c02"
+        },
+        {
+          "categoryId": "62684f10-11bd-4359-83de-30bf86a73329",
+          "termId": "6993fe63-0e4d-4387-ba55-9fde1a20a0de"
+        },
+        {
+          "categoryId": "d2c6eca9-bfbb-4d56-8ae1-1fdefe81606a",
+          "termId": "8c6d034e-5304-495c-88fa-a888542b3ca8"
+        },
+        {
+          "categoryId": "81282b62-5668-4c18-a272-29cf08b5a47a",
+          "termId": "ee01576a-153b-458a-ad95-c1343b57f960"
+        },
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "b08135e7-a307-41cd-a648-7992b7566569"
+        }
+      ]
+    }
+  ]
+}

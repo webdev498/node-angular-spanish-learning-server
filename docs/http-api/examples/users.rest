@@ -1,0 +1,61 @@
+##### Authentication
+
+### Logging A User In with CGI Credentials
+
+POST http://{{host}}:{{port}}/login
+Content-Type: application/json
+
+{
+    "email": "superuser@cgi.com",
+    "password": "P@$$w0rd"
+}
+
+### Logging A User in with Google Credentials
+
+POST http://{{host}}:{{port}}/login/google
+Content-Type: application/json
+
+{
+    "code": "google-onetime-auth-code",
+}
+
+### Logging A User in with Facebook Credentials
+
+POST http://{{host}}:{{port}}/login/facebook
+Content-Type: application/json
+
+{
+    "code": "facebook-onetime-auth-code",
+}
+
+##### Users
+
+### Fetch all users
+
+GET http://{{host}}:{{port}}/users
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch a specific user by their user ID
+GET http://{{host}}:{{port}}/users/aaa09b7b-a2a6-40b2-93e8-92f1c8de8501
+Authorization: {{token}}
+Accept: application/json
+
+
+### Update an existing user
+PUT http://{{host}}:{{port}}/users/aaa09b7b-a2a6-40b2-93e8-92f1c8de8501
+Authorization: {{token}}
+Accept: application/json
+
+{
+    "email": "someuser@cgi.com"
+}
+
+### Update an existing user telephone number
+PUT http://{{host}}:{{port}}/users/aaa09b7b-a2a6-40b2-93e8-92f1c8de8501/telephones/c60f27d5-c53a-4fce-94fa-d7afd388cd81
+Authorization: {{token}}
+Accept: application/json
+
+{
+    "extension": "4423"
+}

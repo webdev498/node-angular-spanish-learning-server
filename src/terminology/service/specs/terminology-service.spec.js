@@ -54,16 +54,21 @@ describe('Terminology service', () => {
   describe('when fetching a list of terms', () => {
 
     describe('when a language name is provided', () => {
-      const query = { where: spy(), innerJoin: spy(), orderBy: spy() };
+      const query = { where: spy(), innerJoin: spy(), join: spy(), orderBy: spy() };
       const term = { fetchAll: spy() };
-      const languageName = 'Spanish';
-      beforeEach(() => {
+      const language = 'Spanish';
+      const request = {
+        params: { language },
+        query: { associated: ['language', 'categories']}
+      };
+
+      beforeEach(async () => {
         stub(Term, 'query').yields(query).returns(term);
-        service.list({ languageName });
+        await service.list(request);
       });
 
       it('fetches all of the terms for that language', () => {
-        expect(query.where).to.have.been.calledWith('languages.name', '=', languageName);
+        expect(query.where.getCall(0)).to.have.been.calledWith('languages.name', '=', language);
       });
 
       it('includes the term\'s corresponding categories', () => {
@@ -76,7 +81,7 @@ describe('Terminology service', () => {
 
       beforeEach(async () => {
         stub(Term, 'query').returns(collection);
-        await service.list({});
+        await service.list({ params: {}, query: { associated: ['language', 'categories'] } });
       });
 
       it('fetches all terms', () => {
@@ -110,8 +115,8 @@ describe('Terminology service', () => {
         await service.findTranslations({ id: termId, language: 'Spanish'});
         expect(query.where).to.have.been.calledWith('translations.source', '=', termId);
       });
-
     });
+
     describe('when searching for a translation in English', () => {
       it('returns the Spanish translation', async () => {
         await service.findTranslations({ id: termId, language: 'English'});

@@ -124,6 +124,5 @@ describe('Terminology Controller', () => {
         });
       });
     });
-
   });
 });
