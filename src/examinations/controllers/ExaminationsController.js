@@ -2,6 +2,7 @@
 import type ExaminationService from '../services/ExaminationService';
 import type { Request } from 'http/index';
 import { CREATED } from 'http/status-codes';
+import Unauthorized from 'exceptions/requests/Unauthorized';
 
 export default class ExaminationsController {
   service: ExaminationService;
@@ -48,7 +49,7 @@ export default class ExaminationsController {
       const { credentials } = request.auth;
 
       if(credentials.get('id') !== params.userId) {
-        throw Error();
+        throw new Unauthorized(request, { message: 'User ID mismatch. Logged-in user cannot submit exam for grading'});
       }
 
       const result = await this.service.submit(params.id, credentials, payload);

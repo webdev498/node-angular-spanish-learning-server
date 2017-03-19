@@ -1,0 +1,49 @@
+##### Terminology
+
+### Fetch all English terms in the database
+
+GET http://{{host}}:{{port}}/terms/languages/English
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch all English Terms and include Translations
+
+GET http://{{host}}:{{port}}/terms/languages/English
+  ?withTranslations=true
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch all English Terms and include categories
+
+GET http://{{host}}:{{port}}/terms/languages/English
+  ?associated=categories
+  &count=10
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch all English Terms and include language
+
+GET http://{{host}}:{{port}}/terms/languages/English
+  ?associated=language
+  &associated=categories
+  &count=10
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch all English Terms and include Translations constraint by categories
+
+GET http://{{host}}:{{port}}/terms/languages/English
+  ?withTranslations=true
+  &categories=2e85e4c4-e984-45a9-8b66-c3b05a16c972
+  &categories=a0695dbe-d5e5-4e1c-8649-dc67114aaa09
+Authorization: {{token}}
+Accept: application/json
+
+### Fetch all English Terms and include Translations limited to count
+
+GET http://{{host}}:{{port}}/terms/languages/English
+?withTranslations=true
+&count=10
+Authorization: {{token}}
+Accept: application/json
+

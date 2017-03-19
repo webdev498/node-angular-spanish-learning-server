@@ -36,6 +36,10 @@ coverage: clean-coverage install-deps
 	$(SPEC_FILES) | xargs $(BIN)/istanbul cover $(BIN)/_mocha -- --compilers js:babel-core/register --require ./etc/testing/bootstrapper.js
 	$(BIN)/coveralls < coverage/lcov.info
 
+build-service-docs: install-deps
+	@echo "Generating service documentation to ./docs/http-api/services.html"
+	$(BIN)/raml2html ./docs/api.raml > ./docs/http-api/services.html
+
 install: clean-node build
 
 install-deps:
@@ -53,6 +57,10 @@ test: install-deps lint type-check
 test-only:
 	@echo "Running specifications..."
 	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --require ./etc/testing/bootstrapper.js
+
+watch-tests:
+	@echo "Watching filesystem for changes, running specifications..."
+	$(SPEC_FILES) | xargs $(BIN)/_mocha --compilers js:babel-core/register --colors --watch --require ./etc/testing/bootstrapper.js
 
 type-check:
 	@echo "Checking type usage"

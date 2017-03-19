@@ -1,0 +1,7 @@
+##### Preflights
+
+### Check POST options on Users
+
+OPTIONS http://{{host}}:{{port}}/users
+Origin: localhost
+Access-Control-Request-Method: POST
