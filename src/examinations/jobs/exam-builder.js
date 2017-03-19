@@ -15,7 +15,7 @@ async function loadCategories() {
 
 function buildCategoryConstraints(categories: Array<Category>): Array<Object> {
   return categories.map((category) => {
-    const weight = category.get('name') === 'General' ? .4 : .2;
+    const weight = category.get('name') === 'Other' ? .4 : .2;
     return { type: 'Category', category, weight };
   });
 }

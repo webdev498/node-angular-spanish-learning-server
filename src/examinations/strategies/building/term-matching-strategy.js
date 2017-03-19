@@ -3,13 +3,14 @@ import Translation from 'terminology/models/Translation';
 import type { ExamSectionTemplate } from 'examinations/templates/ExamSectionTemplate';
 import TermMatchingQuestionTemplate from 'examinations/templates/questions/TermMatchingQuestionTemplate';
 
-function buildQuestion(section: ExamSectionTemplate, translations: Array<Translation>) {
+function buildQuestion(section: ExamSectionTemplate, grouping: Array<Translation>) {
   const question = new TermMatchingQuestionTemplate(section);
 
-  translations.forEach(translation => {
+  grouping.forEach(({translation, category}) => {
     question.addTerm(translation);
+    question.addCategory(category);
     question.addCandidateResponses(translation);
-    question.addCorrectResponseForTerm(translation);
+    question.addCorrectResponseForTerm(translation, category);
   });
 
   return question;
@@ -20,15 +21,14 @@ async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Tr
 
   const groupings = await Promise.all(constraints.map(async (constraint) => {
     const { weight, category } = constraint;
-    const limit = Math.floor(weight * section.itemCount);
+    const limit = Math.floor(weight * (section.itemCount * 5));
     const translations = await Translation.randomByCategory(limit, category);
     return { category, translations: translations.models };
   }));
 
   return groupings.reduce((memo, grouping) => {
     grouping.translations.forEach((translation) => {
-      const { source, target } = translation.relations;
-      memo.push({ category: grouping.category, source, target });
+      memo.push({ category: grouping.category, translation });
     });
     return memo;
   }, []);
@@ -36,10 +36,10 @@ async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Tr
 
 
 export default async (section: ExamSectionTemplate) => {
-  let translations = await fetchTranslations(section);
-  translations = await Translation.random(section.itemCount * 5);
+  let groupings = await fetchTranslations(section);
+  // let groupings = await Translation.random(section.itemCount * 5);
 
-  translations = translations.reduce((accumulator, term, index, array) => {
+  groupings = groupings.reduce((accumulator, term, index, array) => {
     let position = index + 1;
     if (position % 5 === 0) {
       accumulator.push(array.slice(position - 5, position));
@@ -47,6 +47,6 @@ export default async (section: ExamSectionTemplate) => {
     return accumulator;
   }, []);
 
-  translations.forEach((translation) => section.addQuestion(buildQuestion(section, translation)));
+  groupings.forEach((grouping) => section.addQuestion(buildQuestion(section, grouping)));
   return section;
 };

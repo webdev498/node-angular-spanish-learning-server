@@ -7,7 +7,6 @@ const persistenceWhitelist = [
   'itemCount',
   'pointsAwarded',
   'pointsPossible',
-  'sections',
   'examId',
   'userId',
   'createdAt'];
@@ -19,9 +18,17 @@ const ExaminationResult = Base.extend({
     Base.prototype.initialize.call(this, attributes, { persistenceWhitelist });
   },
 
+  categoryResults() {
+    return this.hasMany('CategoryExamResult', 'exam_result_id', 'id');
+  },
+
 
   serialize() {
-    const { id, createdAt, examId, itemCount, pointsAwarded, pointsPossible, sections } = this.attributes;
+    const {
+      id, createdAt, examId, itemCount,
+      pointsAwarded, pointsPossible, sections
+    } = this.attributes;
+    const { relations } = this;
 
     return {
       id,
@@ -30,7 +37,8 @@ const ExaminationResult = Base.extend({
       itemCount,
       pointsPossible,
       pointsAwarded,
-      sections
+      sections,
+      relations
     };
   },
 

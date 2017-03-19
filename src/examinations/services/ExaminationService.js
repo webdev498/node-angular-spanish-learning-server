@@ -1,5 +1,6 @@
 //@flow
 import Examination from 'examinations/models/Examination';
+import CategoryExamResult, { CategoryExamResults } from 'examinations/models/CategoryExamResult';
 import type { ExamSubmission } from 'examinations/models/Examination';
 import ExaminationResult from 'examinations/models/ExaminationResult';
 import type UserPrinciple from 'users/models/User';
@@ -68,6 +69,29 @@ export default class ExaminationService {
       pointsPossible,
       sections
      }).save();
+     
+     const categoryResults = sections.reduce((accum: Map<string, any>, section) => {
+       Object.keys(section.categoryResults).forEach(categoryId => {
+         const { correct, incorrect } = section.categoryResults[categoryId];
+         const model = accum.get(categoryId);
+         if (model) {
+           model.addToIncorrectCount(incorrect);
+           model.addToCorrectCount(correct);
+         } else {
+           const model = CategoryExamResult.forge({
+             categoryId,
+             examResultId: examResult.get('id'),
+             correctCount: correct,
+             incorrectCount: incorrect
+            });
+            accum.set(categoryId, model);
+         }
+       });
+       return accum;
+     }, new Map());
+
+     const results = new CategoryExamResults(Array.from(categoryResults.values()));
+     await results.invokeThen('save');
 
     await exam.destroy();
     return examResult;

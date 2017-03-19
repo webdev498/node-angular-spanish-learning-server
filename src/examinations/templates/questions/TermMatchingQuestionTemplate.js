@@ -2,6 +2,7 @@
 import QuestionTemplate from 'examinations/templates/questions/QuestionTemplate';
 import type ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
 import type Translation from 'terminology/models/Translation';
+import type Category from 'categories/models/Category';
 
 export default class TermMatchingQuestionTemplate extends QuestionTemplate {
   candidates: Array<Translation>;
@@ -9,7 +10,6 @@ export default class TermMatchingQuestionTemplate extends QuestionTemplate {
   constructor(section: ExamSectionTemplate, text: string = '') {
     super(section, text);
     this.candidates = [];
-    this.categories = [];
   }
 
   addTerm(translation: Translation) {
@@ -27,16 +27,16 @@ export default class TermMatchingQuestionTemplate extends QuestionTemplate {
     this.candidates.push({ id, text });
   }
 
-  addCorrectResponseForTerm(translation: Translation) {
+  addCorrectResponseForTerm(translation: Translation, category: Category) {
     const candidateId = translation.relations.source.get('id'),
           termId = translation.relations.target.get('id');
 
-    this.correctResponses.push({ termId, candidateId });
+    this.correctResponses.push({ termId, candidateId, categoryId: category.get('id')});
   }
 
   toJSON() {
-    const { id, type, text, correctResponses, candidates, terms } = this;
-    return { id, type, text, correctResponses, candidates, terms };
+    const { id, type, text, correctResponses, candidates, terms, categories } = this;
+    return { id, type, text, correctResponses, candidates, terms, categories };
   }
 
 }

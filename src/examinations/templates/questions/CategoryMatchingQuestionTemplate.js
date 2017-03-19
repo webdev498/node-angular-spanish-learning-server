@@ -7,20 +7,7 @@ export default class CategoryMatchingQuestionTemplate extends QuestionTemplate {
 
   constructor(section: ExamSectionTemplate, text: string = '') {
     super(section, text);
-    this.categories = [];
     this.correctResponses = [];
-  }
-
-  addTerm(term: Term) {
-    const id = term.get('id'),
-          text = term.get('value');
-    this.terms.push({ id, text });
-  }
-
-  addCategoryForTerm(term: Term) {
-    const id = term.relations.categories.first().get('id'),
-          text = term.relations.categories.first().get('name');
-    this.categories.push({ id, text });
   }
 
   addCorrectResponseForTerm(term: Term) {

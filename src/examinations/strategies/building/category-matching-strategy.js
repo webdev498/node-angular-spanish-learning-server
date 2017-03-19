@@ -8,7 +8,7 @@ const buildQuestion = (section: ExamSectionTemplate, terms: Array<Term>) => {
   terms.forEach(term => {
     question.addTerm(term);
     question.addCorrectResponseForTerm(term);
-    question.addCategoryForTerm(term);
+    question.addCategoriesForTerm(term);
   });
   return question;
 };

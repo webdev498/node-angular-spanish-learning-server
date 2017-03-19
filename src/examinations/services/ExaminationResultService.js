@@ -7,7 +7,7 @@ export default class ExaminationResultService {
     const examResults = await ExaminationResult.query(query => {
       query.where({user_id: user.get('id')});
       query.orderBy('created_at', 'DESC');
-    }).fetchAll();
+    }).fetchAll({ withRelated: ['categoryResults'] });
 
     if (examResults) {
       return examResults;
@@ -20,7 +20,7 @@ export default class ExaminationResultService {
     const examResult = await ExaminationResult.query(query => {
       query.where({user_id: user.get('id')});
       query.orderBy('created_at', 'DESC');
-    }).fetch();
+    }).fetch({ withRelated: ['categoryResults']});
 
     if (examResult) {
       return examResult;

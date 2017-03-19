@@ -12,11 +12,15 @@ const noneOfTheAbove = {
   get: (key) => noneOfTheAbove[key]
 };
 
-function buildQuestion({ target, source, section, candidates }) {
+function buildQuestion({ target, source, section, candidates, category }) {
   const text = `What is the possible term for "${source.get('value')}" in Spanish`;
   const question = new MultipleChoiceQuestionTemplate(section, text);
+
   question.addCorrectResponseForTerm(target);
+  question.addCategory(category);
+
   candidates.forEach(candidate =>  question.addTerm(candidate));
+
   return question;
 }
 
@@ -70,7 +74,7 @@ export default async (section: ExamSectionTemplate) => {
       candidates.splice(candidatePosition, 0,{id: target.get('id'), value: target.get('value')});
     }
     candidates.push(noneOfTheAbove);
-    return buildQuestion({section, source, target, candidates });
+    return buildQuestion({section, source, target, candidates, category });
   }));
 
 
