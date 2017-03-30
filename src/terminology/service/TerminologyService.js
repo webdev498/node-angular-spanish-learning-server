@@ -142,6 +142,10 @@ function mapTranslationToTerm(sourceTerms: BookshelfCollection, targetTerms: Boo
     return accumulator;
   }, {});
 
-  return Object.keys(results).map(key => results[key]);
+  const data =  Object.keys(results).map(key => {
+    results[key].term.relations[translationType] = results[key].translations;
+    return results[key].term;
+  });
+  return data;
 
 }
