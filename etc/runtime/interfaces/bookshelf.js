@@ -57,7 +57,7 @@ declare interface Collection<T> {
   once: (eventNames: string, handler: Function) => void;
   order: (fieldName: 'string', direction: string) => BookshelfCollection;
   parse: (rawDatabaseResult: Array<Object>) => BookshelfCollection;
-  pluck: (attributeName: string) => Array<any>;
+  pluck: (attributeName: string | Array<string>) => Array<any>;
   pop: () => T;
   push: (model: T) => BookshelfCollection;
   query: (...arguments: any[]) => BookshelfCollection | QueryBuilder;

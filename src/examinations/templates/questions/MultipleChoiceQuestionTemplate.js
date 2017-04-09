@@ -18,7 +18,7 @@ export default class MultipleChoiceQuestionTemplate extends QuestionTemplate {
   }
 
   toJSON(): Object {
-    const { id, type, text, correctResponses, terms } = this;
-    return { id, type, text, correctResponses, terms };
+    const { id, type, text, correctResponses, terms, categories } = this;
+    return { id, type, text, correctResponses, terms, categories };
   }
 }

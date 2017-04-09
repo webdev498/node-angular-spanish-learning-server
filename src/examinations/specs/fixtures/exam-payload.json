@@ -1,0 +1,432 @@
+{
+  "id": "1b965f4e-c757-4fbf-a816-170fcc674c54",
+  "sections": [
+    {
+      "id": "b72e76b0-a38f-44d4-91d8-ddf171cf3608",
+      "type": "Multiple Choice Spanish",
+      "instructions": "For the following questions choose the term the most correctly answers the question",
+      "questions": [
+        {
+          "id": "aaaa055f-5f9c-47ee-b841-02b3d7a8d7ef",
+          "type": "Multiple Choice Spanish",
+          "text": "What is the possible term for \"low blood pressure\" in Spanish",
+          "terms": [
+            {
+              "id": "be61fbf4-cb63-4e6f-9e17-9597515f20fe",
+              "text": "endurecimiento de las arterias"
+            },
+            {
+              "id": "2683c3f6-4551-405d-9ecb-cbedacc9ef3e",
+              "text": "presión baja"
+            },
+            {
+              "id": "809c0342-3433-402f-ae7f-2964402c8360",
+              "text": "monitor cardíaco"
+            },
+            {
+              "id": "2277be06-56ea-4983-81a2-58a90800a17e",
+              "text": "puente coronario"
+            },
+            {
+              "id": "35fe100c-2e9b-42cf-bddc-a5ba3ad950ec",
+              "text": "None of the above"
+            }
+          ],
+          "categories": [
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            }
+          ]
+        },
+        {
+          "id": "21363f02-86dc-48aa-899e-441a6637cf66",
+          "type": "Multiple Choice Spanish",
+          "text": "What is the possible term for \"visual acuity\" in Spanish",
+          "terms": [
+            {
+              "id": "819bef83-0daf-4518-a7d5-23e3b31dec3f",
+              "text": "globo del ojo"
+            },
+            {
+              "id": "df79e0bc-7a56-4a7e-b94d-8284d0459b4a",
+              "text": "cristalino"
+            },
+            {
+              "id": "d797470f-ab7e-4940-b9ba-f845f2c8890b",
+              "text": "agudeza visual"
+            },
+            {
+              "id": "3035dffa-b5fb-439a-9809-95be10b2c85b",
+              "text": "catarata"
+            },
+            {
+              "id": "35fe100c-2e9b-42cf-bddc-a5ba3ad950ec",
+              "text": "None of the above"
+            }
+          ],
+          "categories": [
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "699bdbd7-652a-4d17-9390-80c39cc04013",
+      "type": "Multiple Choice English",
+      "instructions": "For the following questions choose the term the most correctly answers the question",
+      "questions": [
+        {
+          "id": "ec0f2f5d-f0f9-4dc2-b673-a2832341cd9f",
+          "type": "Multiple Choice English",
+          "text": "What is the possible term for \"puente coronario\" in English",
+          "terms": [
+            {
+              "id": "98799bc1-e95f-4d3e-9a2c-9e68de5bedd1",
+              "text": "bypass"
+            },
+            {
+              "id": "7eb28ac3-8f19-4a84-8390-b2b1ee5439c2",
+              "text": "heart murmur"
+            },
+            {
+              "id": "ad887038-72a4-4a7f-8356-8b3bd22d72b4",
+              "text": "congenital heart defect"
+            },
+            {
+              "id": "cd801f1a-1a9b-4e98-aa3c-ea6768dcd5cd",
+              "text": "coronary thrombosis"
+            },
+            {
+              "id": "35fe100c-2e9b-42cf-bddc-a5ba3ad950ec",
+              "text": "None of the above"
+            }
+          ],
+          "categories": [
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            }
+          ]
+        },
+        {
+          "id": "9bcce6ee-1de1-420c-96d8-39b33a04ebef",
+          "type": "Multiple Choice English",
+          "text": "What is the possible term for \"cuenca del ojo\" in English",
+          "terms": [
+            {
+              "id": "c0b96ae7-019f-417f-97c2-733984dac025",
+              "text": "corner of the eye"
+            },
+            {
+              "id": "48425d8f-a1e5-4f12-9d38-70e92fa3ff56",
+              "text": "foreign body"
+            },
+            {
+              "id": "ae99153c-8a62-4798-9ecc-7f84307ce400",
+              "text": "eye socket"
+            },
+            {
+              "id": "bab8f77d-8cb3-4bc3-9b1b-00ab7506d902",
+              "text": "vitreous humor"
+            },
+            {
+              "id": "35fe100c-2e9b-42cf-bddc-a5ba3ad950ec",
+              "text": "None of the above"
+            }
+          ],
+          "categories": [
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "66dd106e-674e-4ff1-b87d-014e4b98a013",
+      "type": "Category Matching",
+      "instructions": "Group each term by dragging from top to bottom, or checking each group match in sequence",
+      "questions": [
+        {
+          "id": "1e6c5ffd-d984-4c7b-abdd-21c1f8ac5495",
+          "type": "Category Matching",
+          "text": "",
+          "categories": [
+            {
+              "id": "81282b62-5668-4c18-a272-29cf08b5a47a",
+              "name": "Signs & Symptoms"
+            },
+            {
+              "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+              "name": "Other"
+            },
+            {
+              "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+              "name": "Other"
+            },
+            {
+              "id": "4d9fefc3-ba56-4a8a-9083-0f9346b433c7",
+              "name": "Professions"
+            },
+            {
+              "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+              "name": "Other"
+            }
+          ],
+          "terms": [
+            {
+              "id": "9a12f7b0-42bc-43d8-9766-4b80f2fe1420",
+              "text": "ácidez estomacal"
+            },
+            {
+              "id": "80524122-c19e-4aa0-967e-432a3f08059f",
+              "text": "inteligente"
+            },
+            {
+              "id": "aa0d370c-bc39-4f82-ac82-e7bafa2922e1",
+              "text": "resucitación cardiopulmonar"
+            },
+            {
+              "id": "8b7f719b-4515-4d53-a93c-a1a0cab7818e",
+              "text": "la doctora"
+            },
+            {
+              "id": "7e7ba7cc-ea4a-42bb-b941-753436522b1a",
+              "text": "dificultad para respirar"
+            }
+          ]
+        },
+        {
+          "id": "5a4eeedf-7be0-45fb-b0e9-0f8c09e1e929",
+          "type": "Category Matching",
+          "text": "",
+          "categories": [
+            {
+              "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+              "name": "Other"
+            },
+            {
+              "id": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
+              "name": "Diseases & Conditions"
+            },
+            {
+              "id": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
+              "name": "Diseases & Conditions"
+            },
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            },
+            {
+              "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+              "name": "Other"
+            }
+          ],
+          "terms": [
+            {
+              "id": "c3f4555d-4e74-4c24-a668-b72046f1aee8",
+              "text": "acostar"
+            },
+            {
+              "id": "273d0102-b177-45be-a6d7-8d0c349c85ed",
+              "text": "derrame cerebral"
+            },
+            {
+              "id": "c17549b2-a1fc-48b7-ac3f-6f154ced224b",
+              "text": "calambre"
+            },
+            {
+              "id": "bf400572-4566-4bc7-8bb8-08f1e9fa16d0",
+              "text": "párpado caído"
+            },
+            {
+              "id": "5d1f6633-295a-4bc7-97a3-4a2ac7554ec5",
+              "text": "mezquino"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a8b29b50-33f8-44a3-b7ab-9258be27a12e",
+      "type": "Term Matching",
+      "instructions": "Drag the term to the correct match, or check each term that matches in sequence",
+      "questions": [
+        {
+          "id": "83f0269e-a5c5-4d27-b31f-348d669de49b",
+          "type": "Term Matching",
+          "text": "",
+          "candidates": [
+            {
+              "id": "74ecc798-cf1b-47ba-8965-a62d83985393",
+              "text": "pacemaker"
+            },
+            {
+              "id": "234bda4e-c59f-41fc-9efc-b63061197b4b",
+              "text": "cardiac catheterization"
+            },
+            {
+              "id": "90ef73f9-f166-437c-9d7e-87d0e2c273aa",
+              "text": "blockage"
+            },
+            {
+              "id": "6ccb9354-9349-4706-9181-3a8e63737358",
+              "text": "high blood pressure"
+            },
+            {
+              "id": "22734b45-c169-4497-93a9-7e95b9cd9e09",
+              "text": "low blood pressure"
+            }
+          ],
+          "terms": [
+            {
+              "id": "62ec2f88-c8f9-4425-b14b-de380d860632",
+              "text": "marcapasos"
+            },
+            {
+              "id": "b3abaa6c-d914-4f49-833a-1355d1b8c6fa",
+              "text": "colocar un catéter en el corazón"
+            },
+            {
+              "id": "d71600c9-87ba-40f2-8841-61c5213323a4",
+              "text": "obstrucción"
+            },
+            {
+              "id": "31f1fbcd-4126-4899-8fd7-44feecb3683d",
+              "text": "presión alta"
+            },
+            {
+              "id": "2683c3f6-4551-405d-9ecb-cbedacc9ef3e",
+              "text": "presión baja"
+            }
+          ],
+          "categories": [
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            }
+          ]
+        },
+        {
+          "id": "f8bf2539-f082-4099-92b2-aab662e1b080",
+          "type": "Term Matching",
+          "text": "",
+          "candidates": [
+            {
+              "id": "a71d5b46-74f4-4de6-8552-1219108368fb",
+              "text": "hardening of the arteries"
+            },
+            {
+              "id": "7eb28ac3-8f19-4a84-8390-b2b1ee5439c2",
+              "text": "heart murmur"
+            },
+            {
+              "id": "6ffc95e5-8d6f-4720-8aa1-a32a8c302f0e",
+              "text": "macular degeneration"
+            },
+            {
+              "id": "7ceb9a50-d32f-40c9-9f26-4517cc0b75ec",
+              "text": "tear duct"
+            },
+            {
+              "id": "ad703fb2-e963-4cf4-9e69-fafeec622f5c",
+              "text": "pinguecula"
+            }
+          ],
+          "terms": [
+            {
+              "id": "be61fbf4-cb63-4e6f-9e17-9597515f20fe",
+              "text": "endurecimiento de las arterias"
+            },
+            {
+              "id": "8fe894cf-fc86-4774-83cb-c6ac399f4761",
+              "text": "soplo cardíaco"
+            },
+            {
+              "id": "3c9bc5a9-45f3-4f95-8a9c-bea06791e36a",
+              "text": "degeneración macular"
+            },
+            {
+              "id": "2c3df7e6-4bef-488e-8e02-7440ae588ce4",
+              "text": "conducto lagrimal"
+            },
+            {
+              "id": "25413ca7-04fc-42e7-bac6-8193767ce984",
+              "text": "pínguela"
+            }
+          ],
+          "categories": [
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+              "name": "Cardiology/Circulatory System"
+            },
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            },
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            },
+            {
+              "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+              "name": "Eye"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "length": 30,
+  "categoriesCovered": [
+    {
+      "id": "29947c1d-10a6-48e5-9d14-2d356f950d47",
+      "name": "Cardiology/Circulatory System",
+      "createdAt": "2016-09-05T22:17:37.396Z",
+      "updatedAt": "2016-09-05T22:17:37.396Z"
+    },
+    {
+      "id": "776786a3-76c3-4798-a946-969de30ae9c1",
+      "name": "Eye",
+      "createdAt": "2016-09-05T22:17:37.459Z",
+      "updatedAt": "2016-09-05T22:17:37.459Z"
+    },
+    {
+      "id": "4d9fefc3-ba56-4a8a-9083-0f9346b433c7",
+      "name": "Professions",
+      "createdAt": "2016-09-05T22:17:37.424Z",
+      "updatedAt": "2016-09-05T22:17:37.424Z"
+    },
+    {
+      "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+      "name": "Other",
+      "createdAt": "2016-09-05T22:17:37.364Z",
+      "updatedAt": "2016-09-05T22:17:37.364Z"
+    }
+  ]
+}

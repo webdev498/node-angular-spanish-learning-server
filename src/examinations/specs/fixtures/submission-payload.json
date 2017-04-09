@@ -1,0 +1,145 @@
+{
+  "examId": "1b965f4e-c757-4fbf-a816-170fcc674c54",
+  "responses": [
+    {
+      "sectionId": "b72e76b0-a38f-44d4-91d8-ddf171cf3608",
+      "questionId": "aaaa055f-5f9c-47ee-b841-02b3d7a8d7ef",
+      "responses": [
+        {
+          "termId": "2683c3f6-4551-405d-9ecb-cbedacc9ef3e"
+        }
+      ]
+    },
+    {
+      "sectionId": "b72e76b0-a38f-44d4-91d8-ddf171cf3608",
+      "questionId": "21363f02-86dc-48aa-899e-441a6637cf66",
+      "responses": [
+        {
+          "termId": "819bef83-0daf-4518-a7d5-23e3b31dec3f"
+        }
+      ]
+    },
+    {
+      "sectionId": "699bdbd7-652a-4d17-9390-80c39cc04013",
+      "questionId": "ec0f2f5d-f0f9-4dc2-b673-a2832341cd9f",
+      "responses": [
+        {
+          "termId": "98799bc1-e95f-4d3e-9a2c-9e68de5bedd1"
+        }
+      ]
+    },
+    {
+      "sectionId": "699bdbd7-652a-4d17-9390-80c39cc04013",
+      "questionId": "9bcce6ee-1de1-420c-96d8-39b33a04ebef",
+      "responses": [
+        {
+          "termId": "ae99153c-8a62-4798-9ecc-7f84307ce400"
+        }
+      ]
+    },
+    {
+      "sectionId": "66dd106e-674e-4ff1-b87d-014e4b98a013",
+      "questionId": "1e6c5ffd-d984-4c7b-abdd-21c1f8ac5495",
+      "responses": [
+        {
+          "categoryId": "81282b62-5668-4c18-a272-29cf08b5a47a",
+          "termId": "9a12f7b0-42bc-43d8-9766-4b80f2fe1420"
+        },
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "80524122-c19e-4aa0-967e-432a3f08059f"
+        },
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "aa0d370c-bc39-4f82-ac82-e7bafa2922e1"
+        },
+        {
+          "categoryId": "4d9fefc3-ba56-4a8a-9083-0f9346b433c7",
+          "termId": "8b7f719b-4515-4d53-a93c-a1a0cab7818e"
+        },
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "7e7ba7cc-ea4a-42bb-b941-753436522b1a"
+        }
+      ]
+    },
+    {
+      "sectionId": "66dd106e-674e-4ff1-b87d-014e4b98a013",
+      "questionId": "5a4eeedf-7be0-45fb-b0e9-0f8c09e1e929",
+      "responses": [
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "c3f4555d-4e74-4c24-a668-b72046f1aee8"
+        },
+        {
+          "categoryId": "776786a3-76c3-4798-a946-969de30ae9c1",
+          "termId": "273d0102-b177-45be-a6d7-8d0c349c85ed"
+        },
+        {
+          "categoryId": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
+          "termId": "c17549b2-a1fc-48b7-ac3f-6f154ced224b"
+        },
+        {
+          "categoryId": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
+          "termId": "bf400572-4566-4bc7-8bb8-08f1e9fa16d0"
+        },
+        {
+          "categoryId": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
+          "termId": "5d1f6633-295a-4bc7-97a3-4a2ac7554ec5"
+        }
+      ]
+    },
+    {
+      "sectionId": "a8b29b50-33f8-44a3-b7ab-9258be27a12e",
+      "questionId": "83f0269e-a5c5-4d27-b31f-348d669de49b",
+      "responses": [
+        {
+          "candidateId": "74ecc798-cf1b-47ba-8965-a62d83985393",
+          "termId": "62ec2f88-c8f9-4425-b14b-de380d860632"
+        },
+        {
+          "candidateId": "234bda4e-c59f-41fc-9efc-b63061197b4b",
+          "termId": "b3abaa6c-d914-4f49-833a-1355d1b8c6fa"
+        },
+        {
+          "candidateId": "90ef73f9-f166-437c-9d7e-87d0e2c273aa",
+          "termId": "d71600c9-87ba-40f2-8841-61c5213323a4"
+        },
+        {
+          "candidateId": "6ccb9354-9349-4706-9181-3a8e63737358",
+          "termId": "31f1fbcd-4126-4899-8fd7-44feecb3683d"
+        },
+        {
+          "candidateId": "22734b45-c169-4497-93a9-7e95b9cd9e09",
+          "termId": "2683c3f6-4551-405d-9ecb-cbedacc9ef3e"
+        }
+      ]
+    },
+    {
+      "sectionId": "a8b29b50-33f8-44a3-b7ab-9258be27a12e",
+      "questionId": "f8bf2539-f082-4099-92b2-aab662e1b080",
+      "responses": [
+        {
+          "candidateId": "a71d5b46-74f4-4de6-8552-1219108368fb",
+          "termId": "25413ca7-04fc-42e7-bac6-8193767ce984"
+        },
+        {
+          "candidateId": "7eb28ac3-8f19-4a84-8390-b2b1ee5439c2",
+          "termId": "2c3df7e6-4bef-488e-8e02-7440ae588ce4"
+        },
+        {
+          "candidateId": "6ffc95e5-8d6f-4720-8aa1-a32a8c302f0e",
+          "termId": "3c9bc5a9-45f3-4f95-8a9c-bea06791e36a"
+        },
+        {
+          "candidateId": "7ceb9a50-d32f-40c9-9f26-4517cc0b75ec",
+          "termId": "8fe894cf-fc86-4774-83cb-c6ac399f4761"
+        },
+        {
+          "candidateId": "ad703fb2-e963-4cf4-9e69-fafeec622f5c",
+          "termId": "be61fbf4-cb63-4e6f-9e17-9597515f20fe"
+        }
+      ]
+    }
+  ]
+}
