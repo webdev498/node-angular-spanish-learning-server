@@ -47,3 +47,12 @@ GET http://{{host}}:{{port}}/terms/languages/English
 Authorization: {{token}}
 Accept: application/json
 
+### Fetch a sample of 100 Englishterms randomized by category
+GET http://{{host}}:{{port}}/terms/languages/English
+?withTranslations=true
+&randomByCategory=true
+&count=100
+&associated=categories
+Authorization: {{token}}
+Accept: application/json
+
