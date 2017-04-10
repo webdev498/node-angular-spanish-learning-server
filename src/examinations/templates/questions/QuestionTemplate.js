@@ -32,14 +32,14 @@ export default class QuestionTemplate {
 
   addCategoriesForTerm(term: Term) {
     const { id, name } = term.relations.categories.first().attributes;
-    this.categories.push({ id, name });
+    this.categories.push({ id, text: name });
   }
 
   addCategory(category: Category) {
     const id = category.get('id');
     const name = category.get('name');
 
-    this.categories.push({ id, name });
+    this.categories.push({ id, text: name });
   }
 
   addCorrectResponseForTerm() {
