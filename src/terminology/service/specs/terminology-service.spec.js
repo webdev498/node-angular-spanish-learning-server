@@ -92,6 +92,22 @@ describe('Terminology service', () => {
         expect(collection.fetchAll).to.have.been.calledWith({ withRelated: ['language', 'categories'] });
       });
     });
+
+    describe('and the list should be randomized by category', () => {
+      const query = { join: spy(), orderByRaw: spy() };
+      beforeEach(async () => {
+        stub(Term, 'query').returns({fetchAll: stub()}).yields(query);
+        await service.list({ params: {}, query: { randomByCategory: 'true' } });
+      });
+
+      it('queries across the categories table', () => {
+        expect(query.join).to.have.been.calledWith('categories', 'categories_terms.category_id', 'categories.id');
+      });
+
+      it('randomizes the results', () => {
+        expect(query.orderByRaw).to.have.been.calledWith('random()');
+      });
+    });
   });
 
   describe('when finding a translation for a term', () => {

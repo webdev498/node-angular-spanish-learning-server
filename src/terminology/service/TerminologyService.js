@@ -5,6 +5,7 @@ import Term from 'terminology/models/Term';
 type TerminologyRequestQuery = {
   categories: Array<string>;
   withTranslations: boolean | string;
+  randomByCategory: boolean | string;
   associated: Array<string>;
   order: string;
   count: ?string | ?number;
@@ -29,12 +30,15 @@ export default class TerminologyService {
 
   async list({ params, query }: { params: TerminologyRequestParameters; query: TerminologyRequestQuery }) {
     const { language } = params;
-    const { categories, withTranslations, associated, order }: TerminologyRequestQuery = query;
-    const withRelated = associated || [];
+    const {
+      categories, withTranslations,
+      associated, order, randomByCategory }: TerminologyRequestQuery = query;
+
+    const withRelated = associated ? [].concat(associated) : [];
 
     const count = Number(query.count);
 
-    if (withTranslations && language) {
+    if (Boolean(withTranslations) && language) {
       if (!withRelated.includes('language')) {
         withRelated.push('language');
       }
@@ -48,6 +52,10 @@ export default class TerminologyService {
         query.join('categories_terms', 'terms.id', 'categories_terms.term_id');
         query.join('categories', 'categories_terms.category_id', 'categories.id');
         query.where('categories.id', 'in', categories);
+      } else if (randomByCategory) {
+        query.join('categories_terms', 'terms.id', 'categories_terms.term_id');
+        query.join('categories', 'categories_terms.category_id', 'categories.id');
+        query.orderByRaw('random()');
       }
 
       if (language) {
@@ -59,7 +67,7 @@ export default class TerminologyService {
         query.limit(count);
       }
 
-      if (order) {
+      if (order && !randomByCategory) {
         query.orderBy(...order.split(':'));
       }
     }).fetchAll({ withRelated });

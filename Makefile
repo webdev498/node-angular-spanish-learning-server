@@ -16,8 +16,8 @@ build: clean install-deps
 	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist ./src
 
 changelog:
-	@rm CHANGELOG.md
-	$(BIN)/conventional-changelog -p angular -i CHANGELOG.md -w
+	@rm -f CHANGELOG.md
+	$(BIN)/conventional-changelog -p angular -i CHANGELOG.md -s
 
 clean:
 	@echo "Cleaning build artifacts..."
