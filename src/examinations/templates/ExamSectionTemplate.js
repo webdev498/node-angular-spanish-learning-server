@@ -1,6 +1,7 @@
 import * as UUID from 'javascript/datatypes/uuid';
 import type ExaminationTemplate from './ExaminationTemplate';
 import type QuestionTemplate from 'examinations/templates/questions/QuestionTemplate';
+import type Category from 'categories/models/Category';
 
 const SECTION_INSTRUCTIONS = {
   'Category Matching': 'Group each term by dragging from top to bottom, or checking each group match in sequence',
@@ -21,7 +22,7 @@ export default class ExamSectionTemplate {
     type: string;
     instructions: string;
     weight: number;
-    constraints: Object;
+    constraints: { category: Category; weight: number};
     exam: ExaminationTemplate;
     questions: Array<QuestionTemplate>;
     languages: Array<string>;
@@ -42,6 +43,10 @@ export default class ExamSectionTemplate {
 
     addQuestion(question: QuestionTemplate) {
       this.questions.push(question);
+    }
+
+    addQuestions(questions: Array<QuestionTemplate>) {
+      this.questions = this.questions.concat(questions);
     }
 
     getCountForCategory(categoryName: string): number {

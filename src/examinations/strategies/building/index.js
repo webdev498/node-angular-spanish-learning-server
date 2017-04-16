@@ -1,11 +1,10 @@
 import CategoryMatchingStrategy from './category-matching-strategy';
 import TermMatchingStrategy from './term-matching-strategy';
-import MultipleChoiceStrategyEnglish from './multiple-choice-strategy-english';
-import MultipleChoiceStrategySpanish from './multiple-choice-strategy-spanish';
+import MultipleChoiceStrategy from './multiple-choice-strategy';
 
 export default {
-  'Multiple Choice English': MultipleChoiceStrategyEnglish,
-  'Multiple Choice Spanish': MultipleChoiceStrategySpanish,
+  'Multiple Choice English': MultipleChoiceStrategy,
+  'Multiple Choice Spanish': MultipleChoiceStrategy,
   'Term Matching': TermMatchingStrategy,
   'Category Matching': CategoryMatchingStrategy
 };

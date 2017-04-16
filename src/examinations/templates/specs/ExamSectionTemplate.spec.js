@@ -15,7 +15,7 @@ describe('Examination Section template', () => {
           weight
         });
         it('equals 9 items', () => {
-          expect(section.itemCount).to.equal(9);
+          expect(section.itemCount).to.equal(12 );
         });
       });
     });
@@ -33,7 +33,7 @@ describe('Examination Section template', () => {
       }
     });
     it('calculates the count based on the length of the exam template and the constraining function', () => {
-      expect(section.getCountForCategory('General')).to.equal(5);
+      expect(section.getCountForCategory('General')).to.equal(7);
     });
   });
 });

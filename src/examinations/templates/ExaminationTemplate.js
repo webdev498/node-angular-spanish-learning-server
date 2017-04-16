@@ -1,13 +1,14 @@
 // @flow
 
 import ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
+import MultipleChoiceSectionTemplate from 'examinations/templates/sections/MultipleChoiceSectionTemplate';
 import type { SectionParameters } from 'examinations/templates/ExamSectionTemplate';
 import type Category from 'categories/models/Category';
 
 const itemCounts = {
-  micro: 5,
-  short: 30,
-  normal: 50,
+  micro: 8,
+  short: 40,
+  normal: 60,
   long: 100
 };
 
@@ -30,7 +31,15 @@ export default class ExaminationTemplate {
   }
 
   addSection(sectionParameters: SectionParameters): void {
-    const section = new ExamSectionTemplate(Object.assign(sectionParameters, {exam: this}));
+    let section;
+    const sectionParams = Object.assign(sectionParameters, { exam: this });
+
+    if (['Multiple Choice English','Multiple Choice Spanish'].includes(sectionParameters.type)) {
+      section = new MultipleChoiceSectionTemplate(sectionParams);
+    } else {
+      section = new ExamSectionTemplate(sectionParams);
+    }
+
     this.sections.push(section);
   }
 

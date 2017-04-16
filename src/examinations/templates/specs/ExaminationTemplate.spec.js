@@ -28,7 +28,7 @@ describe('Examination templates', () => {
     });
 
     it('includes a length property that is a number', () => {
-      expect(json).to.have.property('length', 30);
+      expect(json).to.have.property('length', 40);
     });
 
     it('includes a categoriesCovered property that is an array', () => {
