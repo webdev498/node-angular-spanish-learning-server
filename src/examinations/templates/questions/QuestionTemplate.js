@@ -8,13 +8,13 @@ import type Term from 'terminology/models/Term';
 export default class QuestionTemplate {
   id: string;
   type: string;
-  text: string;
+  text: ?string;
   section: ExamSectionTemplate;
   correctResponses: Array<Object>;
   categories: Array<Category>;
   terms: Array<Object>;
 
-  constructor(section: ExamSectionTemplate, text: string) {
+  constructor(section: ExamSectionTemplate, text: ?string) {
     this.id = UUID.v4();
     this.section = section;
     this.type = section.type;
@@ -24,10 +24,18 @@ export default class QuestionTemplate {
     this.terms = [];
   }
 
+  setText(text: string) {
+    this.text = text;
+  }
+
   addTerm(term: Term) {
     const id = term.get('id');
     const value = term.get('value');
     this.terms.push({ id, text: value });
+  }
+
+  addTerms(terms: Array<Term>) {
+    terms.forEach(term => this.addTerm(term));
   }
 
   addCategoriesForTerm(term: Term) {
