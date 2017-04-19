@@ -1,47 +1,58 @@
  import Message from '../Message';
 
   export default class QuestionFeedback extends Message {
-    constructor(fromUser, feedbackText, question) {
+    constructor(fromUser, feedbackText, question, feedback) {
       super(null);
-      this.subject = 'Feedback submitted from a question during an exam';
+      this.cgiType = feedback.examId === undefined ? 'study' : 'exam';
+      this.subject = `Feedback submitted from a question during ${this.cgiType === 'study' ? `a study session` : `an exam`}`;
       this.feedbackText = feedbackText;
       this.question = question;
+      this.term = feedback.term;
       this.fromUser = fromUser;
       this.cc = fromUser.get('email');
       this.to = 'admin@commongroundinternational.com';
     }
 
     get body() {
-      let formattedQuestion = JSON.stringify(this.question,undefined,2); //pretty format the object
-      let intro = `From ${this.fromUser.get('firstName')} ${this.fromUser.get('lastName')}: <p>${this.feedbackText}</p>Question:<p>${this.question.type} : ${this.question.question.text}</p>`;
-      let termBody = `${intro}<p>Terms:</p>`;
+      const formattedQuestion = JSON.stringify((this.cgiType === 'study' ? this.term : this.question),undefined,2); //pretty format the object
+      const userInfo = `From ${this.fromUser.get('firstName')} ${this.fromUser.get('lastName')}:`;
+      const examIntro = `${userInfo} <p>${this.feedbackText}</p>Question:<p>${this.question.type} : ${this.question.question.text}</p>`;
+      const studyIntro = `${userInfo} ${this.term.text}`;
+      let termBody = '';
 
-      switch (this.question.type) {
-      case 'Multiple Choice':
-      case 'Multiple Choice English':
-      case 'Multiple Choice Spanish':
-          for (let i = 0; i < this.question.choices.length; i++) {
-              termBody += `${this.question.choices[i].text}<br>`;
-          }
-          break;
-        case 'Category Matching':
-          for (let i = 0; i < this.question.categories.length; i++) {
-              termBody += `${this.question.categories[i].text}<br>`;
-          }
+      if (this.cgiType === 'exam') {
+            termBody = `${examIntro}<p>Terms:</p>`;
 
-          termBody += '<p></p>';
+            switch (this.question.type) {
+                case 'Multiple Choice':
+                case 'Multiple Choice English':
+                case 'Multiple Choice Spanish':
+                for (let i = 0; i < this.question.choices.length; i++) {
+                    termBody += `${this.question.choices[i].text}<br>`;
+                }
+                break;
+                case 'Category Matching':
+                for (let i = 0; i < this.question.categories.length; i++) {
+                    termBody += `${this.question.categories[i].text}<br>`;
+                }
 
-          for (let i = 0; i < this.question.choices.length; i++) {
-              termBody += `${this.question.choices[i].text}<br>`;
-          }
-          break;
-        case 'Term Matching':
-          for (let i = 0; i < this.question.terms.length; i++) {
-              termBody += `${this.question.terms[i].text}<br>`;
-          }
-          break;
+                termBody += '<p></p>';
+
+                for (let i = 0; i < this.question.choices.length; i++) {
+                    termBody += `${this.question.choices[i].text}<br>`;
+                }
+                break;
+                case 'Term Matching':
+                for (let i = 0; i < this.question.terms.length; i++) {
+                    termBody += `${this.question.terms[i].text}<br>`;
+                }
+                break;
+            }
+        }
+
+        if (this.cgiType === 'study')
+            termBody += studyIntro;
+
+        return termBody += `<p style='margin-top: 25px'>${formattedQuestion}</p>`;
       }
-
-      return termBody += `<p style='margin-top: 25px'>${formattedQuestion}</p>`;
-  }
 }

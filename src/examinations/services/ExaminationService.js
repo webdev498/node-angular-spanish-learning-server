@@ -30,7 +30,7 @@ export default class ExaminationService {
   async feedback(principle: UserPrinciple, payload: Object) {
     const userId = principle.id;
     const user = await this.userService.get({id: userId});
-    return await EmailMessage.questionFeedback(user, payload.text, payload.question);
+    return await EmailMessage.questionFeedback(user, payload.text, payload.question, payload);
   }
 
   async getExam(id: string) {

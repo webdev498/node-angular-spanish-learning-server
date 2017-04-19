@@ -16,9 +16,9 @@ export const welcome = async (user) => {
   }
 };
 
-export const questionFeedback = async (user, feedbackText, question) => {
+export const questionFeedback = async (user, feedbackText, question, feedback) => {
   try {
-    await EmailService.send(new QuestionFeedback(user, feedbackText, question));
+    await EmailService.send(new QuestionFeedback(user, feedbackText, question, feedback));
   } catch(error) {
     logError(error);
   }
