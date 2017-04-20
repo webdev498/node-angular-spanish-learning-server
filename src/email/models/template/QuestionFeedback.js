@@ -1,12 +1,12 @@
  import Message from '../Message';
 
   export default class QuestionFeedback extends Message {
-    constructor(fromUser, feedbackText, question, feedback) {
+    constructor(fromUser, feedback) {
       super(null);
-      this.cgiType = feedback.examId === undefined ? 'study' : 'exam';
-      this.subject = `Feedback submitted from a question during ${this.cgiType === 'study' ? `a study session` : `an exam`}`;
-      this.feedbackText = feedbackText;
-      this.question = question;
+      this.cgiAppType = feedback.examId === undefined ? 'study' : 'exam';
+      this.subject = `Feedback submitted from a question during ${this.cgiAppType === 'study' ? `a study session` : `an exam`}`;
+      this.feedbackText = feedback.text;
+      this.question = feedback.question;
       this.term = feedback.term;
       this.fromUser = fromUser;
       this.cc = fromUser.get('email');
@@ -14,13 +14,13 @@
     }
 
     get body() {
-      const formattedQuestion = JSON.stringify((this.cgiType === 'study' ? this.term : this.question),undefined,2); //pretty format the object
+      const formattedQuestion = JSON.stringify((this.cgiAppType === 'study' ? this.term : this.question),undefined,2); //pretty format the object
       const userInfo = `From ${this.fromUser.get('firstName')} ${this.fromUser.get('lastName')}:`;
       const examIntro = `${userInfo} <p>${this.feedbackText}</p>Question:<p>${this.question.type} : ${this.question.question.text}</p>`;
       const studyIntro = `${userInfo} ${this.term.text}`;
       let termBody = '';
 
-      if (this.cgiType === 'exam') {
+      if (this.cgiAppType === 'exam') {
             termBody = `${examIntro}<p>Terms:</p>`;
 
             switch (this.question.type) {
@@ -50,7 +50,7 @@
             }
         }
 
-        if (this.cgiType === 'study')
+        if (this.cgiAppType === 'study')
             termBody += studyIntro;
 
         return termBody += `<p style='margin-top: 25px'>${formattedQuestion}</p>`;
