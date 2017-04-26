@@ -126,6 +126,7 @@ declare interface BookshelfModel {
   serialize: (options: ?Object) => Object;
   set: (attributeName: string, attributeValue: any, options: ?Object) => BookshelfModel;
   through: (interimModel: BookshelfModel, throughForeignKey: ?string, otherKey: ?string, throughForeignKeyTarget: ?string, otherKeyTarget: ?string) => BookshelfCollection;
+  toJSON: () => Object;
 }
 
 type BookshelfCollection = Collection<BookshelfModel> & Enumerable<BookshelfModel, Collection<BookshelfModel>>;

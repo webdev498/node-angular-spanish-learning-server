@@ -1,7 +1,6 @@
 // @flow
 import QuestionTemplate from 'examinations/templates/questions/QuestionTemplate';
 import type ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
-import type Term from 'terminology/models/Term';
 
 export default class CategoryMatchingQuestionTemplate extends QuestionTemplate {
 
@@ -10,10 +9,14 @@ export default class CategoryMatchingQuestionTemplate extends QuestionTemplate {
     this.correctResponses = [];
   }
 
-  addCorrectResponseForTerm(term: Term) {
-    const termId = term.get('id'),
-          categoryId = term.relations.categories.first().get('id');
-    this.correctResponses.push({ termId, categoryId });
+  addCorrectResponseForTerm(term: BookshelfModel, category: BookshelfModel) {
+    this.correctResponses.push({ termId: term.get('id'), categoryId: category.get('id') });
+  }
+  addCategoriesForTerm(category: BookshelfModel) {
+    const hasCategory = this.categories.some(cat => cat.id === category.get('id'));
+    if (!hasCategory) {
+      this.categories.push({ id: category.get('id'), text: category.get('name') });
+    }
   }
 
   toJSON() {
