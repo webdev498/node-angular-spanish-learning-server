@@ -12,7 +12,7 @@ import { noneOfTheAbove } from 'examinations/shared/none-of-the-above-response';
 function getTranslations(section) {
   return section.categoryCounts.reduce((accumulator, {category, count}) => {
     if (count > 0) {
-      accumulator.push(Translation.randomByCategory(count, category).then(translation => translation.models.map(model => ({translation: model, category }))));
+      accumulator.push(Translation.randomByCategory(count, category).then(translation => translation.models.map(model => ({ translation: model, category }))));
       return accumulator;
     } else {
       return accumulator;
@@ -21,7 +21,7 @@ function getTranslations(section) {
 }
 
 function addExclusionsToTranslations(translations, section) {
-  return translations.map(({translation, category }) => {
+  return translations.map(({ translation, category }) => {
     const languageName = section.language;
     const foreignKey = languageName === 'Spanish' ? 'source' : 'target';
     return TermExclusion
@@ -32,7 +32,7 @@ function addExclusionsToTranslations(translations, section) {
 }
 
 function addTermsForTranslation(translations, section) {
-  return translations.map(async ({translation, category, exclusions, languageName, foreignKey }, index) => {
+  return translations.map(async ({ translation, category, exclusions, languageName, foreignKey }, index) => {
     const limit = section.foilCount > 0 && index + 1 % section.foilCount === 0 ? 4 : 3;
     return Term.query(builder => {
       builder.join('languages', 'terms.language_id', 'languages.id');

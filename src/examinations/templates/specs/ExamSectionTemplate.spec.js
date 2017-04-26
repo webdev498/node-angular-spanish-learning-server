@@ -20,20 +20,4 @@ describe('Examination Section template', () => {
       });
     });
   });
-
-  describe('getting the item count for a given category', () => {
-    const exam = new ExaminationTemplate('short');
-    const section = new ExamSectionTemplate({
-      exam,
-      weight: 0.30,
-      constraints: {
-        'categories': {
-          'General': (sectionLength) => sectionLength * .6
-        }
-      }
-    });
-    it('calculates the count based on the length of the exam template and the constraining function', () => {
-      expect(section.getCountForCategory('General')).to.equal(7);
-    });
-  });
 });

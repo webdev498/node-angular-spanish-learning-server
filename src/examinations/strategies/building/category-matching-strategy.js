@@ -1,40 +1,56 @@
 //@flow
 import Term from 'terminology/models/Term';
-import type { ExamSectionTemplate } from 'examinations/templates/ExamSectionTemplate';
+import ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
 import CategoryMatchingQuestionTemplate from 'examinations/templates/questions/CategoryMatchingQuestionTemplate';
 
-const buildQuestion = (section: ExamSectionTemplate, terms: Array<Term>) => {
-  const question = new CategoryMatchingQuestionTemplate(section);
-  terms.forEach(term => {
-    question.addTerm(term);
-    question.addCorrectResponseForTerm(term);
-    question.addCategoriesForTerm(term);
-  });
-  return question;
+const distributeTermsAndCategorysForQuestions = (categoriesWithTerms: Array<any>, questionCount: number) => {
+  const termGroupings = [];
+  let numGroupsToBuild = questionCount;
+  while(numGroupsToBuild > 0) {
+    const distribution = categoriesWithTerms.reduce((accumulator, {terms, category}) => {
+      const numTermsToRemove = terms.length / questionCount;
+      const item = { terms: terms.models.splice(-(numTermsToRemove), numTermsToRemove), category };
+      return accumulator.concat(item);
+    }, []);
+    termGroupings.push(distribution);
+    numGroupsToBuild--;
+  }
+  return termGroupings;
 };
 
+function buildQuestion(termGrouping, section) {
+  const question = new CategoryMatchingQuestionTemplate(section);
+  termGrouping.forEach(({terms, category}) => {
+    terms.forEach(term => {
+      question.addTerm(term);
+      question.addCorrectResponseForTerm(term, category);
+      question.addCategoriesForTerm(category);
+    });
+  });
+  return question;
+}
+
 export default async (section: ExamSectionTemplate) => {
-  const categoryIds = section.exam.categoriesCovered.map(category => category.get('id'));
+  const { categoriesCovered } = section.exam;
 
-  let terms = await Term.query((qb) => {
-    qb.join('categories_terms', 'terms.id', 'categories_terms.term_id');
-    qb.join('categories', 'categories.id', 'categories_terms.category_id');
-    qb.join('languages', 'terms.language_id', 'languages.id');
-    qb.where('languages.name', '=', 'Spanish');
-    qb.where('categories.id', 'in', categoryIds);
-    qb.orderByRaw('random()');
-    qb.limit(section.itemCount * 5);
-  })
-  .fetchAll({withRelated: ['categories']});
+  const groupings = await Promise.all(categoriesCovered.map((category => {
+    return Term.query(query => {
+      query.join('categories_terms', 'terms.id', 'categories_terms.term_id');
+      query.join('categories', 'categories.id', 'categories_terms.category_id');
+      query.join('languages', 'terms.language_id', 'languages.id');
+      query.where('languages.name', '=', 'Spanish');
+      query.where('categories.id', '=', category.get('id'));
+      query.orderByRaw('random()');
+      query.limit(section.getCountForCategory(category));
+    })
+    .fetchAll()
+    .then(terms => ({ terms, category }));
+  })));
 
-  terms = terms.reduce((accumulator, term, index, array) => {
-    let position = index + 1;
-    if (position % 5 === 0) {
-      accumulator.push(array.slice(position - 5, position));
-    }
-    return accumulator;
-  }, []);
+  const termGroupings = distributeTermsAndCategorysForQuestions(groupings, section.itemCount);
 
-  terms.forEach((group) => section.addQuestion(buildQuestion(section, group)));
+
+  const questions = termGroupings.map(termGroup => buildQuestion(termGroup, section));
+  section.addQuestions(questions);
   return section;
 };

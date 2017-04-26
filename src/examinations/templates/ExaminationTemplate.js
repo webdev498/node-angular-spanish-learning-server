@@ -2,8 +2,15 @@
 
 import ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
 import MultipleChoiceSectionTemplate from 'examinations/templates/sections/MultipleChoiceSectionTemplate';
+import CategoryMatchingSectionTemplate from 'examinations/templates/sections/CategoryMatchingSectionTemplate';
 import type { SectionParameters } from 'examinations/templates/ExamSectionTemplate';
 import type Category from 'categories/models/Category';
+
+const Sections = {
+  'Multiple Choice English': MultipleChoiceSectionTemplate,
+  'Multiple Choice Spanish': MultipleChoiceSectionTemplate,
+  'Category Matching': CategoryMatchingSectionTemplate
+};
 
 const itemCounts = {
   micro: 8,
@@ -16,7 +23,7 @@ export default class ExaminationTemplate {
   size: string;
   sections: Array<ExamSectionTemplate>;
   length: number;
-  categoriesCovered: Array<Category>;
+  categoriesCovered: Array<BookshelfModel>;
   constraints: Array<Object>;
 
   get length(): number {
@@ -33,9 +40,10 @@ export default class ExaminationTemplate {
   addSection(sectionParameters: SectionParameters): void {
     let section;
     const sectionParams = Object.assign(sectionParameters, { exam: this });
+    const Section = Sections[sectionParameters.type];
 
-    if (['Multiple Choice English','Multiple Choice Spanish'].includes(sectionParameters.type)) {
-      section = new MultipleChoiceSectionTemplate(sectionParams);
+    if (Section) {
+      section = new Section(sectionParams);
     } else {
       section = new ExamSectionTemplate(sectionParams);
     }

@@ -29,9 +29,7 @@ export default class QuestionTemplate {
   }
 
   addTerm(term: Term) {
-    const id = term.get('id');
-    const value = term.get('value');
-    this.terms.push({ id, text: value });
+    this.terms.push({ id: term.get('id'), text: term.get('value') });
   }
 
   addTerms(terms: Array<Term>) {
@@ -50,7 +48,8 @@ export default class QuestionTemplate {
     this.categories.push({ id, text: name });
   }
 
-  addCorrectResponseForTerm() {
+  /*eslint-disable no-unused-vars*/
+  addCorrectResponseForTerm(...args: Array<any>) {
     throw new AbstractMethodError();
   }
 

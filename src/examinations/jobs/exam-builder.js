@@ -8,9 +8,9 @@ import type { Category } from 'categories/models/Category';
 import ExaminationTemplate from 'examinations/templates/ExaminationTemplate';
 
 async function loadCategories() {
-  const general = await CategoryService.find({ name: 'Other'});
+  const general = await CategoryService.find({ name: 'Other' });
   const random = await CategoryService.random(3);
-  return random.models.concat(general.models);
+  return random.add(general.models);
 }
 
 function buildCategoryConstraints(categories: Array<Category>): Array<Object> {
