@@ -9,7 +9,7 @@ describe('Examination Section template', () => {
     describe('when the weight is 30%', () => {
       const weight = 0.30;
       describe('and the exam is short', () => {
-        const exam = new ExaminationTemplate('short');
+        const exam = new ExaminationTemplate(40);
         const section = new ExamSectionTemplate({
           exam,
           weight
