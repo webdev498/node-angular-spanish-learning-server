@@ -1,0 +1,19 @@
+##### Examinations
+
+### Creating a Practice Examination
+
+POST http://{{host}}:{{port}}/practice
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "length": "10",
+  "sections": [
+    "Multiple Choice English"
+  ],
+  "categories": [
+    "2e85e4c4-e984-45a9-8b66-c3b05a16c972",
+    "a0695dbe-d5e5-4e1c-8649-dc67114aaa09",
+    "2bf9dcb3-24e1-444e-bcba-4ffaba7accb6"
+  ]
+}
