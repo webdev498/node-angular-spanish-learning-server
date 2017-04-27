@@ -20,6 +20,15 @@ export default class ExaminationsController {
     }
   }
 
+  async createPractice(request: Request, reply: Function) {
+    try {
+      const exam = await this.service.generatePracticeExam(request);
+      reply(exam).statusCode = CREATED;
+    } catch (error) {
+      reply(error);
+    }
+  }
+
   async feedback(request: Request, reply: Function) {
     try {
       const { payload } = request;

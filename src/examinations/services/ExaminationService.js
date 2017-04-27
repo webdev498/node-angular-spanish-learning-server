@@ -6,6 +6,7 @@ import ExaminationResult from 'examinations/models/ExaminationResult';
 import type UserPrinciple from 'users/models/User';
 import type UserService from 'users/service/UserService';
 import buildExam from '../jobs/exam-builder';
+import buildPracticeExam from '../jobs/practice/exam-builder';
 import gradeExam from '../jobs/exam-grader';
 import MissingRecordError from 'exceptions/runtime/MissingRecordError';
 import * as EmailMessage from 'email';
@@ -19,12 +20,18 @@ export default class ExaminationService {
   }
 
   async create({ payload }: Object) {
-    if (!['short', 'normal', 'long', 'micro'].includes(payload.type)) {
+    if (!['long', 'normal', 'short', 'micro'].includes(payload.type)) {
       throw new TypeError(`${payload.type} is not a valid Exam type. Must be 'short', 'normal', or 'long'`);
     }
 
-    const exam = await buildExam(payload);
+    const exam = await buildExam(payload, 'certification');
     return await exam.save();
+  }
+
+  async generatePracticeExam({ payload }: Object): Object {
+    const exam = await buildPracticeExam(payload, 'practice');
+    return exam;
+
   }
 
   async feedback(principle: UserPrinciple, payload: Object) {

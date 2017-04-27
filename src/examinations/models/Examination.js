@@ -43,12 +43,14 @@ const Examination = Base.extend(
     },
 
     serialize() {
-      const {id, content} = this.attributes;
+      const {id, content } = this.attributes;
       content.sections = content.sections.map((section) => {
-        section.questions = section.questions.map((question) => {
-          delete question.correctResponses;
-          return question;
-        });
+        if (content.mode !== 'practice') {
+          section.questions = section.questions.map((question) => {
+            delete question.correctResponses;
+            return question;
+          });
+        }
         return section;
       });
 

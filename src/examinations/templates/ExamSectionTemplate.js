@@ -69,6 +69,10 @@ export default class ExamSectionTemplate {
       });
     }
 
+    get categories(): BookshelfCollection {
+      return this.exam.categoriesCovered;
+    }
+
     addQuestion(question: QuestionTemplate) {
       this.questions.push(question);
     }
