@@ -10,8 +10,8 @@ export default class CategoryService {
    return Category.where({active: true}).fetchAll();
  }
 
- static find(parameters: Object) {
-   return Category.where(parameters).fetchAll();
+ static find(...args: Array<any>) {
+   return Category.where(...args).fetchAll();
  }
 
 

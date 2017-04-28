@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 describe('Examination templates', () => {
   describe('adding a Examination Section template', () => {
-    const template = new ExaminationTemplate('short');
+    const template = new ExaminationTemplate(40);
     const initialSectionCount = template.sections.length;
 
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe('Examination templates', () => {
   });
 
   describe('when converting to JSON', () => {
-    const template = new ExaminationTemplate('short');
+    const template = new ExaminationTemplate(40);
     const json = template.toJSON();
 
     it('includes a sections property that is enumerable', () => {

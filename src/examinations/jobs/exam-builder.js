@@ -7,6 +7,13 @@ import buildStrategies from '../strategies/building';
 import type { Category } from 'categories/models/Category';
 import ExaminationTemplate from 'examinations/templates/ExaminationTemplate';
 
+const itemCounts = {
+  micro: 8,
+  short: 40,
+  normal: 60,
+  long: 100
+};
+
 async function loadCategories() {
   const general = await CategoryService.find({ name: 'Other' });
   const random = await CategoryService.random(3);
@@ -24,7 +31,7 @@ function buildCategoryConstraints(categories: Array<Category>): Array<Object> {
 export default async ({ type }: Object) => {
   const categories = await loadCategories();
   const constraints = buildCategoryConstraints(categories);
-  const template = new ExaminationTemplate(type, categories, constraints);
+  const template = new ExaminationTemplate(itemCounts[type], categories, constraints);
 
   template.addSection({
     type: 'Multiple Choice Spanish',

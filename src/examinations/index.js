@@ -16,6 +16,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(examsController, 'create');
 
   router
+    .post('/practice')
+    .authorize('urn:cgi:permission:practice examination::create')
+    .bind(examsController, 'createPractice');
+
+  router
     .get('{id}')
     .authorize('urn:cgi:permission:examinations::view')
     .bind(examsController, 'getExam');

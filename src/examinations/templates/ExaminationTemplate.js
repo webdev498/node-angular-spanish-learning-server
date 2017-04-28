@@ -12,29 +12,25 @@ const Sections = {
   'Category Matching': CategoryMatchingSectionTemplate
 };
 
-const itemCounts = {
-  micro: 8,
-  short: 40,
-  normal: 60,
-  long: 100
-};
 
 export default class ExaminationTemplate {
-  size: string;
+  size: number;
   sections: Array<ExamSectionTemplate>;
   length: number;
   categoriesCovered: Array<BookshelfModel>;
   constraints: Array<Object>;
+  mode: string;
 
   get length(): number {
-    return itemCounts[this.size] || itemCounts.normal;
+    return this.size;
   }
 
-  constructor(size: string, categoriesToCover: Array<Category> = [], constraints: Array<Object> = []) {
+  constructor(size: number, categoriesToCover: Array<Category> = [], constraints: Array<Object> = [], mode: string = 'qualification') {
     this.size = size;
     this.sections = [];
     this.categoriesCovered = categoriesToCover;
     this.constraints = constraints;
+    this.mode = mode;
   }
 
   addSection(sectionParameters: SectionParameters): void {
@@ -51,10 +47,15 @@ export default class ExaminationTemplate {
     this.sections.push(section);
   }
 
+  addSections(sectionParameters: Array<SectionParameters>): void {
+    sectionParameters.forEach(parameter => this.addSection(parameter));
+  }
+
   toJSON() {
-    const { sections, length, categoriesCovered } = this;
+    const { sections, length, categoriesCovered, mode } = this;
 
     return {
+      mode,
       sections: sections.map(section => section.toJSON()),
       length,
       categoriesCovered: categoriesCovered.map(category => category.toJSON())
