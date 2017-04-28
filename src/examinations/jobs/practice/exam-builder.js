@@ -7,6 +7,9 @@ import buildStrategies from '../../strategies/building/practice';
 import ExaminationTemplate from 'examinations/templates/ExaminationTemplate';
 
 async function loadCategories(categoryIds) {
+  if (!categoryIds || !categoryIds.length) {
+    return await CategoryService.random(5);
+  }
   return await CategoryService.find('id', 'in', categoryIds);
 }
 
