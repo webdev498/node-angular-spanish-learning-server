@@ -104,6 +104,12 @@ export const register = (server: Server, options: Object, next: Function) => {
     .bind(telephonesController, 'update');
 
   router
+    .post('/users/{userId}/telephones')
+    .authorize('urn:cgi:permission:telephones::create')
+    .bind(telephonesController, 'create');
+
+
+  router
     .post('/login')
     .bind(loginController, 'login');
 
