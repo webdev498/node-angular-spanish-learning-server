@@ -4,6 +4,8 @@ import LoginController from './controllers/LoginController';
 import LoginService from './service/LoginService';
 import TelephonesController from './controllers/TelephonesController';
 import TelephonesService from './service/TelephoneService';
+import AddressesController from './controllers/AddressesController';
+import AddressService from './service/AddressService';
 import UsersController from './controllers/UsersController';
 import ExaminationResultsController from 'examinations/controllers/ExaminationResultsController';
 import UserService from './service/UserService';
@@ -52,6 +54,7 @@ export const register = (server: Server, options: Object, next: Function) => {
   const userService = new UserService();
   const crmService = new CRMService();
   const telephonesController = new TelephonesController(new TelephonesService(userService));
+  const addressesController = new AddressesController(new AddressService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
   const usersController = new UsersController(userService, tokenProvider, crmService);
   const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
@@ -97,6 +100,11 @@ export const register = (server: Server, options: Object, next: Function) => {
     .put('/users/{id}')
     .authorize('urn:cgi:permission:users::update')
     .bind(usersController, 'update');
+
+  router
+    .post('/users/{userId}/addresses')
+    .authorize('urn:cgi:permission:addresses::create')
+    .bind(addressesController, 'add');
 
   router
     .put('/users/{userId}/telephones/{telephoneId}')
