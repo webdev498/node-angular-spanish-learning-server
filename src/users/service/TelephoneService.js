@@ -1,5 +1,6 @@
 //@flow
 import type UserService from './UserService';
+import Telephone from 'users/models/Telephone';
 import MissingRecordError from 'exceptions/runtime/MissingRecordError';
 import { Request } from 'http/index';
 
@@ -22,18 +23,20 @@ export default class TelephonesService {
   }
 
   async add({ params, payload }: Request) {
-    const { countryCode, areaCode, number, extension } = payload;
+    const { countryCode, areaCode, number, extension, type } = payload;
     const { userId } = params;
 
     const user = await this.userService.get({id: userId});
 
     if (user) {
-      return await user.related('telephones').create({
+      return await Telephone.forge({
+        userId: user.get('id'),
         countryCode,
         areaCode,
         number,
-        extension
-      });
+        extension,
+        type
+      }).save();
     } else {
       throw new MissingRecordError(`Could not add a telephone for user ${userId}`);
     }

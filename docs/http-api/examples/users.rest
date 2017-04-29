@@ -68,5 +68,7 @@ Accept: application/json
 {
     "countryCode": "011",
     "areaCode": "303",
-    "number": "1234567"
+    "number": "1234567",
+    "extension": "1234",
+    "type": "ec52098f-9ad6-230c-42a7-20ecc40bfe6c"
 }
