@@ -10,7 +10,7 @@
       this.term = feedback.term;
       this.fromUser = fromUser;
       this.cc = fromUser.get('email');
-      this.to = 'admin@commongroundinternational.com';
+      this.to = 'rfoster@commongroundinternational.com';
     }
 
     get body() {
