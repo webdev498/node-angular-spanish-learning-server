@@ -83,7 +83,6 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   router
     .post('/users')
-    .authorize('urn:cgi:permission:users::create')
     .bind(usersController, 'create');
 
   router
