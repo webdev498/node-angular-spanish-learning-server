@@ -11,6 +11,7 @@ import * as UserService from './users';
 import * as NationalityService from './nationalities';
 import * as ExamService from './examinations';
 import * as PaymentService from './payment';
+import * as SystemService from './system';
 
 const server = new Server({
   connections: {
@@ -42,5 +43,6 @@ server.register(TerminologyService, noop);
 server.register(NationalityService, noop);
 server.register(ExamService, noop);
 server.register(PaymentService, noop);
+server.register(SystemService, noop);
 
 server.start(noop);

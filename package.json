@@ -48,7 +48,7 @@
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-flowtype": "^2.19.0",
     "fast-csv": "^1.1.0",
-    "flow-bin": "^0.32.0",
+    "flow-bin": "^0.45.0",
     "install": "^0.6.1",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.3",
