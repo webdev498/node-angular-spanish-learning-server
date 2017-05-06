@@ -34,25 +34,34 @@ function addTermsForTranslation(translations, section) {
   return translations.map(async ({ translation, exclusions, languageName, foreignKey }, index) => {
     const limit = section.foilCount > 0 && index + 1 % section.foilCount === 0 ? 4 : 3;
     const categories = translation.related('target').related('categories');
+    const omittedTerms = categories
+                          .pluck('id')
+                          .concat(
+                            translation.related('source').get('id'),
+                            translation.related('source').get('id')
+                          );
+
     return Term.query(builder => {
       builder.join('languages', 'terms.language_id', 'languages.id');
       builder.join('categories_terms', 'terms.id', 'categories_terms.term_id');
 
-      builder.where('id', 'not in', exclusions.pluck('targetId'));
+      builder.where('terms.id', 'not in', omittedTerms);
       builder.where('languages.name', '=', languageName);
       builder.where('categories_terms.category_id', 'in', categories.pluck('id'));
 
       builder.orderByRaw('random()');
       builder.limit(limit);
     }).fetchAll()
-    .then(terms => ({ translation, category: categories.first(), exclusions, languageName, terms, foreignKey }));
+      .then(terms => ({ translation, category: categories.first(), exclusions, languageName, terms, foreignKey }));
   });
 }
 
 function buildQuestionsFromTranslations(translations, section) {
   return translations.map(({ translation, category, languageName, terms, foreignKey }) => {
-    const correctResponse = foreignKey === 'source' ? translation.relations['target'] : translation.relations['source'];
-    const text = `What is the possible term for "${translation.relations[foreignKey].get('value')}" in ${languageName}`;
+    const relatedTermForeignKey = foreignKey === 'source' ? 'target' : 'source';
+    const foreignKeyForTranslation = languageName === 'English' ? 'target' : 'source';
+    const correctResponse = translation.related(relatedTermForeignKey);
+    const text = `What is the possible term for "${translation.related(foreignKeyForTranslation).get('value')}" in ${languageName}`;
     const question = new MultipleChoiceQuestionTemplate(section, text);
 
     const candidates = terms.toArray();

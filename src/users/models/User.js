@@ -15,7 +15,7 @@ export type UserPrinciple = {
   firstName: string;
   lastName: string;
   email: string;
-};
+} & BookshelfModel;
 
 const tableName = 'users';
 

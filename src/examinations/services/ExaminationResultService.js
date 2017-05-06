@@ -1,4 +1,5 @@
-import type UserPrinciple from 'users/model/User';
+//@flow
+import type UserPrinciple from 'users/models/User';
 import ExaminationResult from 'examinations/models/ExaminationResult';
 import MissingRecordError from 'exceptions/runtime/MissingRecordError';
 
