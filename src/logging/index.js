@@ -4,7 +4,7 @@ import { createLogger } from 'bucker';
 import { inspect } from 'util';
 import type { Server } from 'http/index';
 
-const options = {};
+const loggerOptions = {};
 let loggerSingleton = {
   error: () => {},
   warn: () => {},
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 
   const { SYSLOG_HOST, SYSLOG_PORT, SYSLOG_FACILITY }  = process.env;
 
-  Object.assign(options, {
+  Object.assign(loggerOptions, {
     name: 'Production Logger',
     level: 'info',
     syslog: {
@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'production') {
 
 } else {
 
-  Object.assign(options, {
+  Object.assign(loggerOptions, {
     name: 'Development Logger',
     level: 'debug',
     console: {
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 export const register = (server: Server, options: Object, next: Function) => {
-  loggerSingleton = createLogger(options);
+  loggerSingleton = createLogger(loggerOptions);
 
   server.on('response', (request) => {
     const { id, info, method, path, paramsArray, payload } = request;
