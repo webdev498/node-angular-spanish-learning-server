@@ -14,15 +14,15 @@ let loggerSingleton = {
 
 if (process.env.NODE_ENV === 'production') {
 
-  const { SYSLOG_HOST, SYSLOG_PORT, SYSLOG_FACILITY }  = process.env;
+  const { SYSLOG_HOST, SYSLOG_PORT }  = process.env;
 
   Object.assign(options, {
     name: 'Production Logger',
     level: 'info',
+    console: true,
     syslog: {
       host: SYSLOG_HOST,
-      port: SYSLOG_PORT,
-      facility: SYSLOG_FACILITY
+      port: SYSLOG_PORT
     }
   });
 
