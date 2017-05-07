@@ -1,4 +1,4 @@
-FROM node:5
+FROM node:6.10.3
 LABEL version="0.1"
 
 MAINTAINER Michael Filbin <mike@filb.in>
