@@ -56,11 +56,11 @@ export default class PaymentController {
       const subscription = user.related('subscription');
       const billingAgreement = subscription.get('billingAgreement');
 
-      await this.subscriptionService.cancel(user);
+      await this.subscriptionService.cancel(user, subscription);
 
-      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
+      await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
       const role = await Role.where({name: 'General User'}).fetch();
-      this.userService.changeRole(result.userId, role);
+      this.userService.changeRole(credentials.id, role);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);

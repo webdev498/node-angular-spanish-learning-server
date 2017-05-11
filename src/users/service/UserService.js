@@ -1,7 +1,7 @@
 import User from 'users/models/User';
 import { logInfo } from 'logging';
 
-const withRelated = ['nationality', 'addresses', 'telephones', 'role'];
+const withRelated = ['nationality', 'addresses', 'telephones', 'role', 'subscription'];
 
 export default class UserService {
 

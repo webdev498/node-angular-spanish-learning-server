@@ -34,7 +34,7 @@ const Subscription = Base.extend({
   },
 
   validate() {
-    if(subscriptionLevels.contains(this.attributes.level)) {
+    if(!subscriptionLevels.includes(this.attributes.level)) {
       throw new TypeError(`Subscription level must be one of ${subscriptionLevels.join(',')}`);
     }
   }
