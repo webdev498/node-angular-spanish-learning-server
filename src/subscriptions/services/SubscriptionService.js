@@ -38,8 +38,7 @@ export default class SubscriptionService {
     return await subscription.save();
   }
 
-async cancel(user: User) {
-  const subscription = Subscription.where({userId: user.get('id')}).fetch();
+async cancel(user: User, subscription: Subscription) {
   if (subscription) {
     await subscription.cancel();
   }

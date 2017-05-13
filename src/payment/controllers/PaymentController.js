@@ -40,7 +40,7 @@ export default class PaymentController {
       this.userService.changeRole(result.userId, role);
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
-      this.subscriptionService.create(user, 'study', result.agreement);
+      await this.subscriptionService.create(user, 'study', result.agreement);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
@@ -52,15 +52,15 @@ export default class PaymentController {
       const { credentials } = request.auth;
 
       //update paypal credentials
-      const user = await this.userService.get({id: credentials.userId});
+      const user = await this.userService.get({id: credentials.id});
       const subscription = user.related('subscription');
       const billingAgreement = subscription.get('billingAgreement');
 
-      await this.subscriptionService.cancel(user);
+      await this.subscriptionService.cancel(user, subscription);
 
-      const result = await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
+      await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
       const role = await Role.where({name: 'General User'}).fetch();
-      this.userService.changeRole(result.userId, role);
+      this.userService.changeRole(credentials.id, role);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
