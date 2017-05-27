@@ -163,11 +163,11 @@
             },
             {
               "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-              "name": "Other"
+              "name": "General Medical"
             },
             {
               "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-              "name": "Other"
+              "name": "General Medical"
             },
             {
               "id": "4d9fefc3-ba56-4a8a-9083-0f9346b433c7",
@@ -175,7 +175,7 @@
             },
             {
               "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-              "name": "Other"
+              "name": "General Medical"
             }
           ],
           "terms": [
@@ -208,7 +208,7 @@
           "categories": [
             {
               "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-              "name": "Other"
+              "name": "General Medical"
             },
             {
               "id": "c86a56ed-2051-4e5d-9ef7-cf33cb0ca93d",
@@ -224,7 +224,7 @@
             },
             {
               "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-              "name": "Other"
+              "name": "General Medical"
             }
           ],
           "terms": [
@@ -424,7 +424,7 @@
     },
     {
       "id": "853ef8b9-cd03-4ce4-918c-5a5feb44c1a2",
-      "name": "Other",
+      "name": "General Medical",
       "createdAt": "2016-09-05T22:17:37.364Z",
       "updatedAt": "2016-09-05T22:17:37.364Z"
     }
