@@ -15,14 +15,16 @@ const itemCounts = {
 };
 
 async function loadCategories() {
-  const general = await CategoryService.find({ name: 'Other' });
+  const general = await CategoryService.find({
+    name: 'General Medical'
+  });
   const random = await CategoryService.random(3);
   return random.add(general.models);
 }
 
 function buildCategoryConstraints(categories: Array<Category>): Array<Object> {
   return categories.map((category) => {
-    const weight = category.get('name') === 'Other' ? .4 : .2;
+    const weight = category.get('name') === 'General Medical' ? .4 : .2;
     return { type: 'Category', category, weight };
   });
 }
