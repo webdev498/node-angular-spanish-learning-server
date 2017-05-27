@@ -33,17 +33,21 @@ function addExclusionsToTranslations(translations, section) {
 
 function addTermsForTranslation(translations, section) {
   return translations.map(async ({ translation, category, exclusions, languageName, foreignKey }, index) => {
+
     const limit = section.foilCount > 0 && index + 1 % section.foilCount === 0 ? 4 : 3;
+    const termsToExclude = exclusions.pluck('targetId').concat(translation.get('target'), translation.get('source'));
+
     return Term.query(builder => {
       builder.join('languages', 'terms.language_id', 'languages.id');
       builder.join('categories_terms', 'terms.id', 'categories_terms.term_id');
 
-      builder.where('id', 'not in', exclusions.pluck('targetId'));
+      builder.where('terms.id', 'not in', termsToExclude);
       builder.where('languages.name', '=', languageName);
       builder.where('categories_terms.category_id', '=', category.get('id'));
 
       builder.orderByRaw('random()');
       builder.limit(limit);
+      
     }).fetchAll()
     .then(terms => ({ translation, category, exclusions, languageName, terms, foreignKey }));
   });

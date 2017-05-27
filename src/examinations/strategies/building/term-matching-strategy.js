@@ -3,50 +3,45 @@ import Translation from 'terminology/models/Translation';
 import type { ExamSectionTemplate } from 'examinations/templates/ExamSectionTemplate';
 import TermMatchingQuestionTemplate from 'examinations/templates/questions/TermMatchingQuestionTemplate';
 
-function buildQuestion(section: ExamSectionTemplate, grouping: Array<Translation>) {
-  const question = new TermMatchingQuestionTemplate(section);
-
-  grouping.forEach(({translation, category}) => {
-    question.addTerm(translation);
-    question.addCategory(category);
-    question.addCandidateResponses(translation);
-    question.addCorrectResponseForTerm(translation, category);
-  });
-
-  return question;
-}
-
 async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Translation>> {
-  const constraints = section.exam.constraints.filter(constraint => constraint.type === 'Category');
+  const categories = section.exam.categoriesCovered.pluck('id');
 
-  const groupings = await Promise.all(constraints.map(async (constraint) => {
-    const { weight, category } = constraint;
-    const limit = Math.floor(weight * (section.itemCount * 5));
-    const translations = await Translation.randomByCategory(limit, category);
-    return { category, translations: translations.models };
-  }));
-
-  return groupings.reduce((memo, grouping) => {
-    grouping.translations.forEach((translation) => {
-      memo.push({ category: grouping.category, translation });
-    });
-    return memo;
-  }, []);
+  return Translation.query((queryBuilder) => {
+    queryBuilder
+      .join('terms', 'translations.source', 'terms.id')
+      .join('categories_terms', 'terms.id', 'categories_terms.term_id')
+      .where('categories_terms.category_id', 'in', categories)
+      .orderByRaw('random()')
+      .limit(section.itemCount * 5);
+  }).fetchAll({ withRelated: ['source', 'target.categories'] });
 }
 
+function groupTranslationForQuestion(translations, section) {
+  let count = section.itemCount;
+  const groups = [];
+  while (count > 0) {
+    groups.push(translations.take(5));
+    count--;
+  }
+  return groups;
+}
 
 export default async (section: ExamSectionTemplate) => {
-  let groupings = await fetchTranslations(section);
-  // let groupings = await Translation.random(section.itemCount * 5);
+  const translations = await fetchTranslations(section);
+  const groupings = groupTranslationForQuestion(translations, section);
 
-  groupings = groupings.reduce((accumulator, term, index, array) => {
-    let position = index + 1;
-    if (position % 5 === 0) {
-      accumulator.push(array.slice(position - 5, position));
-    }
-    return accumulator;
-  }, []);
+  const questions = groupings.map(translations => {
+    const question = new TermMatchingQuestionTemplate(section);
+    translations.forEach(translation => {
+      const category = translation.related('target').related('categories').first();
+      question.addTerm(translation);
+      question.addCategory(category);
+      question.addCandidateResponses(translation);
+      question.addCorrectResponseForTerm(translation, category);
+    });
+    return question;
+  });
 
-  groupings.forEach((grouping) => section.addQuestion(buildQuestion(section, grouping)));
+  section.addQuestions(questions);
   return section;
 };
