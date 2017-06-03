@@ -50,7 +50,7 @@ export const register = (server: Server, options: Object, next: Function) => {
 
   server.on('request-error', (request, error) => {
     const { id } = request;
-    loggerSingleton.error(`Internal Server Error - Request ID: ${ id } \n ${error.stack}`);
+    loggerSingleton.error(`Internal Server Error - Request ID: ${ id }\n\n ${request.url}\n\n ${error.stack}`);
   });
 
   server.on('start', () => {

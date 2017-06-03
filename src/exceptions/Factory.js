@@ -1,6 +1,7 @@
 import UnprocessableEntity from './requests/UnprocessableEntity';
 import NotFoundError from './requests/NotFoundError';
 import MissingRecordError from './runtime/MissingRecordError';
+import BadRequest from './requests/BadRequest';
 
 import {
   PasswordMatchError,
@@ -20,5 +21,11 @@ const serviceErrorConstructorMappings = {
 
 export const create = (request, error) => {
   const Ctor = serviceErrorConstructorMappings[error.constructor];
-  return Ctor? new Ctor(request, error) : error;
+  if (Ctor) {
+    return new Ctor(request, error);
+  } else if (error.message === 'Not Found') {
+    return new NotFoundError(request, error);
+  } else {
+    return new BadRequest(request, error);
+  }
 };
