@@ -138,6 +138,14 @@ export const register = (server: Server, options: Object, next: Function) => {
     .authorize('urn:cgi:permission:premieruserhistory::view')
     .bind(resultsController, 'allForUser');
 
+  router
+    .post('/users/resetpassword')
+    .bind(usersController, 'resetPassword');
+
+  router
+    .post('/users/{id}/resetpassword')
+    .bind(usersController, 'updatePassword');
+
   router.register(next);
 };
 

@@ -9,15 +9,16 @@ describe('PaymentController', () => {
   const request = {query:{}, params:{}};
 
   describe('process study billing plan', () => {
-    describe('when the billing plan was created', () => {
       const userService = new UserService();
       const studyBillingService = new StudyBillingPlanService();
       const subscriptionService = new SubscriptionService();
       const controller = new PaymentController(studyBillingService, userService, subscriptionService);
-      const response = {};
-      const plan = {};
-      const agreement = {};
-      const reply = stub().returns(response);
+
+    describe('when the billing plan was created', () => {
+      let response = {};
+      let plan = {};
+      let agreement = {};
+      let reply = stub().returns(response);
 
       before(async () => {
         stub(studyBillingService, 'create').returns(Promise.resolve(plan));
@@ -25,8 +26,12 @@ describe('PaymentController', () => {
         await controller.processStudyBillingPlan(request, reply);
       });
 
+      it('delegates to the create action of the StudyBillingService', () => {
+          expect(studyBillingService.create).to.have.been.called;
+        });
+
       it('replies with the newly created plan model', () => {
-        expect(reply).to.have.been.calledWith(plan);
+        expect(studyBillingService.process).to.have.been.calledWith(plan);
       });
 
       it('sets the status code of the reply to created', () => {

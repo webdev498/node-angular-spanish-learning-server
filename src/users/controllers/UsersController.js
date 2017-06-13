@@ -1,5 +1,5 @@
 //@flow
-import { CREATED } from 'http/status-codes';
+import { CREATED, NOT_FOUND, NO_CONTENT } from 'http/status-codes';
 import * as EmailMessage from 'email';
 import CRMService from './../service/CRMService';
 import type { Request } from 'http/index';
@@ -45,9 +45,31 @@ export default class UsersController {
     }
   }
 
+  async resetPassword(request: Request, reply: Function) {
+    try {
+      const userInfo = await this.service.resetPassword(request.payload);
+      if (userInfo === null) 
+        return reply().statusCode = NOT_FOUND;
+
+      await EmailMessage.resetPassword(userInfo.user);
+      return reply().statusCode = NO_CONTENT;
+    } catch (error) {
+      reply(error);
+    }
+  }
+
   async update(request: Request, reply: Function) {
     try {
       reply(await this.service.update(request));
+    } catch (error) {
+      reply(error);
+    }
+  }
+
+  async updatePassword(request: Request, reply: Function) {
+    try {
+      await this.service.updatePasswordFromReset(request);
+      return reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
     }
