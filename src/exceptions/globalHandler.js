@@ -1,18 +1,18 @@
 import * as ServiceErrorFactory from 'exceptions/Factory';
 import {logError} from 'logging';
 
-function buildErrorMessage(request, error) {
+function buildErrorMessage(request, error = {}) {
   return`An unhandled exception occured:
-                     Request ID: ${request.id}
-                     Request Authenticated: ${request.auth.isAuthenticated},
-                     Request URL: ${request.path}
-                     Request Method: ${request.method.toUpperCase()}
-                     Request Remote Address: ${request.info.remoteAddress}
-                     Request Parameters: ${JSON.stringify(request.params)}
-                     Request Query: ${JSON.stringify(request.query)}
-                     Error Name: ${error.name}
-                     Error Message: ${error.message}
-                     Error Stack: ${error.stack}`;
+                     \tRequest ID: ${request.id}
+                     \tRequest Authenticated: ${request.auth.isAuthenticated},
+                     \tRequest URL: ${request.path}
+                     \tRequest Method: ${request.method.toUpperCase()}
+                     \tRequest Remote Address: ${request.info.remoteAddress}
+                     \tRequest Parameters: ${JSON.stringify(request.params)}
+                     \tRequest Query: ${JSON.stringify(request.query)}
+                     \tError Name: ${error.name}
+                     \tError Message: ${error.message}
+                     \tError Stack: ${error.stack}`;
 }
 
 export const register = (server, options, next) => {

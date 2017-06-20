@@ -26,6 +26,6 @@ export const create = (request, error) => {
   } else if (error.message === 'Not Found') {
     return new NotFoundError(request, error);
   } else {
-    return new BadRequest(request, error);
+    return error;
   }
 };

@@ -1,10 +1,12 @@
 export default class RequestError {
-  constructor(request, originalError) {
-    const { message, stack, constructor } = originalError;
+  constructor(request, originalError ) {
     this.uri = `${ request.method.toUpperCase() } ${ request.path }`;
-    this.sourceError = { message, stack, name: constructor.name };
     this.isError = true;
     this._parseRequest(request);
+    if (originalError) {
+      const { message, stack, constructor } = originalError;
+      this.sourceError = { message, stack, name: constructor.name };
+    }
   }
 
   toJSON() {
@@ -14,8 +16,8 @@ export default class RequestError {
       message,
       uri,
       sourceError: {
-        name: sourceError.name,
-        message: sourceError.message
+        name: sourceError && sourceError.name || 'Unknown',
+        message: sourceError && sourceError.message || 'Unknown'
       }
     };
   }
