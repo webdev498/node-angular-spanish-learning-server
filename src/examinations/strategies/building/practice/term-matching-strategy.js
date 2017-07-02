@@ -17,12 +17,17 @@ async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Tr
 }
 
 function groupTranslationForQuestion(translations, section) {
-  let count = section.itemCount;
   const groups = [];
+
+  let count = section.itemCount,
+    index = 0;
+
   while (count > 0) {
-    groups.push(translations.take(5));
+    groups.push(translations.slice(index, index + 5));
     count--;
+    index += 5;
   }
+
   return groups;
 }
 
@@ -31,15 +36,14 @@ export default async (section: ExamSectionTemplate) => {
   const groupings = groupTranslationForQuestion(translations, section);
 
   const questions = groupings.map(translations => {
-    const question = new TermMatchingQuestionTemplate(section);
-    translations.forEach(translation => {
+    return translations.reduce((question, translation) => {
       const category = translation.related('target').related('categories').first();
       question.addTerm(translation);
       question.addCategory(category);
       question.addCandidateResponses(translation);
       question.addCorrectResponseForTerm(translation, category);
-    });
-    return question;
+      return question;
+    }, new TermMatchingQuestionTemplate(section));
   });
 
   section.addQuestions(questions);
