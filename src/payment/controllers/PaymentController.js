@@ -5,18 +5,44 @@ import Role from 'security/authorization/models/Role';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
 import { CREATED, NO_CONTENT } from 'http/status-codes';
+import type PayflowBillingService from 'payment/service/PayflowBillingService';
 
 export default class PaymentController {
   studyBillingService: StudyBillingPlanService;
   subscriptionService: SubscriptionService;
   userService: UserService;
+  payflowBillingService: PayflowBillingService;
 
   constructor(studyBillingService: StudyBillingPlanService,
               userService: UserService,
-              subscriptionService: SubscriptionService) {
+              subscriptionService: SubscriptionService,
+              payflowBillingService: PayflowBillingService) {
     this.studyBillingService = studyBillingService;
     this.userService = userService;
     this.subscriptionService = subscriptionService;
+    this.payflowBillingService = payflowBillingService;
+  }
+
+  async payflowCreateRecurringPlan(request: Request, reply: Function) {
+    try {
+      const { payload } = request;
+      const { credentials } = request.auth;
+      
+      const result = await this.payflowBillingService.create(payload);
+      
+      //update user to study role
+      const role = await Role.where({ name: 'Study User' }).fetch();
+      this.userService.changeRole(credentials.id, role);
+      
+      //save paypal credentials
+      await this.subscriptionService.createPayflowProfile(credentials.id, 
+        'study',
+        result.response.decoded.PROFILEID);
+
+      reply().statusCode = CREATED;
+    } catch (error) {
+      reply (error);
+    }
   }
 
   async processStudyBillingPlan(request: Request, reply: Function) {
@@ -55,10 +81,16 @@ export default class PaymentController {
       const user = await this.userService.get({id: credentials.id});
       const subscription = user.related('subscription');
       const billingAgreement = subscription.get('billingAgreement');
+      const payflowProfileId = subscription.get('payflowProfileId');
 
       await this.subscriptionService.cancel(user, subscription);
 
-      await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
+      if (billingAgreement !== undefined)
+        await this.studyBillingService.cancelStudyBillingPlan(credentials, billingAgreement);
+
+      if (payflowProfileId !== undefined)
+        await this.payflowBillingService.cancel(payflowProfileId);
+
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(credentials.id, role);
       reply().statusCode = NO_CONTENT;

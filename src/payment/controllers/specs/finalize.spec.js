@@ -1,5 +1,6 @@
 import { stub } from 'sinon';
 import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
+import PayflowBillingService from 'payment/service/PayflowBillingService';
 import UserService from 'users/service/UserService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import PaymentController from 'payment/controllers/PaymentController';
@@ -15,7 +16,9 @@ describe('PaymentController', () => {
       const userService = new UserService();
       const studyBillingService = new StudyBillingPlanService();
       const subscriptionService = new SubscriptionService();
-      const controller = new PaymentController(studyBillingService, userService, subscriptionService);
+      const payflowBillingService = new PayflowBillingService();
+      const controller = new PaymentController(studyBillingService, userService, 
+        subscriptionService, payflowBillingService);
 
       describe('when the billing process was finalized', () => {
         let subscription = {};
@@ -40,5 +43,4 @@ describe('PaymentController', () => {
         });
       });
   });
-
 });

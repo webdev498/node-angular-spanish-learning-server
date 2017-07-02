@@ -9,7 +9,8 @@ const subscriptionLevels = [
   ];
 
 const tableName = 'subscriptions';
-const persistenceWhitelist = ['level', 'expirationDate', 'userId', 'billingAgreement'];
+const persistenceWhitelist = ['level', 'expirationDate', 
+                              'userId', 'billingAgreement','payflowProfileId'];
 
 const Subscription = Base.extend({
   tableName,

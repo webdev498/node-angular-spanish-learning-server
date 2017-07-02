@@ -3,18 +3,24 @@ import Router from 'http/Router';
 import PaymentController from 'payment/controllers/PaymentController';
 import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
+import PayflowBillingService from 'payment/service/PayflowBillingService';
 import UserService from 'users/service/UserService';
 import type { Server } from 'http/index';
 
 export const register = (server: Server, options: Object, next: Function) => {
   const router = new Router({server, resource: 'payments'});
   const paymentController = new PaymentController(new StudyBillingPlanService(),
-    new UserService(), new SubscriptionService());
+    new UserService(), new SubscriptionService(), new PayflowBillingService());
 
   router
     .post('study/process')
     .authorize('urn:cgi:permission:paymentstudyprocess::create')
     .bind(paymentController,'processStudyBillingPlan');
+
+  router
+    .post('study/payflowprocess')
+    .authorize('urn:cgi:permission:paymentstudyprocess::create')
+    .bind(paymentController, 'payflowCreateRecurringPlan');
 
    router
     .post('study/finalize')
@@ -31,5 +37,5 @@ export const register = (server: Server, options: Object, next: Function) => {
 
 register.attributes = {
   name: 'CGI Payments Service',
-  version: '0.0.1'
+  version: '1.0.0'
 };

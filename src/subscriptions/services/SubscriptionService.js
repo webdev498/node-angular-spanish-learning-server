@@ -38,6 +38,19 @@ export default class SubscriptionService {
     return await subscription.save();
   }
 
+  async createPayflowProfile(userId: string, level: string, payflowProfileId: string) {
+    const expirationDate = null;
+    const billingAgreement = null;
+    const subscription = new Subscription({
+      userId: userId,
+      level,
+      expirationDate,
+      billingAgreement,
+      payflowProfileId
+    });
+    return await subscription.save();
+  }
+
 async cancel(user: User, subscription: Subscription) {
   if (subscription) {
     await subscription.cancel();
