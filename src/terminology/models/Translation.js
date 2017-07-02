@@ -56,8 +56,8 @@ const Translation = Base.extend({
       queryBuilder
         .join('terms', 'translations.source', 'terms.id')
         .join('categories_terms', 'terms.id', 'categories_terms.term_id')
+        .distinct('translations.source', 'translations.target', 'translations.id')
         .where('categories_terms.category_id', '=', category.get('id'))
-        .orderByRaw('random()')
         .limit(limit);
     }).fetchAll({withRelated: ['source', 'target']});
   }
