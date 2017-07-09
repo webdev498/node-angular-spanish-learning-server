@@ -3,7 +3,6 @@ var https = require('https');
 var querystring = require('querystring');
 //Remove escape from query string
 querystring.escape = function (str) { return str; };
-var _ = require('lodash');
 
 export default class Payflow_api {
     constructor() {
@@ -25,8 +24,7 @@ export default class Payflow_api {
     executeHttp(data, cb) {
         var error = null;
         let context = this;
-        var query = _.clone(this.default_options.credentials);
-        query = _.extend(query, data);
+        const query = Object.assign(this.default_options.credentials, data);
 
         var string = querystring.stringify(query);
 
@@ -34,7 +32,7 @@ export default class Payflow_api {
             "hostname": this.default_options.host,
             "port": 443,
             "method": 'POST',
-            "headers": _.extend(this.default_options.headers, { 'Content-Length': string.length })
+            "headers": Object.assign(this.default_options.headers, { 'Content-Length': string.length })
         };
 
         var req = https.request(options, function (res) {
@@ -42,8 +40,8 @@ export default class Payflow_api {
 
             res.on('data', function (chunk) {
                 body += chunk;
-
             });
+            
             res.on('end', function () {
 
                 var response = querystring.parse(body);

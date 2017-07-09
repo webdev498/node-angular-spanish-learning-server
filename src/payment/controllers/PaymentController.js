@@ -4,7 +4,7 @@ import type UserService from 'users/service/UserService';
 import Role from 'security/authorization/models/Role';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
-import { CREATED, NO_CONTENT } from 'http/status-codes';
+import { CREATED, NO_CONTENT, PRECONDITION_FAILED } from 'http/status-codes';
 import type PayflowBillingService from 'payment/service/PayflowBillingService';
 
 export default class PaymentController {
@@ -29,17 +29,22 @@ export default class PaymentController {
       const { credentials } = request.auth;
       
       const result = await this.payflowBillingService.create(payload);
-      
-      //update user to study role
-      const role = await Role.where({ name: 'Study User' }).fetch();
-      this.userService.changeRole(credentials.id, role);
-      
-      //save paypal credentials
-      await this.subscriptionService.createPayflowProfile(credentials.id, 
-        'study',
-        result.response.decoded.PROFILEID);
+      let statusCode = CREATED;
 
-      reply().statusCode = CREATED;
+      if (result.response.decoded.RESPMSG.toLowerCase() === "approved") {
+        //update user to study role
+        const role = await Role.where({ name: 'Study User' }).fetch();
+        this.userService.changeRole(credentials.id, role);
+        
+        //save paypal credentials
+        await this.subscriptionService.createPayflowProfile(credentials.id, 
+          'study',
+          result.response.decoded.PROFILEID);
+      } else {
+        statusCode = PRECONDITION_FAILED;
+      }
+
+      reply().statusCode = statusCode;
     } catch (error) {
       reply (error);
     }
