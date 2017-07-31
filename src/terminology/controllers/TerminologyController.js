@@ -78,8 +78,8 @@ export default class TerminologyController {
       const exporter = new TermListExporter(terms);
       const stream = exporter.convertToPDF();
       const response = request.raw.res;
-      response.setHeader('content-type', 'application/pdf');
-      response.setHeader('content-disposition', 'attachment; filename=terms.pdf;');
+      response.setHeader('Content-Type', 'application/pdf');
+      response.setHeader('Content-Disposition', 'attachment; filename=terms.pdf;');
       stream.pipe(response);
       stream.end();
     } else {
