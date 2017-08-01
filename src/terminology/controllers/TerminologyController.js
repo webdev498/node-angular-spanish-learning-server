@@ -80,6 +80,7 @@ export default class TerminologyController {
       const response = request.raw.res;
       response.setHeader('Content-Type', 'application/pdf');
       response.setHeader('Content-Disposition', 'attachment; filename=terms.pdf;');
+      response.setHeader('access-control-allow-origin', '*');
       stream.pipe(response);
       stream.end();
     } else {
