@@ -3,12 +3,12 @@ import TermExclusion from 'terminology/models/TermExclusion';
 import Term from 'terminology/models/Term';
 
 type TerminologyRequestQuery = {
-  categories: Array<string>;
-  withTranslations: boolean | string;
-  randomByCategory: boolean | string;
-  associated: Array<string>;
-  order: string;
-  count: ?string | ?number;
+  categories?: Array<string>;
+  withTranslations?: boolean | string;
+  randomByCategory?: boolean | string;
+  associated?: Array<string>;
+  order?: string;
+  count?: ?string | ?number;
 };
 
 type TerminologyRequestParameters = {

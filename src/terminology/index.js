@@ -44,6 +44,11 @@ router
     .authorize('urn:cgi:permission:terms::view')
     .bind(controller, 'getTranslations');
 
+router
+  .get('export/all')
+  .authorize('urn:cgi:permission:terms::view')
+  .bind(controller, 'allTermsWithTranslations');
+
   router.register(next);
 };
 

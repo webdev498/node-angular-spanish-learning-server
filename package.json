@@ -91,6 +91,7 @@
     "lodash": "^4.17.4",
     "node-uuid": "^1.4.7",
     "paypal-rest-sdk": "^1.7.1",
+    "pdfmake": "^0.1.28",
     "pg": "^5.1.0",
     "sinon": "^1.17.7",
     "source-map-support": "^0.4.11",
