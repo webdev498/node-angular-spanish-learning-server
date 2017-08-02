@@ -3,7 +3,6 @@
 .*/node_modules/npm/node_modules/config-chain/test/.*
 .*/node_modules/npm/test/fixtures/config/.*
 .*/node_modules/.staging/config-chain-86bb8985/test/.*
-.*/node_modules/promise/.*
 
 [include]
 
