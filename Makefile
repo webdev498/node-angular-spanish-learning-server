@@ -13,7 +13,7 @@ build-test: clean
 build: clean install-deps
 	@echo "Building project..."
 	@mkdir dist
-	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist ./src
+	NODE_ENV=production $(BIN)/babel --babelrc ./.babelrc -d dist ./src --copy-files
 
 changelog:
 	@rm -f CHANGELOG.md
