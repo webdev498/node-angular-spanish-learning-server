@@ -24,7 +24,8 @@ const server = new Server({
           'Content-Type',
           'If-None-Match',
           'X-Auth-Token'
-        ]
+        ],
+        exposedHeaders: ['*']
       }
     }
   }

@@ -4,11 +4,11 @@ SPEC_FILES = find ./src -name '*.spec.js'
 build-dev: clean install-deps
 	@echo "Building project with debugging symbols..."
 	@mkdir dist
-	$(BIN)/babel --babelrc ./.babelrc -d dist ./src --source-maps --watch
+	$(BIN)/babel --babelrc ./.babelrc -d dist ./src --source-maps --watch --copy-files
 
 build-test: clean
 	@mkdir dist
-	$(BIN)/babel --babelrc ./.babelrc-test -d dist ./src --source-maps --watch
+	$(BIN)/babel --babelrc ./.babelrc-test -d dist ./src --source-maps --watch --copy-files
 
 build: clean install-deps
 	@echo "Building project..."
