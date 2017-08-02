@@ -5,13 +5,8 @@ import pdfMake from 'pdfmake';
 import path from 'path';
 import fileSystem from 'fs';
 
-const fonts = {
-  Roboto: {
-    normal: './terminology/exports/fonts/Roboto-Regular.ttf',
-    bold: './terminology/exports/fonts/Roboto-Bold.ttf'
-  }
-};
-
+const normal = path.resolve(process.cwd(), __dirname, './fonts/Roboto-Regular.ttf');
+const bold = path.resolve(process.cwd(), __dirname, './fonts/Roboto-Bold.ttf');
 
 function loadImageData(filePath) {
   const file = fileSystem.readFileSync(filePath);
@@ -25,7 +20,7 @@ export default class TermListPDFConverter {
 
   constructor(terms: Array<Term>) {
     this.terms = terms;
-    this.formatter = new pdfMake(fonts);
+    this.formatter = new pdfMake({ Roboto: { normal, bold } });
   }
 
   convertToPDF() {
