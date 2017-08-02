@@ -64,28 +64,35 @@ export default class TerminologyController {
   }
 
   async allTermsWithTranslations(request: Request, reply: Function) {
-    const terms: Array<Term> = await this.service.list({
-      params: {
-        language: 'English'
-      },
-      query: {
-        withTranslations: true,
-        associated: ['categories']
-      }
-    });
+    try {
+      const terms: Array<Term> = await this.service.list({
+        params: {
+          language: 'English'
+        },
+        query: {
+          withTranslations: true,
+          associated: ['categories']
+        }
+      });
 
-    if (request.headers.accept === 'application/pdf') {
-      const exporter = new TermListExporter(terms);
-      const stream = exporter.convertToPDF();
-      const response = request.raw.res;
-      response.setHeader('Content-Type', 'application/pdf');
-      response.setHeader('Content-Disposition', 'attachment; filename=terms.pdf;');
-      response.setHeader('access-control-allow-origin', '*');
-      stream.pipe(response);
-      stream.end();
-    } else {
-      reply({message: 'Unsupported Media Type'}).statusCode = 415;
+      if (request.headers.accept === 'application/pdf') {
+        const exporter = new TermListExporter(terms);
+        const stream = exporter.convertToPDF();
+        const response = request.raw.res;
+        response.setHeader('Content-Type', 'application/pdf');
+        response.setHeader('Content-Disposition', 'attachment; filename=terms.pdf;');
+        response.setHeader('access-control-allow-origin', '*');
+        stream.pipe(response);
+        stream.end();
+      } else {
+        reply({
+          message: 'Unsupported Media Type'
+        }).statusCode = 415;
+      }
+    } catch (error) {
+      reply(error);
     }
+
   }
 
 }

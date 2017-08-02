@@ -11,7 +11,7 @@ COPY src/ /usr/app/src
 COPY bin/server /usr/app/bin/server
 COPY ./.babelrc  /usr/app/.babelrc
 RUN cd /usr/app; npm install
-RUN cd /usr/app; node_modules/.bin/babel --babelrc ./.babelrc -d dist src
+RUN cd /usr/app; node_modules/.bin/babel --babelrc ./.babelrc -d dist src --copy-files
 
 
 # Runtime operations
