@@ -9,7 +9,7 @@ import AddressService from './service/AddressService';
 import UsersController from './controllers/UsersController';
 import ExaminationResultsController from 'examinations/controllers/ExaminationResultsController';
 import UserService from './service/UserService';
-import AuditService from 'audit/service/AuditService';
+import AuditService from 'auditing/service/AuditService';
 import CRMService from './service/CRMService';
 import ExaminationResultService from 'examinations/services/ExaminationResultService';
 import TokenProvider from 'security/authentication/TokenProvider';
