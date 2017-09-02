@@ -1,6 +1,6 @@
 import { stub } from 'sinon';
 import UserService from 'users/service/UserService';
-import AuditService from 'audit/service/AuditService';
+import AuditService from 'auditing/service/AuditService';
 import CRMService from 'users/service/CRMService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
@@ -30,6 +30,7 @@ describe('Login Service', () => {
           userDouble.validatePassword = stub().returns(true);
           stub(userService, 'getByEmail').returns(Promise.resolve(userDouble));
           stub(tokenProvider, 'sign').returns(Promise.resolve("123"));
+          stub(auditService, 'userLoggedIn').returns(null);
         });
 
         it('returns a token', () => {
@@ -62,6 +63,7 @@ describe('Login Service', () => {
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(userDouble));
+          stub(auditService, 'userLoggedIn').returns(null);
           userDouble.validatePassword = stub().returns(false);
         });
 

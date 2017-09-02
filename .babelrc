@@ -10,10 +10,6 @@
       "module-alias",
       [
         {
-          "src": "./src/audit",
-          "expose": "audit"
-        },
-        {
           "src": "./src/http",
           "expose": "http"
         },
@@ -80,6 +76,10 @@
         {
           "src": "./src/payment",
           "expose": "payment"
+        },
+        {
+          "src": "./src/audit/",
+          "expose": "auditing"
         }
       ]
     ]

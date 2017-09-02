@@ -6,8 +6,7 @@ import FacebookProvider from 'security/authentication/facebookProvider';
 import type UserService from 'users/service/UserService';
 import type OAuthProvider from 'security/authentication/interfaces/OAuthProvider';
 import CRMService from './CRMService';
-import AuditController from 'audit';
-import type AuditService from 'audit/service/AuditService';
+import type AuditService from 'auditing/service/AuditService';
 
 export default class LoginService {
   userService: UserService;
@@ -43,8 +42,8 @@ export default class LoginService {
   async _loginOrSignupWithProvider(provider: OAuthProvider, code: string) {
     const { firstName, lastName, email } = await provider.getProfile(code);
     let user = await this.userService.getByEmail(email);
-    const audit = new AuditController(this.auditService);
-    await audit.userLoggedIn(user.get('id'));
+    await this.auditService.userLoggedIn(user);
+    
     if (!user) {
       user = await this.userService.signup({ firstName, lastName, email });
       this.crmService.syncUserWithCRM(user);
