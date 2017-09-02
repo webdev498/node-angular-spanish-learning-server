@@ -10,7 +10,7 @@ export default class AuditController {
         this.service = service;
     }
 
-    async userLoggedIn(userId) {
+    async userLoggedIn(string: userId) {
         const event = new Event();
         const userLoggedInEvent = event.UserLoggedIn;
         try {

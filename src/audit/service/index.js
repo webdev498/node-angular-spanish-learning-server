@@ -1,3 +1,4 @@
+//@flow
 import { logInfo } from './../../logging';
 import Audit from './models/Audit';
 const uuidv4 = require('uuid/v4');
