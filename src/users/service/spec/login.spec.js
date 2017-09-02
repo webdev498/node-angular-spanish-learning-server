@@ -1,5 +1,6 @@
 import { stub } from 'sinon';
 import UserService from 'users/service/UserService';
+import AuditService from 'audit/service/AuditService';
 import CRMService from 'users/service/CRMService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
@@ -21,8 +22,9 @@ describe('Login Service', () => {
 
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
+        const auditService = new AuditService();
         const crmService = new CRMService();
-        const service = new LoginService(userService, tokenProvider, crmService);
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           userDouble.validatePassword = stub().returns(true);

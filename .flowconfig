@@ -15,6 +15,7 @@ etc/runtime/interfaces/
 [options]
 module.name_mapper='categories' -> '<PROJECT_ROOT>/src/categories'
 module.name_mapper='data/orm' -> '<PROJECT_ROOT>/src/data/orm'
+module.name_mapper='audit' -> '<PROJECT_ROOT>/src/audit'
 module.name_mapper='email' -> '<PROJECT_ROOT>/src/email'
 module.name_mapper='examinations' -> '<PROJECT_ROOT>/src/examinations'
 module.name_mapper='exceptions' -> '<PROJECT_ROOT>/src/exceptions'

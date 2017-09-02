@@ -3,6 +3,7 @@ import GoogleProvider from 'security/authentication/googleProvider';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import UserService from 'users/service/UserService';
+import AuditService from 'audit/service/AuditService';
 import CRMService from 'users/service/CRMService';
 
 describe('Login service', () => {
@@ -33,8 +34,9 @@ describe('Login service', () => {
     describe('when the user does not already exist', () => {
       const userService = new UserService();
       const tokenProvider = new TokenProvider();
+      const auditService = new AuditService();
       const crmService = new CRMService();
-      const service = new LoginService(userService, tokenProvider, crmService);
+      const service = new LoginService(userService, tokenProvider, crmService, auditService);
       let result;
 
       before(async () => {

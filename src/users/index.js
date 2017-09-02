@@ -9,12 +9,14 @@ import AddressService from './service/AddressService';
 import UsersController from './controllers/UsersController';
 import ExaminationResultsController from 'examinations/controllers/ExaminationResultsController';
 import UserService from './service/UserService';
+import AuditService from 'audit/service/AuditService';
 import CRMService from './service/CRMService';
 import ExaminationResultService from 'examinations/services/ExaminationResultService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import UnauthorizedError from 'exceptions/requests/Unauthorized';
 import { logError, logInfo } from 'logging';
 import type { Server, Request } from 'http/index';
+
 
 const { TOKEN_EXPIRATION, SECRET } = process.env;
 
@@ -52,12 +54,13 @@ export async function authorizeRequest(request: Request, reply: Function) {
 
 export const register = (server: Server, options: Object, next: Function) => {
   const userService = new UserService();
+  const auditService = new AuditService();
   const crmService = new CRMService();
   const telephonesController = new TelephonesController(new TelephonesService(userService));
   const addressesController = new AddressesController(new AddressService(userService));
   const tokenProvider = new TokenProvider(tokenOptions, SECRET);
   const usersController = new UsersController(userService, tokenProvider, crmService);
-  const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService));
+  const loginController = new LoginController(new LoginService(userService, tokenProvider, crmService, auditService));
   const resultsController = new ExaminationResultsController(new ExaminationResultService());
   const router = new Router({server, resource: ''});
 
