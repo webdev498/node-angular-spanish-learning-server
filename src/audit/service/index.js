@@ -4,7 +4,7 @@ import Audit from './models/Audit';
 const uuidv4 = require('uuid/v4');
 
 export default class AuditService {
-    async log (userId, eventId) {
+    async log (string: userId, string: eventId) {
         const auditInfo = {
             "id": uuidv4(),
             "eventId": eventId,
