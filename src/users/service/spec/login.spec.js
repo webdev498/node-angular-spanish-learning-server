@@ -41,7 +41,8 @@ describe('Login Service', () => {
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
         const crmService = new CRMService();
-        const service = new LoginService(userService, tokenProvider, crmService);
+        const auditService = new AuditService();
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(null));
@@ -55,7 +56,9 @@ describe('Login Service', () => {
 
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
-        const service = new LoginService(userService, tokenProvider);
+        const crmService = new CRMService();
+        const auditService = new AuditService();
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(userDouble));
