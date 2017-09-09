@@ -25,6 +25,7 @@ export default class LoginService {
   async login(email: string, password: string) {
     const user = await this.userService.getByEmail(email);
     if (user && user.validatePassword(password)) {
+      await this.auditService.userLoggedIn(user);
       return this.tokenProvider.sign(user.sanitize());
     } else {
       throw new AuthenticationError();

@@ -1,12 +1,8 @@
-/* @flow */
-import Orm from 'data/orm';
-import Base from 'models/Base';
+import Orm from '../../data/orm';
+import Base from './../../common/models/Base';
 
 const tableName = 'audits';
-const persistenceWhitelist = [
-    'eventId',
-    'userId',
-    'createdAt'];
+const persistenceWhitelist = ['eventId', 'userId'];
 
 const Audit = Base.extend({
     tableName,
@@ -16,17 +12,12 @@ const Audit = Base.extend({
     },
 
     serialize() {
-        const {
-      id, createdAt, userId, eventId
-    } = this.attributes;
-        const { relations } = this;
+        const { id, eventId, userId } = this.attributes;
 
         return {
             id,
-            createdAt,
-            userId,
             eventId,
-            relations
+            userId
         };
     },
 
