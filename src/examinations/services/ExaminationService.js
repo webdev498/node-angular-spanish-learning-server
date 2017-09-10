@@ -28,8 +28,8 @@ export default class ExaminationService {
     return await exam.save();
   }
 
-  async generatePracticeExam({ payload }: Object): Object {
-    const exam = await buildPracticeExam(payload, 'practice');
+  async generatePracticeExam({ payload }: Object, principle: UserPrinciple): Object {
+    const exam = await buildPracticeExam(payload, principle.id);
     return exam;
 
   }

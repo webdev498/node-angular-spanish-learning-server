@@ -14,7 +14,7 @@ async function loadCategories(categoryIds) {
 }
 
 
-export default async ({ categories, sections, length }: Object) => {
+export default async ({ categories, sections, length }: Object, userId: String) => {
   const categoriesCoveredByExam = await loadCategories(categories);
   const constraints = [];
   const mode = 'practice';
@@ -26,5 +26,5 @@ export default async ({ categories, sections, length }: Object) => {
     return strategy(section);
   }));
 
-  return Exam.fromTemplate(template);
+  return Exam.fromTemplate(template, userId);
 };

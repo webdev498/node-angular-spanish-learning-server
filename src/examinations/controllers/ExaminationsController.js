@@ -23,7 +23,8 @@ export default class ExaminationsController {
 
   async createPractice(request: Request, reply: Function) {
     try {
-      const exam = await this.service.generatePracticeExam(request);
+      const { credentials } = request.auth;
+      const exam = await this.service.generatePracticeExam(request, credentials);
       reply(exam).statusCode = CREATED;
     } catch (error) {
       reply(error);
