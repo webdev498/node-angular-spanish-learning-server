@@ -21,7 +21,7 @@ export type ExamSection = {
   questions: Array<Object>;
 };
 
-const persistenceWhitelist = ['content', 'created_at', 'updated_at'];
+const persistenceWhitelist = ['content', 'userId', 'created_at', 'updated_at'];
 
 const Examination = Base.extend(
   {
@@ -43,7 +43,7 @@ const Examination = Base.extend(
     },
 
     serialize() {
-      const {id, content } = this.attributes;
+      const {id, content, userId } = this.attributes;
       content.sections = content.sections.map((section) => {
         if (content.mode !== 'practice') {
           section.questions = section.questions.map((question) => {
@@ -56,6 +56,7 @@ const Examination = Base.extend(
 
       return {
         id,
+        userId,
         ...content
       };
     },
@@ -64,8 +65,8 @@ const Examination = Base.extend(
     }
   },
   {
-    fromTemplate(template: ExaminationTemplate) {
-      const exam = Examination.forge({content: template.toJSON()});
+    fromTemplate(template: ExaminationTemplate, userId: String) {
+      const exam = Examination.forge({content: template.toJSON(), userId});
       return exam;
     }
   }

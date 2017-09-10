@@ -19,17 +19,17 @@ export default class ExaminationService {
     this.userService = userService;
   }
 
-  async create({ payload }: Object) {
+  async create({ payload }: Object, principle: UserPrinciple) {
     if (!['long', 'normal', 'short', 'micro'].includes(payload.type)) {
       throw new TypeError(`${payload.type} is not a valid Exam type. Must be 'short', 'normal', or 'long'`);
     }
 
-    const exam = await buildExam(payload, 'certification');
+    let exam = await buildExam(payload, principle.id);
     return await exam.save();
   }
 
-  async generatePracticeExam({ payload }: Object): Object {
-    const exam = await buildPracticeExam(payload, 'practice');
+  async generatePracticeExam({ payload }: Object, principle: UserPrinciple): Object {
+    const exam = await buildPracticeExam(payload, principle.id);
     return exam;
 
   }

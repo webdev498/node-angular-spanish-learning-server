@@ -30,7 +30,7 @@ function buildCategoryConstraints(categories: Array<Category>): Array<Object> {
 }
 
 
-export default async ({ type }: Object) => {
+export default async ({ type }: Object, userId: String) => {
   const categories = await loadCategories();
   const constraints = buildCategoryConstraints(categories);
   const template = new ExaminationTemplate(itemCounts[type], categories, constraints);
@@ -60,5 +60,5 @@ export default async ({ type }: Object) => {
     return strategy(section);
   }));
 
-  return Exam.fromTemplate(template);
+  return Exam.fromTemplate(template, userId);
 };

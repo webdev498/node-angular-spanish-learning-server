@@ -3,6 +3,7 @@ import FacebookProvider from 'security/authentication/facebookProvider';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
 import UserService from 'users/service/UserService';
+import AuditService from 'auditing/service/AuditService';
 import CRMService from 'users/service/CRMService';
 
 describe('Login service', () => {
@@ -32,8 +33,9 @@ describe('Login service', () => {
     describe('when the user does not already exist', () => {
       const tokenProvier = new TokenProvider();
       const userService = new UserService();
+      const auditService = new AuditService();
       const crmService = new CRMService();
-      const service = new LoginService(userService, tokenProvier, crmService);
+      const service = new LoginService(userService, tokenProvier, crmService, auditService);
       let result;
 
       before(async () => {
@@ -41,6 +43,7 @@ describe('Login service', () => {
         stub(userService, 'getByEmail').returns(Promise.resolve(null));
         stub(userService, 'signup').returns(Promise.resolve(user));
         stub(crmService, 'syncUserWithCRM').returns(null);
+        stub(auditService, 'userLoggedIn').returns(null);
         result = await service.facebookLogin(code);
       });
 
@@ -57,12 +60,14 @@ describe('Login service', () => {
       const tokenProvier = new TokenProvider();
       const userService = new UserService();
       const crmService = new CRMService();
-      const service = new LoginService(userService, tokenProvier, crmService);
+      const auditService = new AuditService();
+      const service = new LoginService(userService, tokenProvier, crmService, auditService);
       let result;
 
       before(async () => {
         stub(userService, 'getByEmail').returns(Promise.resolve(user));
         stub(tokenProvier, 'sign').returns(Promise.resolve(token));
+        stub(auditService, 'userLoggedIn').returns(null);
         result = await service.facebookLogin(code);
       });
 

@@ -5,7 +5,7 @@ import ExaminationsController from '../ExaminationsController';
 import UserService from 'users/service/UserService';
 
 describe('ExaminationsController', () => {
-  const request = {query:{}, params:{}};
+  const request = {query:{}, params:{}, auth:{id: '12345'}};
 
   describe('creating examinations', () => {
     describe('when the creation was successful', () => {

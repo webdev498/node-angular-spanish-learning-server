@@ -1,5 +1,6 @@
 import { stub } from 'sinon';
 import UserService from 'users/service/UserService';
+import AuditService from 'auditing/service/AuditService';
 import CRMService from 'users/service/CRMService';
 import TokenProvider from 'security/authentication/TokenProvider';
 import LoginService from '../LoginService';
@@ -21,13 +22,15 @@ describe('Login Service', () => {
 
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
+        const auditService = new AuditService();
         const crmService = new CRMService();
-        const service = new LoginService(userService, tokenProvider, crmService);
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           userDouble.validatePassword = stub().returns(true);
           stub(userService, 'getByEmail').returns(Promise.resolve(userDouble));
           stub(tokenProvider, 'sign').returns(Promise.resolve("123"));
+          stub(auditService, 'userLoggedIn').returns(null);
         });
 
         it('returns a token', () => {
@@ -39,7 +42,8 @@ describe('Login Service', () => {
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
         const crmService = new CRMService();
-        const service = new LoginService(userService, tokenProvider, crmService);
+        const auditService = new AuditService();
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(null));
@@ -53,10 +57,13 @@ describe('Login Service', () => {
 
         const userService = new UserService();
         const tokenProvider = new TokenProvider();
-        const service = new LoginService(userService, tokenProvider);
+        const crmService = new CRMService();
+        const auditService = new AuditService();
+        const service = new LoginService(userService, tokenProvider, crmService, auditService);
 
         before(() => {
           stub(userService, 'getByEmail').returns(Promise.resolve(userDouble));
+          stub(auditService, 'userLoggedIn').returns(null);
           userDouble.validatePassword = stub().returns(false);
         });
 
