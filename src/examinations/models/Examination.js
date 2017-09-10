@@ -21,7 +21,7 @@ export type ExamSection = {
   questions: Array<Object>;
 };
 
-const persistenceWhitelist = ['content', 'user_id', 'created_at', 'updated_at'];
+const persistenceWhitelist = ['content', 'userId', 'created_at', 'updated_at'];
 
 const Examination = Base.extend(
   {
@@ -66,7 +66,7 @@ const Examination = Base.extend(
   },
   {
     fromTemplate(template: ExaminationTemplate, userId: String) {
-      const exam = Examination.forge({content: template.toJSON(), userId: userId});
+      const exam = Examination.forge({content: template.toJSON(), userId});
       return exam;
     }
   }
