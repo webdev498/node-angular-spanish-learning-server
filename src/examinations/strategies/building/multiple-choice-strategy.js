@@ -8,6 +8,8 @@ import MultipleChoiceQuestionTemplate from 'examinations/templates/questions/Mul
 import { generatePseudoRandomNumberBetween } from 'javascript/libs/math';
 import { noneOfTheAbove } from 'examinations/shared/none-of-the-above-response';
 
+var shuffle = require('lodash.shuffle');
+
 
 function getTranslations(section) {
   return section.categoryCounts.reduce((accumulator, {category, count}) => {
@@ -85,7 +87,7 @@ export default async function (section: MultipleChoiceSectionTemplate) {
       translations = await Promise.all(addExclusionsToTranslations([].concat(...translations), section));
       translations = await Promise.all(addTermsForTranslation(translations, section));
 
-  const questions = buildQuestionsFromTranslations(translations, section);
+  const questions = shuffle(buildQuestionsFromTranslations(translations, section));
   section.addQuestions(questions);
   return section;
 };
