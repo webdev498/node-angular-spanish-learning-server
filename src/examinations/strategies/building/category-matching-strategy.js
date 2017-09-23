@@ -2,6 +2,7 @@
 import Term from 'terminology/models/Term';
 import ExamSectionTemplate from 'examinations/templates/ExamSectionTemplate';
 import CategoryMatchingQuestionTemplate from 'examinations/templates/questions/CategoryMatchingQuestionTemplate';
+var shuffle = require('lodash.shuffle');
 
 const distributeTermsAndCategorysForQuestions = (categoriesWithTerms: Array<any>, questionCount: number) => {
   const termGroupings = [];
@@ -51,6 +52,6 @@ export default async (section: ExamSectionTemplate) => {
 
 
   const questions = termGroupings.map(termGroup => buildQuestion(termGroup, section));
-  section.addQuestions(questions);
+  section.addQuestions(shuffle(questions));
   return section;
 };

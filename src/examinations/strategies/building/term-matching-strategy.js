@@ -2,6 +2,7 @@
 import Translation from 'terminology/models/Translation';
 import type { ExamSectionTemplate } from 'examinations/templates/ExamSectionTemplate';
 import TermMatchingQuestionTemplate from 'examinations/templates/questions/TermMatchingQuestionTemplate';
+var shuffle = require('lodash.shuffle');
 
 async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Translation>> {
   const categories = section.exam.categoriesCovered.pluck('id');
@@ -46,6 +47,6 @@ export default async (section: ExamSectionTemplate) => {
     }, new TermMatchingQuestionTemplate(section));
   });
 
-  section.addQuestions(questions);
+  section.addQuestions(shuffle(questions));
   return section;
 };
