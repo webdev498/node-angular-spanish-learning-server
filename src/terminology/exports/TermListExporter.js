@@ -42,7 +42,7 @@ export default class TermListPDFConverter {
       },
       content: [
         {
-          image: loadImageData(path.resolve(__dirname, './media/CGI-logo-outlined.jpg')),
+          image: loadImageData(path.resolve(__dirname, './media/Certified_Spanish_Logo.png')),
           width: 300,
           alignment: 'center'
         },

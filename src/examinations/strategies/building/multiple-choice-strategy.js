@@ -61,7 +61,7 @@ function buildQuestionsFromTranslations(translations, section) {
     const text = `What is the possible term for "${translation.relations[foreignKey].get('value')}" in ${languageName}`;
     const question = new MultipleChoiceQuestionTemplate(section, text);
 
-    const candidates = terms.toArray();
+    let candidates = shuffle(terms.toArray());
     question.addCategory(category);
 
     if (candidates.length > 3) { // None of the Above is correct answer
