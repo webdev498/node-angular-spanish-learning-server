@@ -4,6 +4,7 @@ import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import UserService from 'users/service/UserService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import PaymentController from 'payment/controllers/PaymentController';
+import CRMService from 'users/service/CRMService';
 import { CREATED } from 'http/status-codes';
 
 describe('PaymentController', () => {
@@ -14,8 +15,9 @@ describe('PaymentController', () => {
         const payflowBillingService = new PayflowBillingService();
         const studyBillingService = new StudyBillingPlanService();
         const subscriptionService = new SubscriptionService();
+        const crmService = new CRMService();
         const controller = new PaymentController(studyBillingService, userService, 
-            subscriptionService, payflowBillingService);
+            subscriptionService, payflowBillingService, crmService);
 
         describe('when the billing plan was created', () => {
             let response = {};
@@ -28,6 +30,7 @@ describe('PaymentController', () => {
                 stub(payflowBillingService, 'create').returns(Promise.resolve(data));
                 stub(subscriptionService, 'createPayflowProfile').returns(Promise.resolve(profile));
                 stub(userService, 'changeRole').returns(Promise.resolve(user));
+                stub(crmService,'studyUserProcessed').returns(null);
                 await controller.payflowCreateRecurringPlan(request, reply);
             });
 

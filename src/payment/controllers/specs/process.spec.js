@@ -3,6 +3,7 @@ import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import PayflowBillingService from 'payment/service/PayflowBillingService';
 import UserService from 'users/service/UserService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
+import CRMService from 'users/service/CRMService';
 import PaymentController from 'payment/controllers/PaymentController';
 import { CREATED } from 'http/status-codes';
 
@@ -14,8 +15,9 @@ describe('PaymentController', () => {
       const studyBillingService = new StudyBillingPlanService();
       const subscriptionService = new SubscriptionService();
       const payflowBillingService = new PayflowBillingService();
+      const crmService = new CRMService();
       const controller = new PaymentController(studyBillingService, userService, 
-        subscriptionService, payflowBillingService);
+        subscriptionService, payflowBillingService, crmService);
 
     describe('when the billing plan was created', () => {
       let response = {};
