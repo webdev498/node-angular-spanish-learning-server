@@ -105,6 +105,7 @@ export default class PaymentController {
 
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(credentials.id, role);
+      this.crmService.studyUserCancelled(user);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
