@@ -8,11 +8,10 @@ export default class CRMService {
   constructor() {}
 
   studyUserProcessed(user: User) {
-      let post_data = this.userObject(user);
+      let post_data = this._userObject(user);
 
       try {
-          let ac = new ActiveCampaign('https://commongroundinternational.api-us1.com',
-              process.env.ACTIVE_CAMPAIGN_KEY);
+          const ac = this._activeCampaignObject();
 
           ac.api('contact/add?listid=29&service=unbounce',
               post_data, function (response) {
@@ -29,11 +28,10 @@ export default class CRMService {
   }
 
   studyUserCancelled(user: User) {
-      let post_data = userObject(user);
+      let post_data = this._userObject(user);
 
       try {
-          let ac = new ActiveCampaign('https://commongroundinternational.api-us1.com',
-              process.env.ACTIVE_CAMPAIGN_KEY);
+          const ac = this._activeCampaignObject();
 
           ac.api('contact/add?listid=30&service=unbounce',
               post_data, function (response) {
@@ -50,11 +48,10 @@ export default class CRMService {
   }
 
   syncUserWithCRM(user: User) {
-    let post_data = userObject(user);
+    let post_data = this._userObject(user);
 
     try {
-        let ac = new ActiveCampaign('https://commongroundinternational.api-us1.com', 
-            process.env.ACTIVE_CAMPAIGN_KEY);
+        const ac = this._activeCampaignObject();
         
         ac.api('contact/add?listid=16&service=unbounce', 
             post_data, function(response) {
@@ -70,7 +67,7 @@ export default class CRMService {
     }
   }
 
-  userObject(user) {
+  _userObject(user) {
       return {
           'email': user.get('email'),
           'first_name': user.get('firstName'),
@@ -78,5 +75,10 @@ export default class CRMService {
           'p[21]': '21',
           'status[21]': '1'
       };
+  }
+
+  _activeCampaignObject() {
+      return new ActiveCampaign('https://commongroundinternational.api-us1.com',
+          process.env.ACTIVE_CAMPAIGN_KEY);
   }
 }
