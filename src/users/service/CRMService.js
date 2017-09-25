@@ -8,7 +8,7 @@ export default class CRMService {
   constructor() {}
 
   studyUserProcessed(user: User) {
-      let post_data = userObject(user);
+      let post_data = this.userObject(user);
 
       try {
           let ac = new ActiveCampaign('https://commongroundinternational.api-us1.com',
