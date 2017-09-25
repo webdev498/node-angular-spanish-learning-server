@@ -70,7 +70,7 @@ export default class CRMService {
     }
   }
 
-  userObject(user: User) {
+  userObject(user) {
       return {
           'email': user.get('email'),
           'first_name': user.get('firstName'),
