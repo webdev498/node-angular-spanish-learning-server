@@ -28,6 +28,27 @@ export default class CRMService {
       }      
   }
 
+  studyUserCancelled(user: User) {
+      let post_data = userObject(user);
+
+      try {
+          let ac = new ActiveCampaign('https://commongroundinternational.api-us1.com',
+              process.env.ACTIVE_CAMPAIGN_KEY);
+
+          ac.api('contact/add?listid=30&service=unbounce',
+              post_data, function (response) {
+                  if (response.success) {
+                      logInfo('paid study user sycned with crm');
+                  }
+                  else {
+                      logError(response.error);
+                  }
+              });
+      } catch (error) {
+          logError(error);
+      }
+  }
+
   syncUserWithCRM(user: User) {
     let post_data = userObject(user);
 
