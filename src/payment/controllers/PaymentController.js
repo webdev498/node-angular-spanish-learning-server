@@ -6,21 +6,25 @@ import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import type { Request } from 'http/index';
 import { CREATED, NO_CONTENT, PRECONDITION_FAILED } from 'http/status-codes';
 import type PayflowBillingService from 'payment/service/PayflowBillingService';
+import CRMService from 'users/service/CRMService';
 
 export default class PaymentController {
   studyBillingService: StudyBillingPlanService;
   subscriptionService: SubscriptionService;
   userService: UserService;
   payflowBillingService: PayflowBillingService;
+  crmService: CRMService;
 
   constructor(studyBillingService: StudyBillingPlanService,
               userService: UserService,
               subscriptionService: SubscriptionService,
-              payflowBillingService: PayflowBillingService) {
+              payflowBillingService: PayflowBillingService,
+              crmService: CRMService) {
     this.studyBillingService = studyBillingService;
     this.userService = userService;
     this.subscriptionService = subscriptionService;
     this.payflowBillingService = payflowBillingService;
+    this.crmService = crmService;
   }
 
   async payflowCreateRecurringPlan(request: Request, reply: Function) {
@@ -35,6 +39,8 @@ export default class PaymentController {
         //update user to study role
         const role = await Role.where({ name: 'Study User' }).fetch();
         this.userService.changeRole(credentials.id, role);
+        const user = await this.userService.get({ id: credentials.id});
+        this.crmService.studyUserProcessed(user);
         
         //save paypal credentials
         await this.subscriptionService.createPayflowProfile(credentials.id, 
@@ -72,6 +78,7 @@ export default class PaymentController {
       //save paypal credentials
       const user = await this.userService.get({id: result.userId});
       await this.subscriptionService.create(user, 'study', result.agreement);
+      this.crmService.studyUserProcessed(user);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);
@@ -98,6 +105,7 @@ export default class PaymentController {
 
       const role = await Role.where({name: 'General User'}).fetch();
       this.userService.changeRole(credentials.id, role);
+      this.crmService.studyUserCancelled(user);
       reply().statusCode = NO_CONTENT;
     } catch (error) {
       reply(error);

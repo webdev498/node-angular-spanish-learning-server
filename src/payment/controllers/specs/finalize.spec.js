@@ -3,6 +3,7 @@ import StudyBillingPlanService from 'payment/service/StudyBillingPlanService';
 import PayflowBillingService from 'payment/service/PayflowBillingService';
 import UserService from 'users/service/UserService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
+import CRMService from 'users/service/CRMService';
 import PaymentController from 'payment/controllers/PaymentController';
 
 describe('PaymentController', () => {
@@ -17,8 +18,9 @@ describe('PaymentController', () => {
       const studyBillingService = new StudyBillingPlanService();
       const subscriptionService = new SubscriptionService();
       const payflowBillingService = new PayflowBillingService();
+      const crmService = new CRMService();
       const controller = new PaymentController(studyBillingService, userService, 
-        subscriptionService, payflowBillingService);
+        subscriptionService, payflowBillingService, crmService);
 
       describe('when the billing process was finalized', () => {
         let subscription = {};
@@ -31,6 +33,7 @@ describe('PaymentController', () => {
           stub(studyBillingService, 'finalizeStudy').returns(Promise.resolve(agreementResult));
           stub(userService, 'changeRole').returns(Promise.resolve(user));
           stub(subscriptionService, 'create').returns(Promise.resolve(subscription));
+          stub(crmService,'studyUserProcessed').returns(null);
           await controller.finalizeStudy(request, reply);
         });
 

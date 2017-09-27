@@ -4,7 +4,7 @@ import PayflowBillingService from 'payment/service/PayflowBillingService';
 import UserService from 'users/service/UserService';
 import SubscriptionService from 'subscriptions/services/SubscriptionService';
 import PaymentController from 'payment/controllers/PaymentController';
-
+import CRMService from 'users/service/CRMService';
 
 describe('PaymentController', () => {
     const request = {
@@ -18,8 +18,9 @@ describe('PaymentController', () => {
       const studyBillingService = new StudyBillingPlanService();
       const payflowBillingService = new PayflowBillingService();
       const subscriptionService = new SubscriptionService();
+      const crmService = new CRMService();
       const controller = new PaymentController(studyBillingService, userService, 
-        subscriptionService, payflowBillingService);
+        subscriptionService, payflowBillingService, crmService);
 
       describe('when the billing process was cancelled', () => {
         let user = {};
@@ -33,6 +34,7 @@ describe('PaymentController', () => {
           stub(studyBillingService, 'cancelStudyBillingPlan').returns(Promise.resolve(agreementResult));
           stub(payflowBillingService, 'cancel').returns(Promise.resolve());
           stub(userService, 'changeRole').returns(Promise.resolve(user));
+          stub(crmService, 'studyUserProcessed').returns(null);
           await controller.cancelStudyBillingPlan(request, reply);
         });
 
