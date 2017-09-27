@@ -54,10 +54,12 @@ const Translation = Base.extend({
   randomByCategory(limit: number = 30, category: Category) {
     return Translation.query((queryBuilder) => {
       queryBuilder
+        .select(Orm.knex.raw('translations.*, min(random()) as o'))
         .join('terms', 'translations.source', 'terms.id')
         .join('categories_terms', 'terms.id', 'categories_terms.term_id')
-        .distinct('translations.source', 'translations.target', 'translations.id')
         .where('categories_terms.category_id', '=', category.get('id'))
+        .groupBy('translations.id')
+        .orderBy('o')
         .limit(limit);
     }).fetchAll({withRelated: ['source', 'target']});
   }
