@@ -2,6 +2,7 @@
 import Translation from 'terminology/models/Translation';
 import type { ExamSectionTemplate } from 'examinations/templates/ExamSectionTemplate';
 import TermMatchingQuestionTemplate from 'examinations/templates/questions/TermMatchingQuestionTemplate';
+import { logWarning } from 'logging';
 
 async function fetchTranslations(section: ExamSectionTemplate): Promise<Array<Translation>> {
   const categories = section.exam.categoriesCovered.pluck('id');
@@ -33,10 +34,25 @@ function groupTranslationForQuestion(translations, section) {
 
 export default async (section: ExamSectionTemplate) => {
   const translations = await fetchTranslations(section);
-  const groupings = groupTranslationForQuestion(translations, section);
+  const translationGroupings = groupTranslationForQuestion(translations, section);
 
-  const questions = groupings.map(translations => {
-    return translations.reduce((question, translation) => {
+  const questions = translationGroupings.map(translationGroup => {
+     // Diagnostic logging
+    if (translationGroup.length < 5) { // Not enough to build a full question
+      const questionInformation = translationGroup.map(translation => {
+        const target = translation.related('target');
+        return {
+          source: translation.related('source').get('value'),
+          target: target.get('value'),
+          categories: target.related('categories').pluck('name')
+        };
+      });
+
+      logWarning(`Insufficient number of terms to build term-matching question.
+      Terms used for question: ${questionInformation}`);
+    }
+
+    return translationGroup.reduce((question, translation) => {
       const category = translation.related('target').related('categories').first();
       question.addTerm(translation);
       question.addCategory(category);
